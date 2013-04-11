@@ -19,9 +19,9 @@
 @property(retain,nonatomic)UITextField *rePassword;
 @property(retain,nonatomic)UITextField *nameF;
 @property(retain,nonatomic)UITextField *sexF;
-@property(retain,nonatomic)UITextField *phoneF;
-@property(retain,nonatomic)UIButton *rememberBtn;
-@property(retain,nonatomic)UIButton *autoLoginBtn;
+//@property(retain,nonatomic)UITextField *phoneF;
+@property(retain,nonatomic)UIButton *tongyiBtn;
+//@property(retain,nonatomic)UIButton *autoLoginBtn;
 @property(retain,nonatomic)ASIFormDataRequest *zhuce_request;
 @property(nonatomic,retain)NSArray *sexArray;
 @property(nonatomic,retain)UIImageView *bgIV;

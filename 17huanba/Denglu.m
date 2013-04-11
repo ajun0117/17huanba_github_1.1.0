@@ -282,7 +282,7 @@
         [login_request setPostValue:sign forKey:@"password"];
         [login_request setDidFinishSelector:@selector(loginSucceed:)];
         [login_request setDidFailSelector:@selector(loginFailed:)];
-        [login_request startSynchronous];
+        [login_request startAsynchronous];
     }
     else{
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"您输入的邮箱格式不正确！" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];

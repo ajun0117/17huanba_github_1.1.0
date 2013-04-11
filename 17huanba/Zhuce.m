@@ -13,7 +13,7 @@
 @end
 
 @implementation Zhuce
-@synthesize email,password,rePassword,nameF,sexF,phoneF,rememberBtn,autoLoginBtn,zhuce_request;
+@synthesize email,password,rePassword,nameF,sexF,zhuce_request,tongyiBtn;
 @synthesize sexArray,bgIV;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -39,9 +39,6 @@
     RELEASE_SAFELY(rePassword);
     RELEASE_SAFELY(nameF);
     RELEASE_SAFELY(sexF);
-    RELEASE_SAFELY(phoneF);
-    RELEASE_SAFELY(rememberBtn);
-    RELEASE_SAFELY(autoLoginBtn);
     RELEASE_SAFELY(sexArray);
     RELEASE_SAFELY(bgIV);
     [super dealloc];
@@ -84,7 +81,7 @@
     [navIV addSubview:zhuceBtn];
     
     self.bgIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"login_bg.png"]];
-    bgIV.frame = CGRectMake(0, 44, 320, KDeviceHeight-44);
+    bgIV.frame = CGRectMake(0, 44, kDeviceWidth, KDeviceHeight-20-44);
     bgIV.userInteractionEnabled = YES;
     [self.view addSubview:bgIV];
     [bgIV release];
@@ -100,7 +97,6 @@
     sexPicker.delegate = self;
     sexPicker.dataSource = self;
     sexPicker.showsSelectionIndicator = YES;
-
     
     UIToolbar *keyboardToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 38.0f)];
     keyboardToolbar.barStyle = UIBarStyleBlackTranslucent;
@@ -122,6 +118,8 @@
     email.borderStyle = UITextBorderStyleRoundedRect;
     email.font = [UIFont systemFontOfSize:15];
     email.placeholder = @"邮箱";
+    email.tag = 1;
+    email.inputAccessoryView = keyboardToolbar;
     email.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [whiteIV addSubview:email];
     [email release];
@@ -134,6 +132,8 @@
     password.borderStyle = UITextBorderStyleRoundedRect;
     password.font = [UIFont systemFontOfSize:15];
     password.placeholder = @"密码";
+    password.tag = 2;
+    password.inputAccessoryView = keyboardToolbar;
     password.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [whiteIV addSubview:password];
     [password release];
@@ -145,6 +145,8 @@
     rePassword.borderStyle = UITextBorderStyleRoundedRect;
     rePassword.font = [UIFont systemFontOfSize:15];
     rePassword.placeholder = @"确认密码";
+    rePassword.tag = 3;
+    rePassword.inputAccessoryView = keyboardToolbar;
     rePassword.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [whiteIV addSubview:rePassword];
     [rePassword release];
@@ -155,6 +157,8 @@
     nameF.borderStyle = UITextBorderStyleRoundedRect;
     nameF.font = [UIFont systemFontOfSize:15];
     nameF.placeholder = @"用户名";
+    nameF.tag = 4;
+    nameF.inputAccessoryView = keyboardToolbar;
     nameF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [whiteIV addSubview:nameF];
     [nameF release];
@@ -165,6 +169,7 @@
     sexF.borderStyle = UITextBorderStyleRoundedRect;
     sexF.font = [UIFont systemFontOfSize:15];
     sexF.placeholder = @"性别";
+    sexF.tag = 5;
     sexF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     sexF.inputView = sexPicker;
     sexF.inputAccessoryView = keyboardToolbar;
@@ -172,24 +177,82 @@
     [whiteIV addSubview:sexF];
     [sexF release];
     
-    self.phoneF = [[UITextField alloc]initWithFrame:CGRectMake(50, 205, 210, 30)];
-    phoneF.delegate = self; 
-    phoneF.clearButtonMode = UITextFieldViewModeWhileEditing;
-    phoneF.keyboardType = UIKeyboardTypeNumberPad;
-    phoneF.borderStyle = UITextBorderStyleRoundedRect;
-    phoneF.font = [UIFont systemFontOfSize:15];
-    phoneF.placeholder = @"手机号码";
-    phoneF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    [whiteIV addSubview:phoneF];
-    [phoneF release];
+//    self.phoneF = [[UITextField alloc]initWithFrame:CGRectMake(50, 205, 210, 30)];
+//    phoneF.delegate = self; 
+//    phoneF.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    phoneF.keyboardType = UIKeyboardTypeNumberPad;
+//    phoneF.borderStyle = UITextBorderStyleRoundedRect;
+//    phoneF.font = [UIFont systemFontOfSize:15];
+//    phoneF.placeholder = @"手机号码";
+//    phoneF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+//    [whiteIV addSubview:phoneF];
+//    [phoneF release];
     
+    self.tongyiBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    tongyiBtn.frame = CGRectMake(50, 205, 15, 15);
+    [tongyiBtn setImage:[UIImage imageNamed:@"checkbox.png"] forState:UIControlStateNormal];
+    [tongyiBtn setImage:[UIImage imageNamed:@"checkbox_checked.png"] forState:UIControlStateSelected];
+    [tongyiBtn addTarget:self action:@selector(tongyiBtnSelect:) forControlEvents:UIControlEventTouchUpInside];
+    [whiteIV addSubview:tongyiBtn];
     
+    UILabel *rememberL = [[UILabel alloc]initWithFrame:CGRectMake(65, 205, 200, 13)];
+    rememberL.font = [UIFont systemFontOfSize:13];
+    rememberL.backgroundColor = [UIColor clearColor];
+    rememberL.text = @"已经阅读并同意《一起换吧条款》";
+    [whiteIV addSubview:rememberL];
+    [rememberL release];
     
+    UIScrollView *scrollV = [[UIScrollView alloc]initWithFrame:CGRectMake(50, 220, 210, 80)];
+    [bgIV addSubview:scrollV];
+    [scrollV release];
 }
+
+-(void)tongyiBtnSelect:(UIButton *)sender{
+    NSLog(@"rememberBtnSelect:");
+    if (sender.selected) {
+        sender.selected = NO;
+    }
+    else{
+        sender.selected = YES; //同意条款
+    }
+}
+
 
 -(void)toZhuce{
     NSLog(@"注册按钮！");
+    if (tongyiBtn.selected) {
+        NSURL *loginUrl = [NSURL URLWithString:THEURL(@"     ")];
+        
+        self.zhuce_request = [ASIFormDataRequest requestWithURL:loginUrl];
+        [zhuce_request setDelegate:self];
+        [zhuce_request setPostValue:email.text forKey:@"email"];
+        [zhuce_request setPostValue:password.text forKey:@"password"];
+        [zhuce_request setPostValue:nameF.text forKey:@"name"];
+        [zhuce_request setPostValue:sexF.text forKey:@"sex"];
+        [zhuce_request setDidFinishSelector:@selector(loginSucceed:)];
+        [zhuce_request setDidFailSelector:@selector(loginFailed:)];
+        [zhuce_request startAsynchronous];
+    }
+    else{
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"抱歉" message:@"您必须阅读并同意《一起换吧条款》才能继续！" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
 }
+
+-(void)loginSucceed:(ASIHTTPRequest *) formRequest
+{
+    NSLog(@"Succe login  ! ");
+}
+
+-(void)loginFailed:(ASIHTTPRequest *)formRequest{
+    NSLog(@"formRequest.error-------------%@",formRequest.error);
+    NSString *errorStr = [NSString stringWithFormat:@"%@",formRequest.error];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+}
+
 
 #pragma mark UIPickerViewDelegate
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
@@ -224,35 +287,43 @@
             [alert release];
         }
     }
-    else if(textField == phoneF){
-        BOOL isPhone = [self validatePhone:phoneF.text];
-        if (! isPhone) {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"手机号码格式不正确！" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
-            [alert show];
-            [alert release];
-        }
-    }
+//    else if(textField == phoneF){
+//        BOOL isPhone = [self validatePhone:phoneF.text];
+//        if (! isPhone) {
+//            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"手机号码格式不正确！" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
+//            [alert show];
+//            [alert release];
+//        }
+//    }
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    bgIV.frame = CGRectMake(0, 44-textField.tag*15, kDeviceWidth, KDeviceHeight-20-44);
 }
 
 #pragma mark - 键盘通知
 -(void)keyboardWasShown:(NSNotification *) notif{
-    
-    //    [self._tableV setContentOffset:CGPointMake(0,textField.tag*30) animated:YES];
-    
-    NSDictionary *info = [notif userInfo];
-    
-    NSValue *value = [info objectForKey:@"UIKeyboardBoundsUserInfoKey"];
-    CGSize keyboardSize = [value CGRectValue].size;
-    NSLog(@"----%@",NSStringFromCGSize(keyboardSize));
-    bgIV.frame = CGRectMake(0, 44, kDeviceWidth, KDeviceHeight-20-keyboardSize.height);
+//
+//    //    [self._tableV setContentOffset:CGPointMake(0,textField.tag*30) animated:YES];
+//    
+//    NSDictionary *info = [notif userInfo];
+//    
+//    NSValue *value = [info objectForKey:@"UIKeyboardBoundsUserInfoKey"];
+//    CGSize keyboardSize = [value CGRectValue].size;
+//    NSLog(@"----%@",NSStringFromCGSize(keyboardSize));
+//    bgIV.frame = CGRectMake(0, 44, kDeviceWidth, KDeviceHeight-20-keyboardSize.height);
 }
 
 - (void) keyboardWasHidden:(NSNotification *) notif{
     bgIV.frame = CGRectMake(0, 44, kDeviceWidth, KDeviceHeight-20-44);
 }
 
--(void)textFieldDidBeginEditing:(UITextField *)textField{
-//    [xinxiTableView setContentOffset:CGPointMake(0,textField.tag*50) animated:YES];
+-(void)resignKeyboard{
+    [email resignFirstResponder];
+    [password resignFirstResponder];
+    [rePassword resignFirstResponder];
+    [nameF resignFirstResponder];
+    [sexF resignFirstResponder];
 }
 
 

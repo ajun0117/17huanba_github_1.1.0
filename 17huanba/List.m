@@ -150,6 +150,7 @@
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];
     [alert release];
+    [listTableView tableViewDidFinishedLoading];
 }
 
 #pragma mark - UItableViewDelegate

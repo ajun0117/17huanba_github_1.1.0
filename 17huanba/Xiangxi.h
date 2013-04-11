@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PullingRefreshTableView.h"
 #import "ASIFormDataRequest.h"
 
 @interface Xiangxi : UIViewController<UITableViewDelegate,UITableViewDataSource,UIPageViewControllerDelegate,UIScrollViewDelegate,UIAlertViewDelegate>

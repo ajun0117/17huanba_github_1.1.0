@@ -277,6 +277,7 @@
     [alert show];
     [alert release];
     [SVProgressHUD dismiss];
+    [timeLineTable tableViewDidFinishedLoading];
 }
 
 -(void)toSearchVC

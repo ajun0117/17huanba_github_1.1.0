@@ -531,7 +531,7 @@
             UILabel *detailL = [[UILabel alloc]initWithFrame:CGRectMake(60, 25, 100, 20)];
             detailL.font = [UIFont systemFontOfSize:12];
             detailL.backgroundColor = [UIColor clearColor];
-            detailL.text = @"17换吧用户";
+            detailL.text = @"一起换吧用户";
             [cell.contentView addSubview:detailL];
             [detailL release];
                 

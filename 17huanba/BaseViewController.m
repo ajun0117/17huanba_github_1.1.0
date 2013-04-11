@@ -91,8 +91,10 @@
     }
     else{
         Denglu *dengluVC = [[Denglu alloc]init];
-        [self presentModalViewController:dengluVC animated:YES];
+        UINavigationController *dengluNav = [[UINavigationController alloc]initWithRootViewController:dengluVC];
         [dengluVC release];
+        [self presentModalViewController:dengluNav animated:YES];
+        [dengluNav release];
     }
 }
 

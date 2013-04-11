@@ -97,8 +97,6 @@
     [writeBtn setBackgroundImage:[UIImage imageNamed:@"write_btn.png"] forState:UIControlStateNormal];
     [writeBtn addTarget:self action:@selector(toWrite) forControlEvents:UIControlEventTouchUpInside];
     [navIV addSubview:writeBtn];
-    
-    
 
     self.changeIV = [[UIImageView alloc]initWithFrame:CGRectMake(104, 44, 112, 164)];
     changeIV.image = [UIImage imageNamed:@"drop_menu_big.png"];
@@ -184,6 +182,7 @@
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];
     [alert release];
+    [friendTableView tableViewDidFinishedLoading];
 }
 
 
@@ -356,7 +355,15 @@
         [self getMyDongtai:page type:@"0"];
     }
     else{
-        [self getThefriendTimeLine:page andType:nil];
+        if ([kindsBtn.currentTitle isEqualToString:@" 分享"]) {
+            [self getThefriendTimeLine:page andType:@"3"];
+        }
+        else if ([kindsBtn.currentTitle isEqualToString:@" 说说"]){
+            [self getThefriendTimeLine:page andType:@"1"];
+        }
+        else if ([kindsBtn.currentTitle isEqualToString:@" 好友动态"]){
+            [self getThefriendTimeLine:page andType:nil];
+        }
     }
     
     NSLog(@"loadData  loadData  loadData");
@@ -370,13 +377,22 @@
         [self getMyDongtai:0 type:@"0"];
     }
     else{
-        [self getThefriendTimeLine:0 andType:nil];
+        if ([kindsBtn.currentTitle isEqualToString:@" 分享"]) {
+            [self getThefriendTimeLine:0 andType:@"3"];
+        }
+        else if ([kindsBtn.currentTitle isEqualToString:@" 说说"]){
+            [self getThefriendTimeLine:0 andType:@"1"];
+        }
+        else if ([kindsBtn.currentTitle isEqualToString:@" 好友动态"]){
+            [self getThefriendTimeLine:0 andType:nil];
+        }
     }
     NSLog(@"refresh  refresh  refresh");
 }
 
 -(void)changeToFriendDongtai:(UIButton *)sender{
     isMyDongtai = NO;
+    page = 0;
     NSString *title = [NSString stringWithFormat:@" %@",sender.titleLabel.text];
     [kindsBtn setTitle:title forState:UIControlStateNormal];
     kindsBtn.selected = NO;
@@ -387,6 +403,7 @@
 
 -(void)changeToFenxiang:(UIButton *)sender{
     isMyDongtai = NO;
+    page = 0;
     NSString *title = [NSString stringWithFormat:@" %@",sender.titleLabel.text];
     [kindsBtn setTitle:title forState:UIControlStateNormal];
     kindsBtn.selected = NO;
@@ -398,6 +415,7 @@
 
 -(void)changeToShuodshuo:(UIButton *)sender{
     isMyDongtai = NO;
+    page = 0;
     NSString *title = [NSString stringWithFormat:@" %@",sender.titleLabel.text];
     [kindsBtn setTitle:title forState:UIControlStateNormal];
     kindsBtn.selected = NO;
@@ -409,6 +427,7 @@
 
 -(void)changeToMydongtai:(UIButton *)sender{
     isMyDongtai = YES;
+    page = 0;
     NSString *title = [NSString stringWithFormat:@" %@",sender.titleLabel.text];
     [kindsBtn setTitle:title forState:UIControlStateNormal];
     kindsBtn.selected = NO;
