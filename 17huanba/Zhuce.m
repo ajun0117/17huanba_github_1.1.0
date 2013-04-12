@@ -7,6 +7,8 @@
 //
 
 #import "Zhuce.h"
+#import "JSON.h"
+//#import "SHA1.h"
 
 @interface Zhuce ()
 
@@ -22,7 +24,7 @@
     if (self) {
         // Custom initialization
         //注册键盘出现和消失的通知
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardDidShowNotification object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardDidShowNotification object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasHidden:) name:UIKeyboardWillHideNotification object:nil];
         self.sexArray = [NSArray arrayWithObjects:@"男",@"女", nil];
@@ -41,6 +43,7 @@
     RELEASE_SAFELY(sexF);
     RELEASE_SAFELY(sexArray);
     RELEASE_SAFELY(bgIV);
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [super dealloc];
 }
 
@@ -117,7 +120,7 @@
     email.clearButtonMode = UITextFieldViewModeWhileEditing;
     email.borderStyle = UITextBorderStyleRoundedRect;
     email.font = [UIFont systemFontOfSize:15];
-    email.placeholder = @"邮箱";
+    email.placeholder = @"邮箱 (系统将发送验证邮件)";
     email.tag = 1;
     email.inputAccessoryView = keyboardToolbar;
     email.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -168,7 +171,8 @@
     sexF.clearButtonMode = UITextFieldViewModeWhileEditing;
     sexF.borderStyle = UITextBorderStyleRoundedRect;
     sexF.font = [UIFont systemFontOfSize:15];
-    sexF.placeholder = @"性别";
+//    sexF.placeholder = @"性别";
+    sexF.text = @"男";
     sexF.tag = 5;
     sexF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     sexF.inputView = sexPicker;
@@ -221,17 +225,25 @@
 -(void)toZhuce{
     NSLog(@"注册按钮！");
     if (tongyiBtn.selected) {
-        NSURL *loginUrl = [NSURL URLWithString:THEURL(@"     ")];
-        
-        self.zhuce_request = [ASIFormDataRequest requestWithURL:loginUrl];
-        [zhuce_request setDelegate:self];
-        [zhuce_request setPostValue:email.text forKey:@"email"];
-        [zhuce_request setPostValue:password.text forKey:@"password"];
-        [zhuce_request setPostValue:nameF.text forKey:@"name"];
-        [zhuce_request setPostValue:sexF.text forKey:@"sex"];
-        [zhuce_request setDidFinishSelector:@selector(loginSucceed:)];
-        [zhuce_request setDidFailSelector:@selector(loginFailed:)];
-        [zhuce_request startAsynchronous];
+        BOOL isEmail = [self validateEmail:email.text];
+        NSLog(@"%d",isEmail);
+        if (isEmail && password.text.length != 0 && [password.text isEqualToString:rePassword.text] && nameF.text.length != 0 && sexF.text.length != 0) {
+            NSURL *loginUrl = [NSURL URLWithString:THEURL(@"/phone/register/reg.html")]; //注册接口
+            self.zhuce_request = [ASIFormDataRequest requestWithURL:loginUrl];
+            [zhuce_request setDelegate:self];
+            [zhuce_request setPostValue:email.text forKey:@"User[email]"];
+            [zhuce_request setPostValue:password.text forKey:@"User[password]"];
+            [zhuce_request setPostValue:nameF.text forKey:@"User[uname]"];
+            [zhuce_request setPostValue:@"1" forKey:@"User[sex]"];
+            [zhuce_request setDidFinishSelector:@selector(loginSucceed:)];
+            [zhuce_request setDidFailSelector:@selector(loginFailed:)];
+            [zhuce_request startAsynchronous];
+        }
+        else{
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"抱歉" message:@"您填入的信息格式有误，请更改后继续！" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+        }
     }
     else{
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"抱歉" message:@"您必须阅读并同意《一起换吧条款》才能继续！" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
@@ -242,7 +254,23 @@
 
 -(void)loginSucceed:(ASIHTTPRequest *) formRequest
 {
-    NSLog(@"Succe login  ! ");
+    NSData *data = formRequest.responseData;
+    NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"str--------%@",str);
+    NSDictionary *stateDic = [str JSONValue];
+    [str release];
+    NSString *state = [stateDic objectForKey:@"state"];
+    NSLog(@"%@",state);
+    if ([state isEqualToString:@"注册成功"]) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:state message:@"请到邮箱中激活您的账号！" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
+    else{
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:state message:@"请更换您的邮箱地址后重新注册！" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
 }
 
 -(void)loginFailed:(ASIHTTPRequest *)formRequest{

@@ -71,10 +71,14 @@
         [messageArray removeAllObjects]; //删除所有私信内容
         [messageTableView reloadData];
         
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"您还没有登陆，登陆后继续！" delegate:self cancelButtonTitle:@"不" otherButtonTitles:@"是",nil];
-        [alert show];
-        [alert release];
+        [self alertViewNotLoginShow];
     }
+}
+
+-(void)alertViewNotLoginShow{
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"您还没有登陆，登陆后继续！" delegate:self cancelButtonTitle:@"不" otherButtonTitles:@"是",nil];
+    [alert show];
+    [alert release];
 }
 
 - (void)viewDidLoad
@@ -132,9 +136,7 @@
         [form_request startAsynchronous];
     }
     else{
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"您还没有登陆，登陆后继续！" delegate:self cancelButtonTitle:@"不" otherButtonTitles:@"是",nil];
-        [alert show];
-        [alert release];
+        [self alertViewNotLoginShow];
     }
 }
 

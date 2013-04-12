@@ -229,9 +229,7 @@
         }
     }
     else{ //如果没有登陆
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"您还没有登陆，登陆后继续！" delegate:self cancelButtonTitle:@"不" otherButtonTitles:@"是",nil];
-        [alert show];
-        [alert release];
+        [self alertViewNotLoginShow];
     }
 }
 
@@ -241,8 +239,10 @@
     }
     else{
         Denglu *dengluVC = [[Denglu alloc]init];
-        [self presentModalViewController:dengluVC animated:YES];
+        UINavigationController *dengluNav = [[UINavigationController alloc]initWithRootViewController:dengluVC];
         [dengluVC release];
+        [self presentModalViewController:dengluNav animated:YES];
+        [dengluNav release];
     }
 }
 
@@ -295,10 +295,14 @@
         }
     }
     else{ //如果没有登陆
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"您还没有登陆，登陆后继续！" delegate:self cancelButtonTitle:@"不" otherButtonTitles:@"是",nil];
-        [alert show];
-        [alert release];
+        [self alertViewNotLoginShow];
     }
+}
+
+-(void)alertViewNotLoginShow{
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"您还没有登陆，登陆后继续！" delegate:self cancelButtonTitle:@"不" otherButtonTitles:@"是",nil];
+    [alert show];
+    [alert release];
 }
 
 -(void)finishShenqing:(ASIHTTPRequest *)request{ //请求成功后的方法
@@ -348,9 +352,7 @@
         }
     }
     else{
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"您还没有登陆，登陆后继续！" delegate:self cancelButtonTitle:@"不" otherButtonTitles:@"是",nil];
-        [alert show];
-        [alert release];
+        [self alertViewNotLoginShow];
     }
 }
 
@@ -897,9 +899,7 @@
         [form_request startAsynchronous];
     }
     else{ //如果没有登陆
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"您还没有登陆，登陆后继续！" delegate:self cancelButtonTitle:@"不" otherButtonTitles:@"是",nil];
-        [alert show];
-        [alert release];
+        [self alertViewNotLoginShow];
     }
 }
 
@@ -929,9 +929,7 @@
         [sixinVC.myTextView becomeFirstResponder];
     }
     else{
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"您还没有登陆，登陆后继续！" delegate:self cancelButtonTitle:@"不" otherButtonTitles:@"是",nil];
-        [alert show];
-        [alert release];
+        [self alertViewNotLoginShow];
     }
 }
 

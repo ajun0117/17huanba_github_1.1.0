@@ -65,17 +65,25 @@
 #pragma mark - ActionSheet
 -(void)selectActionSheet{
     BOOL isLogin = [[[NSUserDefaults standardUserDefaults] objectForKey:@"logined"] boolValue];
-    if (isLogin) {  
-        Fabu *fabuVC = [[Fabu alloc]init];
-        fabuVC.hidesBottomBarWhenPushed = YES;//隐藏底部的tabbar
-        UIView *button = [self.view viewWithTag:100];
-    //    button.hidden = YES;//隐藏中间的相机Button
-        [UIView animateWithDuration:0.2 animations:^{
-            button.alpha = 0;
-        }];
-        [(UINavigationController *)self.selectedViewController pushViewController:fabuVC animated:YES];
-        fabuVC.navigationController.navigationBarHidden = YES;//显示自定义的Nav
-        [fabuVC release];
+    if (isLogin) {
+        BOOL state = [[[NSUserDefaults standardUserDefaults] objectForKey:@"state"] boolValue];
+        if (state) {
+            Fabu *fabuVC = [[Fabu alloc]init];
+            fabuVC.hidesBottomBarWhenPushed = YES;//隐藏底部的tabbar
+            UIView *button = [self.view viewWithTag:100];
+        //    button.hidden = YES;//隐藏中间的相机Button
+            [UIView animateWithDuration:0.2 animations:^{
+                button.alpha = 0;
+            }];
+            [(UINavigationController *)self.selectedViewController pushViewController:fabuVC animated:YES];
+            fabuVC.navigationController.navigationBarHidden = YES;//显示自定义的Nav
+            [fabuVC release];
+        }
+        else{
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"您的账户还没有激活，请到认证邮箱中激活！" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+        }
     }
     else{
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"您还没有登陆，登陆后继续！" delegate:self cancelButtonTitle:@"不" otherButtonTitles:@"是",nil];

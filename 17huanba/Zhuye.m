@@ -156,11 +156,15 @@
         [self userMessage];
     }
     else{
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"您还没有登陆，登陆后继续！" delegate:self cancelButtonTitle:@"不" otherButtonTitles:@"是",nil];
-        [alert show];
-        [alert release];
+        [self alertViewNotLoginShow];
     }
     exitBtn.selected = isLogined;
+}
+
+-(void)alertViewNotLoginShow{
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"您还没有登陆，登陆后继续！" delegate:self cancelButtonTitle:@"不" otherButtonTitles:@"是",nil];
+    [alert show];
+    [alert release];
 }
 
 
@@ -345,9 +349,7 @@
         }];
     }
     else{
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"您还没有登陆，登陆后继续！" delegate:self cancelButtonTitle:@"不" otherButtonTitles:@"是",nil];
-        [alert show];
-        [alert release];
+        [self alertViewNotLoginShow];
     }
 }
 
@@ -578,12 +580,8 @@
     }
 
     else{
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"您还没有登陆，登陆后继续！" delegate:self cancelButtonTitle:@"不" otherButtonTitles:@"是",nil];
-            [alert show];
-            [alert release];
+            [self alertViewNotLoginShow];
         }
-
-   
 }
 
 #pragma mark - selfMethods

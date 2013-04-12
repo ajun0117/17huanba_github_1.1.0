@@ -309,6 +309,7 @@
     NSString *uid = [stateDic objectForKey:@"uid"];
     NSLog(@"------%@",uid);
     NSString *uName = [stateDic objectForKey:@"uname"];
+    BOOL state = [[stateDic objectForKey:@"state"] boolValue];
     if (isExist) { //登陆成功
         
 //        NSString *appendStr = [NSString stringWithFormat:@"%@%@17h",email.text,password.text];
@@ -337,6 +338,8 @@
         [[NSUserDefaults standardUserDefaults] setObject:token forKey:@"token"]; //用户令牌
         [[NSUserDefaults standardUserDefaults] setObject:uid forKey:@"uid"]; //登陆用户的ID
         [[NSUserDefaults standardUserDefaults] setObject:uName forKey:@"uname"]; //登陆用户的ID
+        [[NSUserDefaults standardUserDefaults] setBool:state forKey:@"state"]; //邮箱认证状态
+        
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         [self dismissModalViewControllerAnimated:YES];
