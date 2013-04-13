@@ -100,6 +100,9 @@
     }
     [viewedArray removeAllObjects];
     [liulanTableView reloadData];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"已清空！" delegate:nil cancelButtonTitle:@"好" otherButtonTitles:nil];
+    [alert show];
+    [alert release];
 }
 
 #pragma mark = UITableViewDelegate methods

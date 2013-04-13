@@ -138,26 +138,36 @@
 //    [cell.accessBtn addTarget:self action:@selector(toBuy:) forControlEvents:UIControlEventTouchUpInside];
     
     NSDictionary *cartDic = [cartArray objectAtIndex:indexPath.row];
-    NSDictionary *goodsDic = [cartDic objectForKey:@"gdinfo"];
-    NSString *urlStr = [goodsDic objectForKey:@"gdimg"];
-    if (![urlStr isEqualToString:@" "]) {
-        cell.head.urlString = THEURL(urlStr);
+    id gdinfo = [cartDic objectForKey:@"gdinfo"];
+    if ([gdinfo isKindOfClass:[NSDictionary class]]) {
+    NSString *urlStr = [gdinfo objectForKey:@"gdimg"];
+        if (![urlStr isEqualToString:@" "]) {
+            cell.head.urlString = THEURL(urlStr);
+        }
+        NSString *goodsName = [gdinfo objectForKey:@"goods_name"];
+        cell.nameL.text = goodsName;
+        NSString *timeStr = [gdinfo objectForKey:@"add_time"];
+        NSDate *timeDate = [NSDate dateWithTimeIntervalSince1970:[timeStr doubleValue]];
+        NSString *timeStrr = [NSString stringWithFormat:@"%@",timeDate];
+        NSDateFormatter *dateformatter=[[NSDateFormatter alloc]init];
+        [dateformatter setDateFormat:@"YYYY-MM-dd HH:mm:ss zzz"];   //zzz代表+0000 时区格式
+        NSDate *date=[dateformatter dateFromString:timeStrr];
+        [dateformatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+        NSString *dateString=[dateformatter stringFromDate:date];
+        [dateformatter release];
+        cell.fangshiL.text = dateString;
+        
+        [cell.accessBtn setTitle:@"申请交易" forState:UIControlStateNormal];
+        [cell.accessBtn addTarget:self action:@selector(toBuy:) forControlEvents:UIControlEventTouchUpInside];
     }
-    NSString *goodsName = [goodsDic objectForKey:@"goods_name"];
-    cell.nameL.text = goodsName;
-    NSString *timeStr = [goodsDic objectForKey:@"add_time"];
-    NSDate *timeDate = [NSDate dateWithTimeIntervalSince1970:[timeStr doubleValue]];
-    NSString *timeStrr = [NSString stringWithFormat:@"%@",timeDate];
-    NSDateFormatter *dateformatter=[[NSDateFormatter alloc]init];
-    [dateformatter setDateFormat:@"YYYY-MM-dd HH:mm:ss zzz"];   //zzz代表+0000 时区格式
-    NSDate *date=[dateformatter dateFromString:timeStrr];
-    [dateformatter setDateFormat:@"yyyy-MM-dd HH:mm"];
-    NSString *dateString=[dateformatter stringFromDate:date];
-    [dateformatter release];
-    cell.fangshiL.text = dateString;
+    else{
+        cell.textLabel.text = @"物品不存在！";
+        cell.head.frame = CGRectZero;
+        cell.accessBtn.frame = CGRectZero;
+    }
     
-    [cell.accessBtn setTitle:@"申请交易" forState:UIControlStateNormal];
-    [cell.accessBtn addTarget:self action:@selector(toBuy:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
     
     return cell;
 }
@@ -165,16 +175,17 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     NSLog(@"didSelect--didSelect--didSelect");
-    Xiangxi *xiangxiVC = [[Xiangxi alloc]init];
-    
     NSDictionary *dic = [cartArray objectAtIndex:indexPath.row];
-    NSString *gdidStr = [dic objectForKey:@"good_id"];
-    NSLog(@"gdidStr   is     %@",gdidStr);
-    xiangxiVC.gdid = gdidStr;
-    
-    [self.navigationController pushViewController:xiangxiVC animated:YES];
-    xiangxiVC.navigationController.navigationBarHidden = YES;
-    [xiangxiVC release];
+    id gdinfo = [dic objectForKey:@"gdinfo"];
+    if ([gdinfo isKindOfClass:[NSDictionary class]]) {
+        NSString *gdidStr = [dic objectForKey:@"good_id"];
+        NSLog(@"gdidStr   is     %@",gdidStr);
+        Xiangxi *xiangxiVC = [[Xiangxi alloc]init];
+        xiangxiVC.gdid = gdidStr;
+        [self.navigationController pushViewController:xiangxiVC animated:YES];
+        xiangxiVC.navigationController.navigationBarHidden = YES;
+        [xiangxiVC release];
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -239,13 +250,15 @@
     UITableViewCell *cell = (UITableViewCell *)sender.superview;
     NSIndexPath *indexPath = [cartTableView indexPathForCell:cell]; //获取相应的Cell的indexPath，之后从数组中取值得到该好友的ID
     NSDictionary *cartDic = [cartArray objectAtIndex:indexPath.row];
-    NSDictionary *goodsDic = [cartDic objectForKey:@"gdinfo"];
-    NSString *gdid = [goodsDic objectForKey:@"goods_id"];
+    NSDictionary *gdinfo = [cartDic objectForKey:@"gdinfo"];
+    
+    NSString *gdid = [gdinfo objectForKey:@"goods_id"];
     
     Dingdan *dingVC = [[Dingdan alloc]init];
     dingVC.gidStr = gdid;
     [self.navigationController pushViewController:dingVC animated:YES];
     [dingVC release];
+    
 }
 
 #pragma mark - Scroll

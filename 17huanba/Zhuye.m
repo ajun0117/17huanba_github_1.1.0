@@ -27,6 +27,7 @@
 #import "Lianxifangshi.h"
 #import "Address.h"
 #import "SVProgressHUD.h"
+#import "GoodsManage.h"
 
 @interface Zhuye ()
 
@@ -363,7 +364,7 @@
         return 3;
     }
     else if(section == 1){
-        return 4;
+        return 5;
     }
     else{
         return 3;
@@ -436,6 +437,10 @@
         else if(indexPath.row == 3) {
             cell.imageView.image = [UIImage imageNamed:@"page_list_11_0.png"];
             cell.textLabel.text = @"我的购物车";
+        }
+        else if(indexPath.row == 4) {
+            cell.imageView.image = [UIImage imageNamed:@"page_list_11_0.png"];
+            cell.textLabel.text = @"商品管理";
         }
     }
     else{
@@ -548,6 +553,13 @@
                 [self.navigationController pushViewController:cartdVC animated:YES];
                 cartdVC.navigationController.navigationBarHidden = YES;
                 [cartdVC release];
+            }
+            else if(indexPath.row == 4) {
+                GoodsManage *goodsVC = [[GoodsManage alloc]init];
+                goodsVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:goodsVC animated:YES];
+                goodsVC.navigationController.navigationBarHidden = YES;
+                [goodsVC release];
             }
     }
         else{

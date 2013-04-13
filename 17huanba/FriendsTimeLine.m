@@ -311,7 +311,6 @@
     if (sender.selected) {
         sender.selected = NO;
         changeIV.hidden = YES;
-        
     }
     else{
         sender.selected = YES;
@@ -380,7 +379,7 @@
         if ([kindsBtn.currentTitle isEqualToString:@" 分享"]) {
             [self getThefriendTimeLine:0 andType:@"3"];
         }
-        else if ([kindsBtn.currentTitle isEqualToString:@" 说说"]){
+        else if ([kindsBtn.currentTitle isEqualToString:@" 说说"]){ 
             [self getThefriendTimeLine:0 andType:@"1"];
         }
         else if ([kindsBtn.currentTitle isEqualToString:@" 好友动态"]){

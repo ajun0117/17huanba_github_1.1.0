@@ -12,7 +12,7 @@
 
 @interface FriendsTimeLine : UIViewController<UITableViewDelegate,UITableViewDataSource,PullingRefreshTableViewDelegate,UIScrollViewDelegate>
 {
-    int page;
+    int page; 
     BOOL isMyDongtai;
 }
 @property(retain,nonatomic)UIImageView *changeIV;

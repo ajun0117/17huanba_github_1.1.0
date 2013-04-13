@@ -21,7 +21,7 @@
         head.image = DEFAULTIMG;
         head.clipsToBounds = YES;
         head.layer.cornerRadius = 10; //头像显示圆形
-        [self addSubview:head];
+        [self addSubview:head]; 
         [head release];
         
         self.nameL = [[UILabel alloc]initWithFrame:CGRectMake(70, 5, 150, 15)];

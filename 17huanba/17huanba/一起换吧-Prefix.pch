@@ -16,8 +16,8 @@
 #define RELEASE_SAFELY(__POINTER) { [__POINTER release]; __POINTER = nil; }
 
 
-//#define THEURL(urlStr) [NSString stringWithFormat:@"http://192.168.0.159%@",urlStr]
-#define THEURL(urlStr) [NSString stringWithFormat:@"http://www.17huanba.com%@",urlStr]
+#define THEURL(urlStr) [NSString stringWithFormat:@"http://192.168.0.159%@",urlStr]
+//#define THEURL(urlStr) [NSString stringWithFormat:@"http://www.17huanba.com%@",urlStr]
 #define VALUE(valueStr) [NSString stringWithFormat:@"￥%@",valueStr]
 #define SHENG_SHI_XIAN(sheng,shi,xian) [NSString stringWithFormat:@"%@ %@ %@",sheng,shi,xian]
 

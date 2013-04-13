@@ -254,8 +254,7 @@
     [myFriendsTableView tableViewDidFinishedLoading];
     [SVProgressHUD dismiss];
 }
-
-
+ 
 #pragma mark - 请求失败代理
 -(void)loginFailed:(ASIHTTPRequest *)formRequest{
     NSLog(@"formRequest.error-------------%@",formRequest.error);
@@ -268,11 +267,9 @@
 
 
 #pragma mark = UITableViewDelegate methods
-
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [friendsArray count];
 }
-
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 70;
