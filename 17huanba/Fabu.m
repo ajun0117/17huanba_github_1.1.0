@@ -15,6 +15,7 @@
 #import "JSON.h"
 #import "Caogao.h"
 #import "SVProgressHUD.h"
+#import "AsyncImageView.h"
 
 #define FIELDS_COUNT 13
 #define JIAOYIFANGSHI @"以物易物",@"人民币 + 换币",@"两种方式均可"
@@ -39,6 +40,8 @@
 @synthesize theFenleiDic;
 @synthesize shouTF,addrID;
 @synthesize baoyouSeg,sellTypeSeg;
+@synthesize goodsID,isEdit;
+@synthesize detailGoodsRequest,dataDic;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -54,12 +57,15 @@
         self.chengseArray =[NSArray arrayWithObjects:CHENGSE, nil];
 //        sectionNumber = 5;
 //        imgCount = 0;
+        self.isEdit = NO;
     }
     return self;
 }
 
 -(void)dealloc{
-    [super dealloc];
+    
+    [detailGoodsRequest clearDelegatesAndCancel];
+    RELEASE_SAFELY(detailGoodsRequest);
     NSLog(@"%s",__FUNCTION__);
     [fabuTableView release];
     [picScrollView release];
@@ -87,32 +93,34 @@
     RELEASE_SAFELY(cityArray);
     RELEASE_SAFELY(regionArray);
     RELEASE_SAFELY(chengsePV);
-//    RELEASE_SAFELY)
+    RELEASE_SAFELY(goodsID);
+    RELEASE_SAFELY(dataDic);
+    [super dealloc];
 }
 
--(void)viewDidUnload{
-    [super viewDidUnload];
-    NSLog(@"%s",__FUNCTION__);
-    self.fabuTableView = nil;
-    self.picScrollView = nil;
-    self.biaotiTV = nil;
-    self.miaoshuTV = nil;
-    self.yuanjiaTF = nil;
-    self.tongchengTF = nil;
-    RELEASE_SAFELY(yidiTF);
-    RELEASE_SAFELY(wuwuTF);
-    RELEASE_SAFELY(RMBTF);
-    RELEASE_SAFELY(huanbiTF);
-    self.fangshiTF = nil;
-    self.fenleiTF = nil;
-    self.chengseTF = nil;
-    self.weizhiTF = nil;
-    self.keyboardToolbar = nil;
-    RELEASE_SAFELY(theFenleiDic);
-    RELEASE_SAFELY(shouTF);
-    RELEASE_SAFELY(addrID);
-    RELEASE_SAFELY(baoyouSeg);
-}
+//-(void)viewDidUnload{
+//    [super viewDidUnload];
+//    NSLog(@"%s",__FUNCTION__);
+//    self.fabuTableView = nil;
+//    self.picScrollView = nil;
+//    self.biaotiTV = nil;
+//    self.miaoshuTV = nil;
+//    self.yuanjiaTF = nil;
+//    self.tongchengTF = nil;
+//    RELEASE_SAFELY(yidiTF);
+//    RELEASE_SAFELY(wuwuTF);
+//    RELEASE_SAFELY(RMBTF);
+//    RELEASE_SAFELY(huanbiTF);
+//    self.fangshiTF = nil;
+//    self.fenleiTF = nil;
+//    self.chengseTF = nil;
+//    self.weizhiTF = nil;
+//    self.keyboardToolbar = nil;
+//    RELEASE_SAFELY(theFenleiDic);
+//    RELEASE_SAFELY(shouTF);
+//    RELEASE_SAFELY(addrID);
+//    RELEASE_SAFELY(baoyouSeg);
+//}
 
 /*
  @property(nonatomic,retain)NSMutableArray *proviceArray,*cityArray,*regionArray;
@@ -200,22 +208,24 @@
     [picScrollView release];
     
     for (int i = 0; i<5; i++) {
-        UIButton *picBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        picBtn.frame = CGRectMake(10+70*i, 10, 60, 60);
-        [picBtn setBackgroundImage:[UIImage imageNamed:@"defalut_upload_img_.png"] forState:UIControlStateNormal];
-        [picBtn addTarget:self action:@selector(toAddNewImage:) forControlEvents:UIControlEventTouchUpInside];
-        picBtn.tag = i+1;
-        [picScrollView addSubview:picBtn];
+//        UIButton *picBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        AsyncImageView *picAsy = [[AsyncImageView alloc]init];
+        picAsy.frame = CGRectMake(10+70*i, 10, 60, 60);
+//        [picBtn setBackgroundImage:[UIImage imageNamed:@"defalut_upload_img_.png"] forState:UIControlStateNormal];
+        picAsy.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"defalut_upload_img_.png"]];
+        [picAsy addTarget:self action:@selector(toAddNewImage:) forControlEvents:UIControlEventTouchUpInside];
+        picAsy.image = nil;
+        picAsy.tag = i+1;
+        [picScrollView addSubview:picAsy];
         
         UIButton *deleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         deleBtn.frame = CGRectMake(-10, -10, 30, 30);
         [deleBtn setImage:[UIImage imageNamed:@"delete-icon.png"] forState:UIControlStateNormal];
         [deleBtn addTarget:self action:@selector(deleteTheImage:) forControlEvents:UIControlEventTouchUpInside];
         deleBtn.tag = 10;
-        [picBtn addSubview:deleBtn];
+        [picAsy addSubview:deleBtn];
         deleBtn.hidden = YES;
     }
-    
     
     self.chengsePV = [[UIPickerView alloc]initWithFrame:CGRectMake(0,155+44*2+1 , kDeviceWidth, KDeviceHeight-20-150-44)];
     chengsePV.delegate = self;
@@ -389,19 +399,70 @@
     sellTypeSeg.selectedItemColor = [UIColor whiteColor];
     sellTypeSeg.unselectedItemColor = [UIColor darkGrayColor];
     sellTypeSeg.selectedSegmentIndex = 2; //默认均可
-}
-
--(void)addNewImage:(UIImage *)image{
-    UIButton *picBtn = (UIButton *)[picScrollView viewWithTag:1];
-    if (!picBtn.currentImage) {
-        [picBtn setImage:image forState:UIControlStateNormal];
-        UIButton *deleBtn = (UIButton *)[picBtn viewWithTag:10];
-        deleBtn.hidden = NO;
+    
+    if (isEdit) {
+        [self requestWithDetailGoods];
     }
 }
 
--(void)toAddNewImage:(UIButton *)sender{
-    if (!sender.currentImage) { //当button没有设置图片时才触发方法
+#pragma mark - 接口部分
+-(void)requestWithDetailGoods{
+    [SVProgressHUD showWithStatus:@"加载中.."];
+    NSURL *newUrl = [NSURL URLWithString:THEURL(@"/phone/default/Viewgd.html")];
+    self.detailGoodsRequest = [ASIFormDataRequest requestWithURL:newUrl];
+    [detailGoodsRequest setDelegate:self];
+    [detailGoodsRequest setPostValue:goodsID forKey:@"gdid"];
+    [detailGoodsRequest setDidFinishSelector:@selector(finishTheDetailGoods:)];
+    [detailGoodsRequest setDidFailSelector:@selector(loginFailed:)];
+    [detailGoodsRequest startAsynchronous];
+}
+
+//-(void)finishTheDetailGoods:(ASIHTTPRequest *)request{ //请求成功后的方法
+//    NSData *data = request.responseData;
+//    NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+//    NSLog(@"str    is   %@",str);
+//    NSDictionary *goodsDic = [str JSONValue];
+//    [str release];
+//    NSLog(@"goodsDic   is   %@",goodsDic);
+//    self.dataDic = [goodsDic objectForKey:@"data"];
+//    
+//    NSArray *imgArray = [dataDic objectForKey:@"gdimg"];
+//    
+//    for (int i = 0; i<[imgArray count]; i++) {
+//        NSDictionary *imgDic = [imgArray objectAtIndex:i];
+//        NSString *imgStr = [imgDic objectForKey:@"bigimg"];
+//        AsyncImageView *picBtn = (AsyncImageView *)[picScrollView viewWithTag:i+1];
+//        picBtn.urlString = THEURL(imgStr);
+//        
+//        UIButton *deleBtn = (UIButton *)[picBtn viewWithTag:10];
+//        deleBtn.hidden = NO;
+//    }
+//    
+//    
+//    
+//}
+
+#pragma mark - 请求失败代理
+-(void)loginFailed:(ASIHTTPRequest *)formRequest{
+    NSLog(@"formRequest.error-------------%@",formRequest.error);
+    NSString *errorStr = [NSString stringWithFormat:@"%@",formRequest.error];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+}
+
+//-(void)addNewImage:(UIImage *)image{
+//    UIButton *picBtn = (UIButton *)[picScrollView viewWithTag:1];
+//    if (!picBtn.currentImage) {
+//        [picBtn setImage:image forState:UIControlStateNormal];
+//        UIButton *deleBtn = (UIButton *)[picBtn viewWithTag:10];
+//        deleBtn.hidden = NO;
+//    }
+//}
+
+-(void)toAddNewImage:(AsyncImageView *)sender{
+    if (!sender.image) { //当button没有设置图片时才触发方法
+        sender.image = nil;
         UIActionSheet *action = [[UIActionSheet alloc]initWithTitle:@"请选择照片获取方式" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"相机" otherButtonTitles:@"图片库", nil];
         action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;//样式黑色半透明
         [action showInView:self.view];
@@ -454,11 +515,12 @@
     {
         UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
         UIImage *myImage = [self yasuoCameraImage:image];
-        for (int i = 1; i<6; ++i) {
-            UIButton *picBtn = (UIButton *)[picScrollView viewWithTag:i];
-            if (!picBtn.currentImage) {
-                [picBtn setImage:myImage forState:UIControlStateNormal];
-                UIButton *deleBtn = (UIButton *)[picBtn viewWithTag:10];
+        for (int i = 0; i<5; ++i) {
+            AsyncImageView *picAsy = (AsyncImageView *)[picScrollView viewWithTag:i+1];
+            if (!picAsy.image) {
+                NSLog(@"i  is  %d",i);
+                picAsy.image = myImage;
+                UIButton *deleBtn = (UIButton *)[picAsy viewWithTag:10];
                 deleBtn.hidden = NO;
                 break;//跳出整个循环
             } 
@@ -466,17 +528,20 @@
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);//将拍到的图片保存到相册
     }
     else{
-            UIImage *image = [info objectForKey:@"UIImagePickerControllerEditedImage"];
-            UIImage *myImage = [self yasuoCameraImage:image];
-            for (int i = 1; i<6; ++i) {
-                UIButton *picBtn = (UIButton *)[picScrollView viewWithTag:i];
-                if (!picBtn.currentImage) {
-                    [picBtn setImage:myImage forState:UIControlStateNormal];
-                    UIButton *deleBtn = (UIButton *)[picBtn viewWithTag:10];
-                    deleBtn.hidden = NO;
-                    break;//跳出整个循环
-                }
+        UIImage *image = [info objectForKey:@"UIImagePickerControllerEditedImage"];
+        UIImage *myImage = [self yasuoCameraImage:image];
+        for (int i = 0; i<5; ++i) {
+            AsyncImageView *picAsy = (AsyncImageView *)[picScrollView viewWithTag:i+1];
+            if (!picAsy.image || i == 1) {
+                NSLog(@"i  is  %d",i);
+//                    [picBtn setImage:myImage forState:UIControlStateNormal];
+                picAsy.image = nil;
+                [picAsy setImage:myImage];
+                UIButton *deleBtn = (UIButton *)[picAsy viewWithTag:10];
+                deleBtn.hidden = NO;
+                break;//跳出整个循环
             }
+        }
     }
 }
 
@@ -517,10 +582,9 @@
 }
 
 -(void)deleteTheImage:(UIButton *)sender{
-    UIButton *picBtn = (UIButton *)sender.superview;
-    [picBtn setImage:nil forState:UIControlStateNormal];
+    AsyncImageView *picBtn = (AsyncImageView *)sender.superview;
+    picBtn.image = nil;
     sender.hidden = YES;
-     
 }
 
 #pragma mark - UITableViewDelegate
@@ -983,7 +1047,9 @@
     [form_request setPostValue:desc forKey:@"goods_desc"];
     [form_request setPostValue:dateStr forKey:@"add_time"];
     [form_request setPostValue:addrID forKey:@"shipaddress"];
-    
+    if (isEdit) {
+        [form_request setPostValue:goodsID forKey:@"goodsid"];
+    }
     [form_request setDidFinishSelector:@selector(finishFabu:)];
     [form_request setDidFailSelector:@selector(loginFailed:)];
     [form_request startAsynchronous];
@@ -1002,15 +1068,6 @@
     NSString *info = [dic objectForKey:@"info"];
     NSLog(@"%@",info);
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"恭喜" message:info delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
-    [alert show];
-    [alert release];
-}
-
-#pragma mark - 请求失败代理
--(void)loginFailed:(ASIHTTPRequest *)formRequest{
-    NSLog(@"formRequest.error-------------%@",formRequest.error);
-    NSString *errorStr = [NSString stringWithFormat:@"%@",formRequest.error];
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];
     [alert release];
 }

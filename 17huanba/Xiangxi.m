@@ -9,7 +9,6 @@
 #import "Xiangxi.h"
 #import "AsyncImageView.h"
 #import <QuartzCore/QuartzCore.h>
-//#import "ASIFormDataRequest.h"
 #import "JSON.h"
 #import "Denglu.h"
 #import "Dingdan.h"

@@ -11,6 +11,7 @@
 #import "SVProgressHUD.h"
 #import "Xiangxi.h"
 #import "GoodsCell.h"
+#import "Fabu.h"
 
 #define XIAJIA @"/phone/goods/Onsale.html"  //商品下架操作
 @interface GoodsManage () 
@@ -76,15 +77,18 @@
     kindsBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     [kindsBtn setImage:[UIImage imageNamed:@"arrow_down.png"] forState:UIControlStateNormal];
     [kindsBtn setImage:[UIImage imageNamed:@"arrow_up.png"] forState:UIControlStateSelected];
-    [kindsBtn setTitle:@" 好友动态" forState:UIControlStateNormal];
+    [kindsBtn setTitle:@" 已上架" forState:UIControlStateNormal];
     [kindsBtn addTarget:self action:@selector(toChangeKinds:) forControlEvents:UIControlEventTouchUpInside];
     [navIV addSubview:kindsBtn];
     
-    UIButton *writeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    writeBtn.frame = CGRectMake(280, 5, 33, 33);
-    [writeBtn setBackgroundImage:[UIImage imageNamed:@"write_btn.png"] forState:UIControlStateNormal];
-    [writeBtn addTarget:self action:@selector(toWrite) forControlEvents:UIControlEventTouchUpInside];
-    [navIV addSubview:writeBtn];
+    UIButton *deleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    deleBtn.frame = CGRectMake(258, 10, 57, 27);
+    deleBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+    [deleBtn setBackgroundImage:[UIImage imageNamed:@"tab_bg.png"] forState:UIControlStateNormal];
+    [deleBtn setTitle:@"删除" forState:UIControlStateNormal];
+    [deleBtn setTitle:@"完成" forState:UIControlStateSelected];
+    [deleBtn addTarget:self action:@selector(toDelete:) forControlEvents:UIControlEventTouchUpInside];
+    [navIV addSubview:deleBtn];
     
     self.changeIV = [[UIImageView alloc]initWithFrame:CGRectMake(104, 44, 112, 164)];
     changeIV.image = [UIImage imageNamed:@"drop_menu_big.png"];
@@ -120,6 +124,8 @@
     [shenheBtn setTitle:@"审核中" forState:UIControlStateNormal];
     [shenheBtn addTarget:self action:@selector(changeToShenhe:) forControlEvents:UIControlEventTouchUpInside];
     [changeIV addSubview:shenheBtn];
+    
+    [self getTheGoodsWithType:@"1" andPage:0];
 }
 
 -(void)toChangeKinds:(UIButton *)sender{
@@ -302,7 +308,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 90;
+    return 95;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -341,14 +347,14 @@
         }
         cell.sell_type.text = price;
         
-        cell.xiajiaBtn.frame = CGRectMake(240, 5, 60, 26); //下架按钮
+        cell.xiajiaBtn.frame = CGRectMake(250, 5, 60, 26); //下架按钮
         [cell.xiajiaBtn addTarget:self action:@selector(xiajia:) forControlEvents:UIControlEventTouchUpInside];
         
         
-        cell.editBtn.frame = CGRectMake(180, 35, 60, 26); //编辑按钮
+        cell.editBtn.frame = CGRectMake(250, 35, 60, 26); //编辑按钮
         [cell.editBtn addTarget:self action:@selector(editGoods:) forControlEvents:UIControlEventTouchUpInside];
         
-        cell.shareBtn.frame = CGRectMake(240, 35, 60, 26); //分享按钮
+        cell.shareBtn.frame = CGRectMake(250, 65, 60, 26); //分享按钮
         [cell.shareBtn addTarget:self action:@selector(shareGoods:) forControlEvents:UIControlEventTouchUpInside];
         
     }
@@ -379,14 +385,14 @@
             price = [NSString stringWithFormat:@"￥%@+%@换币或%@",gold,silver,memoStr];
         }
         
-        cell.shangjiaBtn.frame = CGRectMake(240, 5, 60, 26); //下架按钮
+        cell.shangjiaBtn.frame = CGRectMake(250, 5, 60, 26); //上架按钮
         [cell.shangjiaBtn addTarget:self action:@selector(shangjia:) forControlEvents:UIControlEventTouchUpInside];
         
         
-        cell.editBtn.frame = CGRectMake(180, 35, 60, 26); //编辑按钮
+        cell.editBtn.frame = CGRectMake(250, 35, 60, 26); //编辑按钮
         [cell.editBtn addTarget:self action:@selector(editGoods:) forControlEvents:UIControlEventTouchUpInside];
         
-        cell.shareBtn.frame = CGRectMake(240, 35, 60, 26); //分享按钮
+        cell.shareBtn.frame = CGRectMake(250, 65, 60, 26); //分享按钮
         [cell.shareBtn addTarget:self action:@selector(shareGoods:) forControlEvents:UIControlEventTouchUpInside];
         
     }
@@ -416,7 +422,7 @@
         {
             price = [NSString stringWithFormat:@"￥%@+%@换币或%@",gold,silver,memoStr];
         }
-        cell.shareBtn.frame = CGRectMake(240, 35, 60, 26); //分享按钮
+        cell.shareBtn.frame = CGRectMake(250, 35, 60, 26); //分享按钮
         [cell.shareBtn addTarget:self action:@selector(shareGoods:) forControlEvents:UIControlEventTouchUpInside];
     }
     else if(type == 4){ //审核中的商品
@@ -445,15 +451,122 @@
         {
             price = [NSString stringWithFormat:@"￥%@+%@换币或%@",gold,silver,memoStr];
         }
-        cell.editBtn.frame = CGRectMake(180, 35, 60, 26); //编辑按钮
+        cell.editBtn.frame = CGRectMake(250, 5, 60, 26); //编辑按钮
         [cell.editBtn addTarget:self action:@selector(editGoods:) forControlEvents:UIControlEventTouchUpInside];
         
-        cell.shareBtn.frame = CGRectMake(240, 35, 60, 26); //分享按钮
+        cell.shareBtn.frame = CGRectMake(250, 35, 60, 26); //分享按钮
         [cell.shareBtn addTarget:self action:@selector(shareGoods:) forControlEvents:UIControlEventTouchUpInside];
     }
-    
-    
     return cell;
+}
+
+#pragma mark - 删除部分
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (type == 0) {
+        return YES;
+    }
+    return NO;
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSDictionary *goodsDic = [goodsArray objectAtIndex:indexPath.row];
+    NSString *gidStr = [goodsDic objectForKey:@"goodsid"];
+    [self caozuoWithType:@"3" andGoodsID:gidStr];
+    [goodsArray removeObject:goodsDic];
+    [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+}
+
+#pragma mark - 商品操作的一系列方法
+-(void)xiajia:(UIButton *)sender{
+    NSLog(@"%s",__FUNCTION__);
+    UITableViewCell *cell = (UITableViewCell *)sender.superview;
+    NSIndexPath *indexPath = [goodsTableView indexPathForCell:cell];
+    NSDictionary *goodDic = [goodsArray objectAtIndex:indexPath.row];
+    NSString *gidStr = [goodDic objectForKey:@"goodsid"];
+    NSLog(@"goodsID  is %@",gidStr);
+    [self caozuoWithType:@"2" andGoodsID:gidStr];
+}
+
+-(void)shangjia:(UIButton *)sender{
+    NSLog(@"%s",__FUNCTION__);
+    UITableViewCell *cell = (UITableViewCell *)sender.superview;
+    NSIndexPath *indexPath = [goodsTableView indexPathForCell:cell];
+    NSDictionary *goodDic = [goodsArray objectAtIndex:indexPath.row];
+    NSString *gidStr = [goodDic objectForKey:@"goodsid"];
+    [self caozuoWithType:@"1" andGoodsID:gidStr];
+}
+
+-(void)editGoods:(UIButton *)sender{
+    NSLog(@"%s",__FUNCTION__);
+    UITableViewCell *cell = (UITableViewCell *)sender.superview;
+    NSIndexPath *indexPath = [goodsTableView indexPathForCell:cell];
+    NSDictionary *goodDic = [goodsArray objectAtIndex:indexPath.row];
+    NSString *gidStr = [goodDic objectForKey:@"goodsid"];
+    
+    Fabu *fabuVC = [[Fabu alloc]init];
+    fabuVC.isEdit = YES;
+    fabuVC.goodsID = gidStr;
+    fabuVC.hidesBottomBarWhenPushed = YES;//隐藏底部的tabbar
+    UIView *button = [self.view viewWithTag:100];
+    [UIView animateWithDuration:0.2 animations:^{
+        button.alpha = 0;
+    }];
+    [self.navigationController pushViewController:fabuVC animated:YES];
+    fabuVC.navigationController.navigationBarHidden = YES;//显示自定义的Nav
+    [fabuVC release];
+    
+}
+
+-(void)shareGoods:(UIButton *)sender{
+    NSLog(@"%s",__FUNCTION__);
+    UITableViewCell *cell = (UITableViewCell *)sender.superview;
+    NSIndexPath *indexPath = [goodsTableView indexPathForCell:cell];
+    NSDictionary *goodDic = [goodsArray objectAtIndex:indexPath.row];
+    NSString *gidStr = [goodDic objectForKey:@"goodsid"];
+    [self caozuoWithType:@"4" andGoodsID:gidStr];
+}
+
+
+#pragma mark - 对商品操作的请求
+-(void)caozuoWithType:(NSString *)caozuoType andGoodsID:(NSString *)gid{
+    
+    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
+    NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+    NSURL *newUrl = [NSURL URLWithString:THEURL(@"/phone/goods/Onsale.html")];
+    ASIFormDataRequest *form_request = [ASIFormDataRequest requestWithURL:newUrl];
+    [form_request setDelegate:self];
+    [form_request setPostValue:uid forKey:@"uid"]; //用户ID
+    [form_request setPostValue:token forKey:@"token"];
+    [form_request setPostValue:caozuoType forKey:@"type"];
+    [form_request setPostValue:gid forKey:@"goodsid"];
+    [form_request setDidFinishSelector:@selector(finishCaozuo:)];
+    [form_request setDidFailSelector:@selector(loginFailed:)];
+    [form_request startAsynchronous];
+}
+
+-(void)finishCaozuo:(ASIFormDataRequest *)request{
+    NSData *data = request.responseData;
+    NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"操作 str    is   %@",str);
+    NSDictionary *dic = [str JSONValue];
+    [str release];
+    NSLog(@"dic is %@",dic);
+    NSString *state = [dic objectForKey:@"state"];
+    NSLog(@"%@",state);
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:state delegate:nil cancelButtonTitle:@"好" otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+}
+
+-(void)toDelete:(UIButton *)sender{
+    if (sender.selected == NO) {
+        sender.selected = YES;
+        goodsTableView.editing = YES;
+    }
+    else{
+        sender.selected = NO;
+        goodsTableView.editing = NO;
+    }
 }
 
 -(void)fanhui{

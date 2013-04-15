@@ -26,23 +26,25 @@
         [self addSubview:gdimg];
         [gdimg release];
         
-        self.nameL = [[UILabel alloc]initWithFrame:CGRectMake(70, 5, 150, 15)];
-        nameL.backgroundColor = [UIColor clearColor];
+        self.nameL = [[UILabel alloc]initWithFrame:CGRectMake(70, 5, 150, 20)];
+        nameL.backgroundColor = [UIColor grayColor];
         [self addSubview:nameL];
         [nameL release];
         
-        self.catType = [[UILabel alloc]initWithFrame:CGRectMake(70, 25, 150, 15)];
-        catType.backgroundColor = [UIColor clearColor];
+        self.catType = [[UILabel alloc]initWithFrame:CGRectMake(70, 26, 150, 12)];
+        catType.textAlignment = UITextAlignmentRight;
+        catType.backgroundColor = [UIColor grayColor];
         [self addSubview:catType];
         [catType release];
         
         self.sell_type = [[UILabel alloc]initWithFrame:CGRectMake(70, 45, 150, 15)];
-        sell_type.backgroundColor = [UIColor clearColor];
+        sell_type.textColor = [UIColor redColor];
+        sell_type.backgroundColor = [UIColor grayColor];
         [self addSubview:sell_type];
         [sell_type release];
         
         self.last_update = [[UILabel alloc]initWithFrame:CGRectMake(70, 65, 150, 15)];
-        last_update.backgroundColor = [UIColor clearColor];
+        last_update.backgroundColor = [UIColor grayColor];
         [self addSubview:last_update];
         [last_update release];
         

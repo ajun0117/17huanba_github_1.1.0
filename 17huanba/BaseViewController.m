@@ -71,7 +71,6 @@
             Fabu *fabuVC = [[Fabu alloc]init];
             fabuVC.hidesBottomBarWhenPushed = YES;//隐藏底部的tabbar
             UIView *button = [self.view viewWithTag:100];
-        //    button.hidden = YES;//隐藏中间的相机Button
             [UIView animateWithDuration:0.2 animations:^{
                 button.alpha = 0;
             }];
@@ -131,12 +130,6 @@
     }
     if(buttonIndex == 1)
     {
-        //        NSString *string = [[NSBundle mainBundle] pathForResource:@"1110" ofType:@"JPEG"];
-        //        currentImage = [UIImage imageWithContentsOfFile:string];
-        //        rootImageView.image = currentImage;
-        //        seg.userInteractionEnabled = YES;
-        //        [self.view addSubview:rootImageView];
-        
         imagePicker = [[UIImagePickerController alloc] init];//图像选取器
         imagePicker.delegate = self;
         imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;//打开相册
@@ -150,51 +143,12 @@
 #pragma mark - UIImagePickerDelegate
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-//    Fabu *fabuVC =[self.viewControllers objectAtIndex:2];//获取到tabBarController中的发布页面
-//    self.selectedViewController = fabuVC;
-//    Fabu *fabuVC = [[Fabu alloc]init];
-//    fabuVC.hidesBottomBarWhenPushed = YES;//隐藏底部的tabbar
-//     UIView *button = [self.view viewWithTag:100];
-//    button.hidden = YES;//隐藏中间的相机Button
-//    [(UINavigationController *)self.selectedViewController pushViewController:fabuVC animated:NO];
-//    fabuVC.navigationController.navigationBarHidden = YES;//显示自定义的Nav
-    
-//    UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];//获取图片
     UIImage *image = [info objectForKey:@"UIImagePickerControllerEditedImage"];
-//    [addNewImageDelegate addNewImage:image];
-    
-//    for (int i = 1; i<6; ++i) {
-//        UIButton *picBtn = (UIButton *)[fabuVC.picScrollView viewWithTag:i]; 
-//        if (!picBtn.currentImage) {
-//            [picBtn setImage:image forState:UIControlStateNormal];
-//            UIButton *deleBtn = (UIButton *)[picBtn viewWithTag:10];
-//            deleBtn.hidden = NO;
-//            break;//跳出整个循环
-//        }
-//    }
     
     if (picker.sourceType == UIImagePickerControllerSourceTypeCamera)
     {
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);//将拍到的图片保存到相册
     }
-    
-//    currentImage = [self imageWithImageSimple:image scaledToSize:CGSizeMake(260, 340)];
-//    //    currentImage = image;
-//    
-//    //调用imageWithImageSimple:scaledToSize:方法
-//    
-//    [currentImage retain];
-//    
-//    rootImageView.image = currentImage;
-//    
-//    imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 45, 50)];
-//    rootImage = [UIImage imageNamed:@"110.png"];
-//    imageView.image = rootImage;
-//    [scrollerView addSubview:imageView];
-//    [imageView release];
-//    
-//    seg.userInteractionEnabled = YES;
-//    [self.view addSubview:rootImageView];
     [self dismissModalViewControllerAnimated:YES];//关闭模态视图控制器
 
 }
@@ -220,66 +174,6 @@
     [alert show];
     [alert release];
 }
-
-//-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-//{
-//    if(buttonIndex == 1)
-//    {
-//        
-//        //        NSData *newData = UIImageJPEGRepresentation(currentImage, 1);
-//        //        NSString *docpath = @"/Users/ibokan/Desktop";
-//        //        NSString *path = [docpath stringByAppendingPathComponent:@"aaa.jpg"];
-//        //        [newData writeToFile:path atomically:YES];
-//        
-//        UIImage *img = rootImageView.image;// 要保存的图片
-//        UIImageWriteToSavedPhotosAlbum(img, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);// 保存图片到相册中
-//        
-//        
-//    }
-//}
-//
-//- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error
-//  contextInfo:(void *)contextInfo
-//{
-//    if (error != NULL)
-//    {
-//        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"保存失败,请重新保存" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:nil, nil];
-//        //        alert.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
-//        [alert show];
-//        [alert release];
-//        
-//    }
-//    else// 没有error
-//    {
-//        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"保存成功" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:nil, nil];
-//        [alert show];
-//        [alert release];
-//    }
-//}
-
-
-
-
-//for (int i=0; i<[imgArray count]; i++) {
-//    AsyncImageView *otherPicsImageView = [[AsyncImageView alloc]init];
-//    otherPicsImageView.frame = CGRectMake(5+(77+5)*i, 5, 77, 54);
-//    otherPicsImageView.backgroundColor = [[UIColor alloc]initWithRed:(225/255.0) green:(225/255.0) blue:(225/255.0) alpha:.8];
-//    otherPicsImageView.userInteractionEnabled = YES;
-//    otherPicsImageView.clipsToBounds = YES;
-//    otherPicsImageView.layer.cornerRadius = 5;
-//    otherPicsImageView.layer.borderWidth = 1.2;
-//    otherPicsImageView.layer.borderColor = [[UIColor alloc]initWithRed:(225/255.0) green:(225/255.0) blue:(225/255.0) alpha:1].CGColor;
-//    // self.otherPicsImageView.center = CGPointMake(45, 41);
-//    otherPicsImageView.tag = (100+i);
-//    NSString *thePicStr = [[imgArray objectAtIndex:i] objectForKey:@"ImgUrl"];
-//    NSString *spicUrl = [NSString stringWithFormat:@"%@%@",FOODPIC,thePicStr];
-//    otherPicsImageView.urlString = spicUrl;
-//    [self.thePicsScrollView addSubview:otherPicsImageView];
-//    // so Async is clickable
-//    UIButton *clickableImageBtn = [UIBuilder button:CGRectMake(5+(77+5)*i, 5, 77, 54) andTitle:@"" andTitleColor:[UIColor grayColor] andNormalStateBGImage:@"" andHighlightedStateBGImage:@"" andTarget:self andAction:@selector(switchImage:)];
-//    clickableImageBtn.tag = (520+i);
-//    [self.thePicsScrollView addSubview:clickableImageBtn];
-//}
 
 
 

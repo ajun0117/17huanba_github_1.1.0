@@ -14,7 +14,7 @@
 
 static const NSString * gDefaultImages[]=
 {
-	@"wxt.png",@""
+	@"",@""
 };
 #define SPINNY_TAG 5555
 
@@ -61,7 +61,6 @@ static const NSString * gDefaultImages[]=
 	urlString = [theUrl retain];
 	if (nil == theUrl) 
 	{
-		
 		return;
 	}
 	// setup the spiner
@@ -77,9 +76,7 @@ static const NSString * gDefaultImages[]=
 	[spinny startAnimating];
 	[self addSubview:spinny];
 	[manager addTaskWithURLString: urlString withDelegate: self];
-	
 }
-
 
 
 - (void)dealloc 
@@ -163,7 +160,7 @@ static const NSString * gDefaultImages[]=
 - (UIImage*) image
 {
     UIImageView* iv = imageView;
-    return [iv image];
+    return iv.image;
 }
 
 //代理方法，调用urlString的set方法时会执行，完成图片的设置。。。。

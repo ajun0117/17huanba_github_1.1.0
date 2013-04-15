@@ -13,6 +13,7 @@
 #import "Address.h"
 //#import "SVSegmentedControl.h"
 #import "MCSegmentedControl.h"
+#import "ASIFormDataRequest.h"
 
 
 @interface Fabu : UIViewController<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,BackToFabu,SelectTheAddress,UIAlertViewDelegate>
@@ -57,6 +58,11 @@
 
 @property(nonatomic,retain)MCSegmentedControl *baoyouSeg;
 @property(nonatomic,retain)MCSegmentedControl *sellTypeSeg;
+
+@property(nonatomic,assign)BOOL isEdit;
+@property(nonatomic,retain)NSString *goodsID;
+@property(nonatomic,retain)ASIFormDataRequest *detailGoodsRequest;
+@property(nonatomic,retain)NSDictionary *dataDic;
 
 
 @end
