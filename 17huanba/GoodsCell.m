@@ -19,51 +19,67 @@
     if (self) {
         // Initialization code
         
-        self.gdimg = [[AsyncImageView alloc]initWithFrame:CGRectMake(5, 5, 60, 60)];
+        self.gdimg = [[AsyncImageView alloc]initWithFrame:CGRectMake(5, 7, 80, 80)];
         gdimg.image = DEFAULTIMG;
         gdimg.clipsToBounds = YES;
         gdimg.layer.cornerRadius = 10; //头像显示圆形
         [self addSubview:gdimg];
         [gdimg release];
         
-        self.nameL = [[UILabel alloc]initWithFrame:CGRectMake(70, 5, 150, 20)];
-        nameL.backgroundColor = [UIColor grayColor];
+        self.nameL = [[UILabel alloc]initWithFrame:CGRectMake(90, 5, 170, 20)];
+        nameL.backgroundColor = [UIColor clearColor];
         [self addSubview:nameL];
         [nameL release];
         
-        self.catType = [[UILabel alloc]initWithFrame:CGRectMake(70, 26, 150, 12)];
+        self.catType = [[UILabel alloc]initWithFrame:CGRectMake(90, 30, 170, 12)];
+        catType.font = [UIFont systemFontOfSize:12];
         catType.textAlignment = UITextAlignmentRight;
-        catType.backgroundColor = [UIColor grayColor];
+        catType.backgroundColor = [UIColor clearColor];
         [self addSubview:catType];
         [catType release];
         
-        self.sell_type = [[UILabel alloc]initWithFrame:CGRectMake(70, 45, 150, 15)];
+        self.sell_type = [[UILabel alloc]initWithFrame:CGRectMake(90, 50, 170, 15)];
+        sell_type.font = [UIFont systemFontOfSize:15];
+        sell_type.textAlignment = UITextAlignmentRight;
         sell_type.textColor = [UIColor redColor];
-        sell_type.backgroundColor = [UIColor grayColor];
+        sell_type.backgroundColor = [UIColor clearColor];
         [self addSubview:sell_type];
         [sell_type release];
         
-        self.last_update = [[UILabel alloc]initWithFrame:CGRectMake(70, 65, 150, 15)];
-        last_update.backgroundColor = [UIColor grayColor];
+        self.last_update = [[UILabel alloc]initWithFrame:CGRectMake(90, 75, 170, 15)];
+        last_update.font = [UIFont systemFontOfSize:12];
+        last_update.textAlignment = UITextAlignmentRight;
+        last_update.backgroundColor = [UIColor clearColor];
         [self addSubview:last_update];
         [last_update release];
         
-        self.xiajiaBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        self.xiajiaBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [xiajiaBtn setBackgroundImage:[UIImage imageNamed:@"cartBtn.png"] forState:UIControlStateNormal];
+        xiajiaBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        [xiajiaBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [xiajiaBtn setTitle:@"下架" forState:UIControlStateNormal];
         [self addSubview:xiajiaBtn];
         
-        self.shangjiaBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        self.shangjiaBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [shangjiaBtn setBackgroundImage:[UIImage imageNamed:@"cartBtn.png"] forState:UIControlStateNormal];
+        shangjiaBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        [shangjiaBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [shangjiaBtn setTitle:@"上架" forState:UIControlStateNormal];
         [self addSubview:shangjiaBtn];
         
-        self.editBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        self.editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [editBtn setBackgroundImage:[UIImage imageNamed:@"cartBtn.png"] forState:UIControlStateNormal];
+        editBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        [editBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [editBtn setTitle:@"编辑" forState:UIControlStateNormal];
         [self addSubview:editBtn];
         
-        self.shareBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        self.shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [shareBtn setBackgroundImage:[UIImage imageNamed:@"cartBtn.png"] forState:UIControlStateNormal];
+        shareBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        [shareBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [shareBtn setTitle:@"分享" forState:UIControlStateNormal];
         [self addSubview:shareBtn];
-        
     }
     return self;
 }

@@ -236,7 +236,7 @@
     [QQL release];
     
     UIButton *editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    editBtn.frame = CGRectMake(250, 10, 45, 22);
+    editBtn.frame = CGRectMake(260, 10, 45, 22);
     editBtn.titleLabel.font = [UIFont boldSystemFontOfSize:13];
     [editBtn setTitle:@"编辑" forState:UIControlStateNormal];
     [editBtn addTarget:self action:@selector(editGerenXinxi) forControlEvents:UIControlEventTouchUpInside];
@@ -439,7 +439,7 @@
             cell.textLabel.text = @"我的购物车";
         }
         else if(indexPath.row == 4) {
-            cell.imageView.image = [UIImage imageNamed:@"page_list_11_0.png"];
+            cell.imageView.image = [UIImage imageNamed:@"page_list_9_0.png"];
             cell.textLabel.text = @"商品管理";
         }
     }

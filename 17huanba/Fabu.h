@@ -47,7 +47,7 @@
 @property(retain,nonatomic)UITextField *wuwuTF;
 @property(nonatomic, retain) UIToolbar *keyboardToolbar;
 
-@property(retain,nonatomic)UITextField *shouTF; //物品收获地址
+@property(retain,nonatomic)UITextField *shouTF; //物品收货地址
 
 @property(nonatomic,retain)NSArray *fangshiArray;
 @property(nonatomic,retain)NSArray *chengseArray;

@@ -21,5 +21,7 @@
 @property(assign,nonatomic)BOOL refreshing;
 @property(retain,nonatomic)NSMutableArray *goodsArray;
 @property(retain,nonatomic)ASIFormDataRequest *goods_request;
+@property(retain,nonatomic)UIButton *deleBtn;
+
 
 @end

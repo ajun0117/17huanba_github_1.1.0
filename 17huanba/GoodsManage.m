@@ -21,7 +21,7 @@
 @implementation GoodsManage
 
 @synthesize changeIV,kindsBtn,goodsTableView,goodsArray,goods_request;
-@synthesize refreshing;
+@synthesize refreshing,deleBtn;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,6 +43,7 @@
     [kindsBtn release];
     [goodsTableView release];
     [goodsArray release];
+    [deleBtn release];
     [super dealloc];
 }
 
@@ -81,7 +82,7 @@
     [kindsBtn addTarget:self action:@selector(toChangeKinds:) forControlEvents:UIControlEventTouchUpInside];
     [navIV addSubview:kindsBtn];
     
-    UIButton *deleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.deleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     deleBtn.frame = CGRectMake(258, 10, 57, 27);
     deleBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15];
     [deleBtn setBackgroundImage:[UIImage imageNamed:@"tab_bg.png"] forState:UIControlStateNormal];
@@ -257,6 +258,7 @@
 
 #pragma mark - 不同选项对应的不同方法
 -(void)changeToShangjia:(UIButton *)sender{
+    deleBtn.hidden = NO;
     type = 1;
     page = 0;
     NSString *title = [NSString stringWithFormat:@" %@",sender.titleLabel.text];
@@ -268,6 +270,7 @@
 }
 
 -(void)changeToZaiku:(UIButton *)sender{
+    deleBtn.hidden = NO;
     type = 2;
     page = 0;
     NSString *title = [NSString stringWithFormat:@" %@",sender.titleLabel.text];
@@ -280,6 +283,7 @@
 }
 
 -(void)changeToMaidao:(UIButton *)sender{
+    deleBtn.hidden = NO;
     type = 3;
     page = 0;
     NSString *title = [NSString stringWithFormat:@" %@",sender.titleLabel.text];
@@ -292,6 +296,7 @@
 }
 
 -(void)changeToShenhe:(UIButton *)sender{
+    deleBtn.hidden = YES;
     type = 4;
     page = 0;
     NSString *title = [NSString stringWithFormat:@" %@",sender.titleLabel.text];
@@ -319,8 +324,8 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone; //关闭点击效果
     NSDictionary *goodsDic = [goodsArray objectAtIndex:indexPath.row];
-    if (type == 1) { //已上架
-        NSString *imgStr = [goodsDic objectForKey:@"midimg"];
+    
+    NSString *imgStr = [goodsDic objectForKey:@"midimg"];
         if (![imgStr isEqualToString:@" "]) {
             cell.gdimg.urlString = THEURL(imgStr);
         }
@@ -347,122 +352,72 @@
         }
         cell.sell_type.text = price;
         
-        cell.xiajiaBtn.frame = CGRectMake(250, 5, 60, 26); //下架按钮
+        NSDate *timeDate = [NSDate dateWithTimeIntervalSince1970:[[goodsDic objectForKey:@"lastupdate"] doubleValue]];
+        NSString *timeStr = [NSString stringWithFormat:@"%@",timeDate];
+        NSDateFormatter *dateformatter=[[NSDateFormatter alloc]init];
+        [dateformatter setDateFormat:@"YYYY-MM-dd HH:mm:ss zzz"];   //zzz代表+0000 时区格式
+        NSDate *date=[dateformatter dateFromString:timeStr];
+        [dateformatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+        NSString *dateString=[dateformatter stringFromDate:date];
+        [dateformatter release];
+        cell.last_update.text = dateString;
+    
+    if (type == 1) { //已上架
+        cell.xiajiaBtn.frame = CGRectMake(270, 5, 45, 20); //下架按钮
         [cell.xiajiaBtn addTarget:self action:@selector(xiajia:) forControlEvents:UIControlEventTouchUpInside];
         
-        
-        cell.editBtn.frame = CGRectMake(250, 35, 60, 26); //编辑按钮
+        cell.editBtn.frame = CGRectMake(270, 35, 45, 20); //编辑按钮
         [cell.editBtn addTarget:self action:@selector(editGoods:) forControlEvents:UIControlEventTouchUpInside];
         
-        cell.shareBtn.frame = CGRectMake(250, 65, 60, 26); //分享按钮
+        cell.shareBtn.frame = CGRectMake(270, 65, 45, 20); //分享按钮
         [cell.shareBtn addTarget:self action:@selector(shareGoods:) forControlEvents:UIControlEventTouchUpInside];
         
     }
     else if(type == 2){ //在库商品
-        NSString *imgStr = [goodsDic objectForKey:@"midimg"];
-        if (![imgStr isEqualToString:@" "]) {
-            cell.gdimg.urlString = THEURL(imgStr);
-        }
-        cell.nameL.text = [goodsDic objectForKey:@"goodsname"];
-        
-        cell.catType.text = [goodsDic objectForKey:@"catname"];
-        
-        NSString *price = nil;
-        NSString *sell_type = [goodsDic objectForKey:@"sell_type"];
-        NSString *gold = [goodsDic objectForKey:@"gold"];
-        NSString *silver = [goodsDic objectForKey:@"silver"];
-        NSString *memoStr = [goodsDic objectForKey:@"memo"];
-        
-        if ([sell_type isEqualToString:@"1"]) {
-            price = [NSString stringWithFormat:@"接受%@交换",memoStr];
-        }
-        else if ([sell_type isEqualToString:@"2"]) {
-            price = [NSString stringWithFormat:@"￥%@+%@换币",gold,silver];
-            
-        }
-        else if ([sell_type isEqualToString:@"3"])
-        {
-            price = [NSString stringWithFormat:@"￥%@+%@换币或%@",gold,silver,memoStr];
-        }
-        
-        cell.shangjiaBtn.frame = CGRectMake(250, 5, 60, 26); //上架按钮
+        cell.shangjiaBtn.frame = CGRectMake(270, 5, 45, 20); //上架按钮
         [cell.shangjiaBtn addTarget:self action:@selector(shangjia:) forControlEvents:UIControlEventTouchUpInside];
         
         
-        cell.editBtn.frame = CGRectMake(250, 35, 60, 26); //编辑按钮
+        cell.editBtn.frame = CGRectMake(270, 35, 45, 20); //编辑按钮
         [cell.editBtn addTarget:self action:@selector(editGoods:) forControlEvents:UIControlEventTouchUpInside];
         
-        cell.shareBtn.frame = CGRectMake(250, 65, 60, 26); //分享按钮
+        cell.shareBtn.frame = CGRectMake(270, 65, 45, 20); //分享按钮
         [cell.shareBtn addTarget:self action:@selector(shareGoods:) forControlEvents:UIControlEventTouchUpInside];
         
     }
     else if(type == 3){ //买到的商品
-        NSString *imgStr = [goodsDic objectForKey:@"midimg"];
-        if (![imgStr isEqualToString:@" "]) {
-            cell.gdimg.urlString = THEURL(imgStr);
-        }
-        cell.nameL.text = [goodsDic objectForKey:@"goodsname"];
-        
-        cell.catType.text = [goodsDic objectForKey:@"catname"];
-        
-        NSString *price = nil;
-        NSString *sell_type = [goodsDic objectForKey:@"sell_type"];
-        NSString *gold = [goodsDic objectForKey:@"gold"];
-        NSString *silver = [goodsDic objectForKey:@"silver"];
-        NSString *memoStr = [goodsDic objectForKey:@"memo"];
-        
-        if ([sell_type isEqualToString:@"1"]) {
-            price = [NSString stringWithFormat:@"接受%@交换",memoStr];
-        }
-        else if ([sell_type isEqualToString:@"2"]) {
-            price = [NSString stringWithFormat:@"￥%@+%@换币",gold,silver];
-            
-        }
-        else if ([sell_type isEqualToString:@"3"])
-        {
-            price = [NSString stringWithFormat:@"￥%@+%@换币或%@",gold,silver,memoStr];
-        }
-        cell.shareBtn.frame = CGRectMake(250, 35, 60, 26); //分享按钮
+        cell.shareBtn.frame = CGRectMake(270, 35, 45, 20); //分享按钮
         [cell.shareBtn addTarget:self action:@selector(shareGoods:) forControlEvents:UIControlEventTouchUpInside];
     }
     else if(type == 4){ //审核中的商品
-        NSString *imgStr = [goodsDic objectForKey:@"midimg"];
-        if (![imgStr isEqualToString:@" "]) {
-            cell.gdimg.urlString = THEURL(imgStr);
-        }
-        cell.nameL.text = [goodsDic objectForKey:@"goodsname"];
-        
-        cell.catType.text = [goodsDic objectForKey:@"catname"];
-        
-        NSString *price = nil;
-        NSString *sell_type = [goodsDic objectForKey:@"sell_type"];
-        NSString *gold = [goodsDic objectForKey:@"gold"];
-        NSString *silver = [goodsDic objectForKey:@"silver"];
-        NSString *memoStr = [goodsDic objectForKey:@"memo"];
-        
-        if ([sell_type isEqualToString:@"1"]) {
-            price = [NSString stringWithFormat:@"接受%@交换",memoStr];
-        }
-        else if ([sell_type isEqualToString:@"2"]) {
-            price = [NSString stringWithFormat:@"￥%@+%@换币",gold,silver];
-            
-        }
-        else if ([sell_type isEqualToString:@"3"])
-        {
-            price = [NSString stringWithFormat:@"￥%@+%@换币或%@",gold,silver,memoStr];
-        }
-        cell.editBtn.frame = CGRectMake(250, 5, 60, 26); //编辑按钮
+        cell.editBtn.frame = CGRectMake(270, 5, 45, 20); //编辑按钮
         [cell.editBtn addTarget:self action:@selector(editGoods:) forControlEvents:UIControlEventTouchUpInside];
         
-        cell.shareBtn.frame = CGRectMake(250, 35, 60, 26); //分享按钮
+        cell.shareBtn.frame = CGRectMake(270, 35, 45, 20); //分享按钮
         [cell.shareBtn addTarget:self action:@selector(shareGoods:) forControlEvents:UIControlEventTouchUpInside];
     }
     return cell;
 }
 
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    NSLog(@"didSelect--didSelect--didSelect");
+    Xiangxi *xiangxiVC = [[Xiangxi alloc]init];
+    
+    NSDictionary *dic = [goodsArray objectAtIndex:indexPath.row];
+    NSString *gdidStr = [dic objectForKey:@"goodsid"];
+    NSLog(@"gdidStr   is     %@",gdidStr);
+    xiangxiVC.gdid = gdidStr;
+    
+    [self.navigationController pushViewController:xiangxiVC animated:YES];
+    xiangxiVC.navigationController.navigationBarHidden = YES;
+    [xiangxiVC release];
+}
+
 #pragma mark - 删除部分
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (type == 0) {
+    if (type != 4) {
         return YES;
     }
     return NO;
@@ -556,6 +511,7 @@
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:state delegate:nil cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];
     [alert release];
+    [goodsTableView reloadData];
 }
 
 -(void)toDelete:(UIButton *)sender{

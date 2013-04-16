@@ -98,30 +98,6 @@
     [super dealloc];
 }
 
-//-(void)viewDidUnload{
-//    [super viewDidUnload];
-//    NSLog(@"%s",__FUNCTION__);
-//    self.fabuTableView = nil;
-//    self.picScrollView = nil;
-//    self.biaotiTV = nil;
-//    self.miaoshuTV = nil;
-//    self.yuanjiaTF = nil;
-//    self.tongchengTF = nil;
-//    RELEASE_SAFELY(yidiTF);
-//    RELEASE_SAFELY(wuwuTF);
-//    RELEASE_SAFELY(RMBTF);
-//    RELEASE_SAFELY(huanbiTF);
-//    self.fangshiTF = nil;
-//    self.fenleiTF = nil;
-//    self.chengseTF = nil;
-//    self.weizhiTF = nil;
-//    self.keyboardToolbar = nil;
-//    RELEASE_SAFELY(theFenleiDic);
-//    RELEASE_SAFELY(shouTF);
-//    RELEASE_SAFELY(addrID);
-//    RELEASE_SAFELY(baoyouSeg);
-//}
-
 /*
  @property(nonatomic,retain)NSMutableArray *proviceArray,*cityArray,*regionArray;
  
@@ -201,21 +177,18 @@
     [self.view addSubview:fabuTableView];
     [fabuTableView release];
     
-    self.picScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kDeviceWidth, 70)];
-    picScrollView.contentSize = CGSizeMake(kDeviceWidth+50, 60);
+    self.picScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kDeviceWidth, 90)];
+    picScrollView.contentSize = CGSizeMake(kDeviceWidth+140, 80);
     picScrollView.showsHorizontalScrollIndicator= NO;
     fabuTableView.tableHeaderView = picScrollView;
     [picScrollView release];
     
-    for (int i = 0; i<5; i++) {
-//        UIButton *picBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    for (int i = 0; i<5; ++i) {
         AsyncImageView *picAsy = [[AsyncImageView alloc]init];
-        picAsy.frame = CGRectMake(10+70*i, 10, 60, 60);
-//        [picBtn setBackgroundImage:[UIImage imageNamed:@"defalut_upload_img_.png"] forState:UIControlStateNormal];
+        picAsy.frame = CGRectMake(10+90*i, 10, 80, 80);
         picAsy.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"defalut_upload_img_.png"]];
         [picAsy addTarget:self action:@selector(toAddNewImage:) forControlEvents:UIControlEventTouchUpInside];
-        picAsy.image = nil;
-        picAsy.tag = i+1;
+        picAsy.tag = i+20;
         [picScrollView addSubview:picAsy];
         
         UIButton *deleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -231,7 +204,6 @@
     chengsePV.delegate = self;
     chengsePV.dataSource = self;
     chengsePV.showsSelectionIndicator = YES;
-    
     
     cityPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, KDeviceHeight-20-216, kDeviceWidth, 216)];
     cityPicker.dataSource = self;
@@ -407,7 +379,6 @@
 
 #pragma mark - 接口部分
 -(void)requestWithDetailGoods{
-    [SVProgressHUD showWithStatus:@"加载中.."];
     NSURL *newUrl = [NSURL URLWithString:THEURL(@"/phone/default/Viewgd.html")];
     self.detailGoodsRequest = [ASIFormDataRequest requestWithURL:newUrl];
     [detailGoodsRequest setDelegate:self];
@@ -417,30 +388,105 @@
     [detailGoodsRequest startAsynchronous];
 }
 
-//-(void)finishTheDetailGoods:(ASIHTTPRequest *)request{ //请求成功后的方法
-//    NSData *data = request.responseData;
-//    NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//    NSLog(@"str    is   %@",str);
-//    NSDictionary *goodsDic = [str JSONValue];
-//    [str release];
-//    NSLog(@"goodsDic   is   %@",goodsDic);
-//    self.dataDic = [goodsDic objectForKey:@"data"];
-//    
-//    NSArray *imgArray = [dataDic objectForKey:@"gdimg"];
-//    
-//    for (int i = 0; i<[imgArray count]; i++) {
-//        NSDictionary *imgDic = [imgArray objectAtIndex:i];
-//        NSString *imgStr = [imgDic objectForKey:@"bigimg"];
-//        AsyncImageView *picBtn = (AsyncImageView *)[picScrollView viewWithTag:i+1];
-//        picBtn.urlString = THEURL(imgStr);
-//        
-//        UIButton *deleBtn = (UIButton *)[picBtn viewWithTag:10];
-//        deleBtn.hidden = NO;
-//    }
-//    
-//    
-//    
-//}
+-(void)finishTheDetailGoods:(ASIHTTPRequest *)request{ //请求成功后的方法
+    NSData *data = request.responseData;
+    NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"str    is   %@",str);
+    NSDictionary *goodsDic = [str JSONValue];
+    [str release];
+    NSLog(@"goodsDic   is   %@",goodsDic);
+    self.dataDic = [goodsDic objectForKey:@"data"];
+    
+    NSArray *imgArray = [dataDic objectForKey:@"gdimg"];
+    
+    for (int i = 0; i<[imgArray count]; i++) {
+        NSDictionary *imgDic = [imgArray objectAtIndex:i];
+        NSString *imgStr = [imgDic objectForKey:@"bigimg"];
+        AsyncImageView *picBtn = (AsyncImageView *)[picScrollView viewWithTag:i+20];
+        picBtn.urlString = THEURL(imgStr);
+        
+        UIButton *deleBtn = (UIButton *)[picBtn viewWithTag:10];
+        deleBtn.hidden = NO;
+    }
+    NSString *goodsName = [dataDic objectForKey:@"goods_name"];
+    biaotiTV.text = goodsName;
+    
+    NSString *descStr = [dataDic objectForKey:@"goods_desc"];
+    miaoshuTV.text = descStr;
+    
+    NSString *fenleiStr = [dataDic objectForKey:@"catname"];
+    fenleiTF.text = fenleiStr;
+    NSString *fenleiID = [dataDic objectForKey:@"cat_id"];
+    self.theFenleiDic = [NSDictionary dictionaryWithObject:fenleiStr forKey:fenleiID]; //组成分类ID和名字的字典 供发布的时候使用
+    
+    NSString *addressStr = SHENG_SHI_XIAN([dataDic objectForKey:@"sheng"], [dataDic objectForKey:@"shi"], [dataDic objectForKey:@"xian"]);
+    weizhiTF.text = addressStr;
+    
+    NSString *isfree = [dataDic objectForKey:@"free_delivery"];
+    if ([isfree isEqualToString:@"0"]) {
+        baoyouSeg.selectedSegmentIndex = 1;
+    }
+    else{
+        baoyouSeg.selectedSegmentIndex = 0;
+    }
+    
+    NSString *townsmanStr = [dataDic objectForKey:@"freight_townsman"];
+    tongchengTF.text = townsmanStr;
+    
+    NSString *allopatryStr = [dataDic objectForKey:@"freight_allopatry"];
+    yidiTF.text = allopatryStr;
+    
+    NSString *yuanjiaStr = [dataDic objectForKey:@"market_price"];
+    yuanjiaTF.text = yuanjiaStr;
+    
+    NSString *isNew = [dataDic objectForKey:@"is_new"];
+    NSString *chengseStr = nil;
+    if ([isNew isEqualToString:@"1"]) {
+        chengseStr = @"二手";
+    }
+    else{
+        chengseStr = @"全新";
+    }
+    chengseTF.text = chengseStr;
+
+    NSString *sell_type = [dataDic objectForKey:@"sell_type"];
+    NSString *gold = [dataDic objectForKey:@"gold"];
+    NSString *silver = [dataDic objectForKey:@"silver"];
+    NSString *memoStr = [dataDic objectForKey:@"memo"];
+
+    if ([sell_type isEqualToString:@"1"]) {
+        sellTypeSeg.selectedSegmentIndex = 1;
+        wuwuTF.text = memoStr;
+        
+        NSDictionary *myAddressDic = [dataDic objectForKey:@"myaddress"];
+        NSString *realNameStr = [myAddressDic objectForKey:@"realname"];
+        NSString *telStr = [myAddressDic objectForKey:@"tel"];
+        NSString *detail_infoStr = [myAddressDic objectForKey:@"detail_info"];
+        NSString *postcodeStr = [myAddressDic objectForKey:@"postcode"];
+        shouTF.text = [NSString stringWithFormat:@"%@,%@,%@,%@",realNameStr,telStr,detail_infoStr,postcodeStr];
+        self.addrID = [myAddressDic objectForKey:@"mid"];
+    }
+    else if ([sell_type isEqualToString:@"2"]) {
+        sellTypeSeg.selectedSegmentIndex = 0;
+        RMBTF.text = gold;
+        huanbiTF.text = silver;
+    }
+    else if ([sell_type isEqualToString:@"3"])
+    {
+        sellTypeSeg.selectedSegmentIndex = 2;
+        RMBTF.text = gold;
+        huanbiTF.text = silver;
+        wuwuTF.text = memoStr;
+        
+        NSDictionary *myAddressDic = [dataDic objectForKey:@"myaddress"];
+        NSString *realNameStr = [myAddressDic objectForKey:@"realname"];
+        NSString *telStr = [myAddressDic objectForKey:@"tel"];
+        NSString *detail_infoStr = [myAddressDic objectForKey:@"detail_info"];
+        NSString *postcodeStr = [myAddressDic objectForKey:@"postcode"];
+        shouTF.text = [NSString stringWithFormat:@"%@,%@,%@,%@",realNameStr,telStr,detail_infoStr,postcodeStr];
+        self.addrID = [myAddressDic objectForKey:@"mid"];
+    }
+}
 
 #pragma mark - 请求失败代理
 -(void)loginFailed:(ASIHTTPRequest *)formRequest{
@@ -451,18 +497,9 @@
     [alert release];
 }
 
-//-(void)addNewImage:(UIImage *)image{
-//    UIButton *picBtn = (UIButton *)[picScrollView viewWithTag:1];
-//    if (!picBtn.currentImage) {
-//        [picBtn setImage:image forState:UIControlStateNormal];
-//        UIButton *deleBtn = (UIButton *)[picBtn viewWithTag:10];
-//        deleBtn.hidden = NO;
-//    }
-//}
-
 -(void)toAddNewImage:(AsyncImageView *)sender{
     if (!sender.image) { //当button没有设置图片时才触发方法
-        sender.image = nil;
+//        sender.image = nil;
         UIActionSheet *action = [[UIActionSheet alloc]initWithTitle:@"请选择照片获取方式" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"相机" otherButtonTitles:@"图片库", nil];
         action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;//样式黑色半透明
         [action showInView:self.view];
@@ -493,7 +530,7 @@
             [alert release];
         }
     }
-    if(buttonIndex == 1)
+    else if(buttonIndex == 1)
     {
         imagePicker = [[UIImagePickerController alloc] init];//图像选取器
         imagePicker.delegate = self;
@@ -516,7 +553,7 @@
         UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
         UIImage *myImage = [self yasuoCameraImage:image];
         for (int i = 0; i<5; ++i) {
-            AsyncImageView *picAsy = (AsyncImageView *)[picScrollView viewWithTag:i+1];
+            AsyncImageView *picAsy = (AsyncImageView *)[picScrollView viewWithTag:i+20];
             if (!picAsy.image) {
                 NSLog(@"i  is  %d",i);
                 picAsy.image = myImage;
@@ -531,12 +568,10 @@
         UIImage *image = [info objectForKey:@"UIImagePickerControllerEditedImage"];
         UIImage *myImage = [self yasuoCameraImage:image];
         for (int i = 0; i<5; ++i) {
-            AsyncImageView *picAsy = (AsyncImageView *)[picScrollView viewWithTag:i+1];
-            if (!picAsy.image || i == 1) {
+            AsyncImageView *picAsy = (AsyncImageView *)[picScrollView viewWithTag:i+20];
+            if (!picAsy.image) {
                 NSLog(@"i  is  %d",i);
-//                    [picBtn setImage:myImage forState:UIControlStateNormal];
-                picAsy.image = nil;
-                [picAsy setImage:myImage];
+                picAsy.image = myImage;
                 UIButton *deleBtn = (UIButton *)[picAsy viewWithTag:10];
                 deleBtn.hidden = NO;
                 break;//跳出整个循环
@@ -949,13 +984,13 @@
     
     NSString *sellType = nil;
     if (sellTypeSeg.selectedSegmentIndex == 0) {
-        sellType = @"1";
+        sellType = @"1"; //物物
     }
     else if (sellTypeSeg.selectedSegmentIndex == 1){
-        sellType = @"2";
+        sellType = @"2"; //金银币
     }
     else{
-        sellType = @"3";
+        sellType = @"3"; //均可
     }
     
     NSString *goidStr = RMBTF.text;
@@ -986,43 +1021,45 @@
     NSString *dateStr = [NSString stringWithFormat:@"%@",date];
     
     NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
+    NSString *uidStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
 
     NSURL *newUrl = [NSURL URLWithString:THEURL(UPGOODS)];
     ASIFormDataRequest *form_request = [ASIFormDataRequest requestWithURL:newUrl];
     [form_request setDelegate:self];
     [form_request setPostValue:token forKey:@"token"];
+    [form_request setPostValue:uidStr forKey:@"uid"];
 
     
-    UIButton *picBtn1 = (UIButton *)[picScrollView viewWithTag:1];
-    UIButton *picBtn2 = (UIButton *)[picScrollView viewWithTag:2];
-    UIButton *picBtn3 = (UIButton *)[picScrollView viewWithTag:3];
-    UIButton *picBtn4 = (UIButton *)[picScrollView viewWithTag:4];
-    UIButton *picBtn5 = (UIButton *)[picScrollView viewWithTag:5];
+    AsyncImageView *picAsy1 = (AsyncImageView *)[picScrollView viewWithTag:20];
+    AsyncImageView *picAsy2 = (AsyncImageView *)[picScrollView viewWithTag:21];
+    AsyncImageView *picAsy3 = (AsyncImageView *)[picScrollView viewWithTag:22];
+    AsyncImageView *picAsy4 = (AsyncImageView *)[picScrollView viewWithTag:23];
+    AsyncImageView *picAsy5 = (AsyncImageView *)[picScrollView viewWithTag:24];
     
     int imgCount = 0;
-    if (picBtn1.currentImage) {
+    if (picAsy1.image) {
         imgCount++;
-        NSData *imgData1 = UIImageJPEGRepresentation(picBtn1.currentImage, 1.0);
+        NSData *imgData1 = UIImageJPEGRepresentation(picAsy1.image, 1.0);
         [form_request addData:imgData1 withFileName:@"gdimg1.jpg" andContentType:@"image/jpeg" forKey:@"gdimg1"];
     }
-    if (picBtn2.currentImage) {
+    if (picAsy2.image) {
         imgCount++;
-        NSData *imgData2 = UIImageJPEGRepresentation(picBtn2.currentImage, 1.0);
+        NSData *imgData2 = UIImageJPEGRepresentation(picAsy2.image, 1.0);
         [form_request addData:imgData2 withFileName:@"gdimg2.jpg" andContentType:@"image/jpeg" forKey:@"gdimg2"];
     }
-    if (picBtn3.currentImage) {
+    if (picAsy3.image) {
         imgCount++;
-        NSData *imgData3 = UIImageJPEGRepresentation(picBtn3.currentImage, 1.0);
+        NSData *imgData3 = UIImageJPEGRepresentation(picAsy3.image, 1.0);
         [form_request addData:imgData3 withFileName:@"gdimg3.jpg" andContentType:@"image/jpeg" forKey:@"gdimg3"];
     }
-    if (picBtn4.currentImage) {
+    if (picAsy4.image) {
         imgCount++;
-        NSData *imgData4 = UIImageJPEGRepresentation(picBtn4.currentImage, 1.0);
+        NSData *imgData4 = UIImageJPEGRepresentation(picAsy4.image, 1.0);
         [form_request addData:imgData4 withFileName:@"gdimg4.jpg" andContentType:@"image/jpeg" forKey:@"gdimg4"];
     }
-    if (picBtn5.currentImage) {
+    if (picAsy5.image) {
         imgCount++;
-        NSData *imgData5 = UIImageJPEGRepresentation(picBtn5.currentImage, 1.0);
+        NSData *imgData5 = UIImageJPEGRepresentation(picAsy5.image, 1.0);
         [form_request addData:imgData5 withFileName:@"gdimg5.jpg" andContentType:@"image/jpeg" forKey:@"gdimg5"];
     }
     
@@ -1049,6 +1086,7 @@
     [form_request setPostValue:addrID forKey:@"shipaddress"];
     if (isEdit) {
         [form_request setPostValue:goodsID forKey:@"goodsid"];
+        [form_request setPostValue:@"1" forKey:@"type"];
     }
     [form_request setDidFinishSelector:@selector(finishFabu:)];
     [form_request setDidFailSelector:@selector(loginFailed:)];
@@ -1067,7 +1105,7 @@
     
     NSString *info = [dic objectForKey:@"info"];
     NSLog(@"%@",info);
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"恭喜" message:info delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:info delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];
     [alert release];
 }
