@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "PullingRefreshTableView.h"
 #import "ASIFormDataRequest.h"
+#import "KYShareViewController.h"
 
-@interface GoodsManage : UIViewController<UITableViewDelegate,UITableViewDataSource,PullingRefreshTableViewDelegate,UIScrollViewDelegate>
+@interface GoodsManage : UIViewController<UITableViewDelegate,UITableViewDataSource,PullingRefreshTableViewDelegate,UIScrollViewDelegate,UIActionSheetDelegate>
 {
     int page;
     int type; //商品列表类型
@@ -22,6 +23,9 @@
 @property(retain,nonatomic)NSMutableArray *goodsArray;
 @property(retain,nonatomic)ASIFormDataRequest *goods_request;
 @property(retain,nonatomic)UIButton *deleBtn;
+
+@property(retain,nonatomic)NSIndexPath *theIndexPath;
+@property (nonatomic, retain)KYShareViewController *shareVC;
 
 
 @end

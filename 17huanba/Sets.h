@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CheckUpdate.h"
 
-@interface Sets : UIViewController<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>
+@interface Sets : UIViewController<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate,CheckUpdateDelegate>
 
 @property(retain,nonatomic)UITableView *setTableView;
 

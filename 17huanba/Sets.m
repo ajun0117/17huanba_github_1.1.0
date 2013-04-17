@@ -73,7 +73,7 @@
 
 #pragma mark = UITableViewDelegate methods
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
+    return 4;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -86,14 +86,10 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (section == 0) {
-        return 1;
+   if (section == 1){
+        return 4;
     }
-    else if (section == 1){
-        return 3;
-    }
-    else
-        return 1;
+    return 1;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -114,13 +110,21 @@
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         else if (indexPath.row == 1){
-            cell.textLabel.text = @"意见反馈！";
+            cell.textLabel.text = @"去APP Store给我们评分吧！";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         else if (indexPath.row == 2){
-            cell.textLabel.text = @"关于17换吧V1.0";
+            cell.textLabel.text = @"意见反馈！";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
+        else if (indexPath.row == 3){
+            cell.textLabel.text = @"关于17换吧V1.1.0";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+    }
+    else if (indexPath.section == 2){
+        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.textLabel.text = @"检查更新";
     }
     else {
         BOOL isLogin = [[[NSUserDefaults standardUserDefaults] objectForKey:@"logined"] boolValue];
@@ -154,21 +158,29 @@
         [alert release];
     }
     else if (indexPath.section == 1) {
-        if (indexPath.row == 1) {
-            FankuiYijian *yijianVC = [[FankuiYijian alloc]init];
-            [self.navigationController pushViewController:yijianVC animated:YES];
-            [yijianVC release];
-        }
-        else if(indexPath.row == 2){
-            BanbenxinxiVC *banbenVC = [[BanbenxinxiVC alloc]init];
-            [self.navigationController pushViewController:banbenVC animated:YES];
-            [banbenVC release];
-        }
-        else{
+        if (indexPath.row == 0) {
             HelpVC *helpVC = [[HelpVC alloc]init];
             [self presentModalViewController:helpVC animated:YES];
             [helpVC release];
         }
+        else if (indexPath.row == 1) {
+            NSURL *url=[NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/us/app/yi-qi-huan-ba/id629883803?ls=1&mt=8"]];
+            [[UIApplication sharedApplication] openURL:url];
+        }
+        else if (indexPath.row == 2) {
+            FankuiYijian *yijianVC = [[FankuiYijian alloc]init];
+            [self.navigationController pushViewController:yijianVC animated:YES];
+            [yijianVC release];
+        }
+        else if(indexPath.row == 3){
+            BanbenxinxiVC *banbenVC = [[BanbenxinxiVC alloc]init];
+            [self.navigationController pushViewController:banbenVC animated:YES];
+            [banbenVC release];
+        }
+    }
+    else if (indexPath.section == 2){
+        [CheckUpdate shareInstance].delegate = self;
+        [[CheckUpdate shareInstance] checkUpdate];
     }
     else{
         //注销登陆
@@ -201,6 +213,11 @@
 }
 
 
+-(void)currentVersionHasNewest{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"当前版本已经是最新的！" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
+}
 
 -(void)fanhui{
     [self.navigationController popViewControllerAnimated:YES];

@@ -21,7 +21,7 @@
 @implementation GoodsManage
 
 @synthesize changeIV,kindsBtn,goodsTableView,goodsArray,goods_request;
-@synthesize refreshing,deleBtn;
+@synthesize refreshing,deleBtn,shareVC,theIndexPath;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -44,7 +44,13 @@
     [goodsTableView release];
     [goodsArray release];
     [deleBtn release];
+    [shareVC release];
+    [theIndexPath release];
     [super dealloc];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)viewDidLoad
@@ -475,12 +481,64 @@
 -(void)shareGoods:(UIButton *)sender{
     NSLog(@"%s",__FUNCTION__);
     UITableViewCell *cell = (UITableViewCell *)sender.superview;
-    NSIndexPath *indexPath = [goodsTableView indexPathForCell:cell];
-    NSDictionary *goodDic = [goodsArray objectAtIndex:indexPath.row];
+    self.theIndexPath = [goodsTableView indexPathForCell:cell];
+    NSDictionary *goodDic = [goodsArray objectAtIndex:theIndexPath.row];
     NSString *gidStr = [goodDic objectForKey:@"goodsid"];
-    [self caozuoWithType:@"4" andGoodsID:gidStr];
+    NSString *goodsName = [goodDic objectForKey:@"goodsname"];
+    NSString *price = nil;
+    NSString *sell_type = [goodDic objectForKey:@"selltype"];
+    NSString *gold = [goodDic objectForKey:@"gold"];
+    NSString *silver = [goodDic objectForKey:@"silver"];
+    NSString *memoStr = [goodDic objectForKey:@"memo"];
+
+    if ([sell_type isEqualToString:@"1"]) {
+        price = [NSString stringWithFormat:@"接受%@交换",memoStr];
+    }
+    else if ([sell_type isEqualToString:@"2"]) {
+        price = [NSString stringWithFormat:@"￥%@+%@换币",gold,silver];
+        
+    }
+    else if ([sell_type isEqualToString:@"3"])
+    {
+        price = [NSString stringWithFormat:@"￥%@+%@换币或%@",gold,silver,memoStr];
+    }
+    
+    NSString *urlStr = [NSString stringWithFormat:@"http://www.17huanba.com/view/%@.html",gidStr];
+    
+    
+    self.shareVC = [[KYShareViewController alloc] init];
+    shareVC.shareText = [NSString stringWithFormat:@"偶有闲置%@一枚，以%@兜售，求置换哦，不知道亲们是否喜欢？%@",goodsName,price,urlStr];
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"分享到" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"新浪微博", @"腾讯微博", @"人人网",@"我的动态",nil];
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+    [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+    [actionSheet release];
+    
 }
 
+#pragma mark - uiactionsheet delegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        shareVC.shareType = SinaWeibo;
+        shareVC.title = @"分享到新浪微博";
+        [self.navigationController pushViewController:shareVC animated:YES];
+    }
+    else if (buttonIndex == 1) {
+        shareVC.shareType = Tencent;
+        shareVC.title = @"分享到腾讯微博";
+        [self.navigationController pushViewController:shareVC animated:YES];
+    }
+    else if (buttonIndex == 2) {
+        shareVC.shareType = RenrenShare;
+        shareVC.title = @"分享到人人网";
+        [self.navigationController pushViewController:shareVC animated:YES];
+    }
+    else if (buttonIndex == 3) {
+        NSDictionary *goodDic = [goodsArray objectAtIndex:theIndexPath.row];
+        NSString *gidStr = [goodDic objectForKey:@"goodsid"];
+        [self caozuoWithType:@"4" andGoodsID:gidStr];
+    }
+}
 
 #pragma mark - 对商品操作的请求
 -(void)caozuoWithType:(NSString *)caozuoType andGoodsID:(NSString *)gid{
