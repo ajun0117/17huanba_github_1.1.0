@@ -601,6 +601,13 @@
 		87F21D4516E0AF1B00BAFA5D /* Save_CartCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F21D4416E0AF1B00BAFA5D /* Save_CartCell.m */; };
 		87F5973216EF15EF0071F8D8 /* FriendTimeLineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F5973116EF15EF0071F8D8 /* FriendTimeLineCell.m */; };
 		87FA3FD11706733300A03EB5 /* 意见输入框.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FA3FD01706733300A03EB5 /* 意见输入框.png */; };
+		87FE5F79171F8B0100E58D23 /* DingdanManage.m in Sources */ = {isa = PBXBuildFile; fileRef = 87FE5F78171F8B0100E58D23 /* DingdanManage.m */; };
+		87FE5F7C171F8C2300E58D23 /* DingdanCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87FE5F7B171F8C2300E58D23 /* DingdanCell.m */; };
+		87FE5F7F171FE3B900E58D23 /* drop_menu_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FE5F7D171FE3B900E58D23 /* drop_menu_2.png */; };
+		87FE5F80171FE3B900E58D23 /* drop_menu_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FE5F7E171FE3B900E58D23 /* drop_menu_2@2x.png */; };
+		87FE5F85171FF34900E58D23 /* ServiceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 87FE5F84171FF34900E58D23 /* ServiceVC.m */; };
+		87FE5F88171FF48D00E58D23 /* 服务条款.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FE5F86171FF48D00E58D23 /* 服务条款.png */; };
+		87FE5F89171FF48D00E58D23 /* 服务条款@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FE5F87171FF48D00E58D23 /* 服务条款@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1358,6 +1365,16 @@
 		87F5973016EF15EF0071F8D8 /* FriendTimeLineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendTimeLineCell.h; sourceTree = "<group>"; };
 		87F5973116EF15EF0071F8D8 /* FriendTimeLineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendTimeLineCell.m; sourceTree = "<group>"; };
 		87FA3FD01706733300A03EB5 /* 意见输入框.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "意见输入框.png"; sourceTree = "<group>"; };
+		87FE5F77171F8B0100E58D23 /* DingdanManage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DingdanManage.h; sourceTree = "<group>"; };
+		87FE5F78171F8B0100E58D23 /* DingdanManage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DingdanManage.m; sourceTree = "<group>"; };
+		87FE5F7A171F8C2300E58D23 /* DingdanCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DingdanCell.h; sourceTree = "<group>"; };
+		87FE5F7B171F8C2300E58D23 /* DingdanCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DingdanCell.m; sourceTree = "<group>"; };
+		87FE5F7D171FE3B900E58D23 /* drop_menu_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drop_menu_2.png; sourceTree = "<group>"; };
+		87FE5F7E171FE3B900E58D23 /* drop_menu_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "drop_menu_2@2x.png"; sourceTree = "<group>"; };
+		87FE5F83171FF34900E58D23 /* ServiceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceVC.h; path = "登录注册/ServiceVC.h"; sourceTree = "<group>"; };
+		87FE5F84171FF34900E58D23 /* ServiceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServiceVC.m; path = "登录注册/ServiceVC.m"; sourceTree = "<group>"; };
+		87FE5F86171FF48D00E58D23 /* 服务条款.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "服务条款.png"; sourceTree = "<group>"; };
+		87FE5F87171FF48D00E58D23 /* 服务条款@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "服务条款@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1422,6 +1439,10 @@
 				870058B716DF2D3A006ADA03 /* Denglu.xib */,
 				8700590216DF5816006ADA03 /* Zhuce.h */,
 				8700590316DF5816006ADA03 /* Zhuce.m */,
+				87FE5F83171FF34900E58D23 /* ServiceVC.h */,
+				87FE5F84171FF34900E58D23 /* ServiceVC.m */,
+				87FE5F86171FF48D00E58D23 /* 服务条款.png */,
+				87FE5F87171FF48D00E58D23 /* 服务条款@2x.png */,
 			);
 			name = "注册登陆";
 			sourceTree = "<group>";
@@ -1958,6 +1979,7 @@
 		87303B6016B1263C00211F9D /* 个人主页 */ = {
 			isa = PBXGroup;
 			children = (
+				87FE5F76171F8AB500E58D23 /* 订单管理 */,
 				871394BC1718F7B4007A7EAA /* 商品管理 */,
 				8720F64516E1D78900DB7369 /* 购物车 */,
 				872E704716DB1709009F331B /* 身份认证 */,
@@ -2902,6 +2924,19 @@
 			name = "意见反馈";
 			sourceTree = "<group>";
 		};
+		87FE5F76171F8AB500E58D23 /* 订单管理 */ = {
+			isa = PBXGroup;
+			children = (
+				87FE5F77171F8B0100E58D23 /* DingdanManage.h */,
+				87FE5F78171F8B0100E58D23 /* DingdanManage.m */,
+				87FE5F7A171F8C2300E58D23 /* DingdanCell.h */,
+				87FE5F7B171F8C2300E58D23 /* DingdanCell.m */,
+				87FE5F7D171FE3B900E58D23 /* drop_menu_2.png */,
+				87FE5F7E171FE3B900E58D23 /* drop_menu_2@2x.png */,
+			);
+			name = "订单管理";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3391,6 +3426,10 @@
 				87ED56C2171E8146005A5891 /* small-button-normal.png in Resources */,
 				87ED56C3171E8146005A5891 /* small-button-normal@2x.png in Resources */,
 				87ED56DD171E8146005A5891 /* ROCheckOrderCell.xib in Resources */,
+				87FE5F7F171FE3B900E58D23 /* drop_menu_2.png in Resources */,
+				87FE5F80171FE3B900E58D23 /* drop_menu_2@2x.png in Resources */,
+				87FE5F88171FF48D00E58D23 /* 服务条款.png in Resources */,
+				87FE5F89171FF48D00E58D23 /* 服务条款@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3547,6 +3586,9 @@
 				87ED56F6171E815A005A5891 /* OpenSdkOauth.m in Sources */,
 				87ED56F7171E815A005A5891 /* OpenSdkRequest.m in Sources */,
 				87ED56F8171E815A005A5891 /* OpenSdkResponse.m in Sources */,
+				87FE5F79171F8B0100E58D23 /* DingdanManage.m in Sources */,
+				87FE5F7C171F8C2300E58D23 /* DingdanCell.m in Sources */,
+				87FE5F85171FF34900E58D23 /* ServiceVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -22,7 +22,7 @@
         self.gdimg = [[AsyncImageView alloc]initWithFrame:CGRectMake(5, 7, 80, 80)];
         gdimg.image = DEFAULTIMG;
         gdimg.clipsToBounds = YES;
-        gdimg.layer.cornerRadius = 10; //头像显示圆形
+        gdimg.layer.cornerRadius = 10; //头像显示圆角
         [self addSubview:gdimg];
         [gdimg release];
         

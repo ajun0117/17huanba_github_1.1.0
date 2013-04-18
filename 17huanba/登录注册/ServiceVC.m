@@ -1,14 +1,18 @@
 //
-//  BanbenxinxiVC.m
-//  找地儿
+//  ServiceVC.m
+//  一起换吧
 //
-//  Created by Ibokan on 12-11-4.
-//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//  Created by Chen Hao on 13-4-18.
+//  Copyright (c) 2013年 Chen Hao. All rights reserved.
 //
 
-#import "BanbenxinxiVC.h"
+#import "ServiceVC.h"
 
-@implementation BanbenxinxiVC
+@interface ServiceVC ()
+
+@end
+
+@implementation ServiceVC
 @synthesize myScrollView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -20,25 +24,15 @@
     return self;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-
 -(void)dealloc{
     [myScrollView release];
     [super dealloc];
 }
 
-#pragma mark - View lifecycle
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+	// Do any additional setup after loading the view.
     UIImageView *navIV=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"top_nav.png"]];
     navIV.userInteractionEnabled=YES;
     navIV.frame = CGRectMake(0, 0, kDeviceWidth, 44);
@@ -64,12 +58,11 @@
     [self.view addSubview:myScrollView];
     [myScrollView release];
     
-    UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kDeviceWidth, 600)];
-    imageView.image=[UIImage imageNamed:@"ios about-1.1.0.png"];
+    UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kDeviceWidth, 3335)];
+    imageView.image=[UIImage imageNamed:@"服务条款.png"];
     [myScrollView addSubview:imageView];
     [imageView release];
     self.myScrollView.contentSize=imageView.frame.size;
-    // Do any additional setup after loading the view from its nib.
 }
 
 -(void)fanhui
@@ -77,18 +70,10 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)viewDidUnload
+- (void)didReceiveMemoryWarning
 {
-    [self setMyScrollView:nil];
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 @end

@@ -28,6 +28,7 @@
 #import "Address.h"
 #import "SVProgressHUD.h"
 #import "GoodsManage.h"
+#import "DingdanManage.h"
 
 @interface Zhuye ()
 
@@ -356,7 +357,7 @@
 
 #pragma mark - UITableViewDelegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
+    return 4;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -364,7 +365,10 @@
         return 3;
     }
     else if(section == 1){
-        return 5;
+        return 4;
+    }
+    else if (section == 2){
+        return 2;
     }
     else{
         return 3;
@@ -438,9 +442,15 @@
             cell.imageView.image = [UIImage imageNamed:@"page_list_11_0.png"];
             cell.textLabel.text = @"我的购物车";
         }
-        else if(indexPath.row == 4) {
+           }
+    else if (indexPath.section == 2){
+        if(indexPath.row == 0) {
             cell.imageView.image = [UIImage imageNamed:@"page_list_9_0.png"];
             cell.textLabel.text = @"商品管理";
+        }
+        else if(indexPath.row == 1) {
+            cell.imageView.image = [UIImage imageNamed:@"page_list_9_0.png"];
+            cell.textLabel.text = @"订单管理";
         }
     }
     else{
@@ -554,14 +564,24 @@
                 cartdVC.navigationController.navigationBarHidden = YES;
                 [cartdVC release];
             }
-            else if(indexPath.row == 4) {
+    }
+        else if (indexPath.section == 2){
+            if (indexPath.row == 0) {
                 GoodsManage *goodsVC = [[GoodsManage alloc]init];
                 goodsVC.hidesBottomBarWhenPushed = YES;
                 [self.navigationController pushViewController:goodsVC animated:YES];
                 goodsVC.navigationController.navigationBarHidden = YES;
                 [goodsVC release];
             }
-    }
+            else if (indexPath.row == 1){
+                DingdanManage *dingdanManageVC = [[DingdanManage alloc]init];
+                dingdanManageVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:dingdanManageVC animated:YES];
+                dingdanManageVC.navigationController.navigationBarHidden = YES;
+                [dingdanManageVC release];
+            }
+        }
+        
         else{
             if (indexPath.row == 0) {
                 EditGerenXinxi *editGerenXinxiVC = [[EditGerenXinxi alloc]init];

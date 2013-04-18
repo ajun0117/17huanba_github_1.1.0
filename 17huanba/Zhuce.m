@@ -9,6 +9,7 @@
 #import "Zhuce.h"
 #import "JSON.h"
 //#import "SHA1.h"
+#import "ServiceVC.h"
 
 @interface Zhuce ()
 
@@ -199,16 +200,25 @@
     [tongyiBtn addTarget:self action:@selector(tongyiBtnSelect:) forControlEvents:UIControlEventTouchUpInside];
     [whiteIV addSubview:tongyiBtn];
     
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(toServiceVC)];
+    
     UILabel *rememberL = [[UILabel alloc]initWithFrame:CGRectMake(65, 205, 200, 13)];
     rememberL.font = [UIFont systemFontOfSize:13];
     rememberL.backgroundColor = [UIColor clearColor];
     rememberL.text = @"已经阅读并同意《一起换吧条款》";
+    rememberL.userInteractionEnabled = YES;
+    [rememberL addGestureRecognizer:tap];
+    [tap release];
     [whiteIV addSubview:rememberL];
     [rememberL release];
     
-    UIScrollView *scrollV = [[UIScrollView alloc]initWithFrame:CGRectMake(50, 220, 210, 80)];
-    [bgIV addSubview:scrollV];
-    [scrollV release];
+}
+
+-(void)toServiceVC{
+    NSLog(@"%s",__FUNCTION__);
+    ServiceVC *serviceVC = [[ServiceVC alloc]init];
+    [self.navigationController pushViewController:serviceVC animated:YES];
+    [serviceVC release];
 }
 
 -(void)tongyiBtnSelect:(UIButton *)sender{

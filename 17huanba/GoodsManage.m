@@ -490,21 +490,17 @@
     NSString *gold = [goodDic objectForKey:@"gold"];
     NSString *silver = [goodDic objectForKey:@"silver"];
     NSString *memoStr = [goodDic objectForKey:@"memo"];
-
     if ([sell_type isEqualToString:@"1"]) {
         price = [NSString stringWithFormat:@"接受%@交换",memoStr];
     }
     else if ([sell_type isEqualToString:@"2"]) {
         price = [NSString stringWithFormat:@"￥%@+%@换币",gold,silver];
-        
     }
     else if ([sell_type isEqualToString:@"3"])
     {
         price = [NSString stringWithFormat:@"￥%@+%@换币或%@",gold,silver,memoStr];
     }
-    
     NSString *urlStr = [NSString stringWithFormat:@"http://www.17huanba.com/view/%@.html",gidStr];
-    
     
     self.shareVC = [[KYShareViewController alloc] init];
     shareVC.shareText = [NSString stringWithFormat:@"偶有闲置%@一枚，以%@兜售，求置换哦，不知道亲们是否喜欢？%@",goodsName,price,urlStr];

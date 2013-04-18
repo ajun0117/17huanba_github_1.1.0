@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PullingRefreshTableView.h"
-#import "ASIFormDataRequest.h"
+#import "ASIFormDataRequest.h" 
 #import "KYShareViewController.h"
 
 @interface GoodsManage : UIViewController<UITableViewDelegate,UITableViewDataSource,PullingRefreshTableViewDelegate,UIScrollViewDelegate,UIActionSheetDelegate>
