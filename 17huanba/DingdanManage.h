@@ -17,7 +17,6 @@
 @property(retain,nonatomic)UIImageView *changeIV;
 @property(retain,nonatomic)UIButton *kindsBtn;
 @property(retain,nonatomic)UITableView *dingdanTableView;
-@property(assign,nonatomic)BOOL refreshing;
 @property(retain,nonatomic)NSMutableArray *dingdanArray;
 @property(retain,nonatomic)ASIFormDataRequest *dingdan_request;
 

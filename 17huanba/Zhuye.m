@@ -449,7 +449,7 @@
             cell.textLabel.text = @"商品管理";
         }
         else if(indexPath.row == 1) {
-            cell.imageView.image = [UIImage imageNamed:@"page_list_9_0.png"];
+            cell.imageView.image = [UIImage imageNamed:@"page_list_10_0.png"];
             cell.textLabel.text = @"订单管理";
         }
     }

@@ -7,7 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ASIFormDataRequest.h"
 
-@interface DingdanXiangqing : UIViewController
+@interface DingdanXiangqing : UIViewController<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
+{
+    int type; //身份类型 1是我的商品 2是对方商品
+}
+@property(retain,nonatomic)UIImageView *changeIV;
+@property(retain,nonatomic)UIButton *kindsBtn;
+@property(retain,nonatomic)UITableView *xiangqingTableView;
+@property(retain,nonatomic)NSDictionary *xiangqingDic;
+@property(retain,nonatomic)ASIFormDataRequest *dingdan_request;
+
+@property(retain,nonatomic)NSString *gdimgStr;
+@property(retain,nonatomic)NSString *gnameStr;
+@property(retain,nonatomic)NSString *oidStr;
+
 
 @end

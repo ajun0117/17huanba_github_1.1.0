@@ -11,8 +11,6 @@
 #import "sqlService.h"
 #import "FenleiSelect.h"
 #import "Address.h"
-//#import "SVSegmentedControl.h"
-#import "MCSegmentedControl.h"
 #import "ASIFormDataRequest.h"
 
 
@@ -56,8 +54,8 @@
 
 @property(nonatomic,retain)NSString *addrID;
 
-@property(nonatomic,retain)MCSegmentedControl *baoyouSeg;
-@property(nonatomic,retain)MCSegmentedControl *sellTypeSeg;
+@property(nonatomic,retain)UISegmentedControl *baoyouSeg;
+@property(nonatomic,retain)UISegmentedControl *sellTypeSeg;
 
 @property(nonatomic,assign)BOOL isEdit;
 @property(nonatomic,retain)NSString *goodsID;

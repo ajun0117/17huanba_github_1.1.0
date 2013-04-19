@@ -306,10 +306,6 @@
     fenleiTF.placeholder = @"点击选择分类";
     fenleiTF.delegate = self;
     fenleiTF.tag = 3;
-//    fenleiTF.inputAccessoryView = keyboardToolbar;
-//    fenleiTF.inputView = fenleiPV;
-//    [keyboardToolbar release];
-//    [fenleiPV release];
     
     self.chengseTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
     chengseTF.backgroundColor = [UIColor clearColor];
@@ -355,21 +351,28 @@
     shouTF.enabled = NO;
     
     
-    self.baoyouSeg = [[MCSegmentedControl alloc]initWithItems:[NSArray arrayWithObjects:@"是",@"否",nil]];
+//    self.baoyouSeg = [[MCSegmentedControl alloc]initWithItems:[NSArray arrayWithObjects:@"是",@"否",nil]];
+    self.baoyouSeg = [[UISegmentedControl alloc]initWithItems:[NSArray arrayWithObjects:@"是",@"否",nil]];
     [baoyouSeg addTarget:self action:@selector(baoyou:) forControlEvents:UIControlEventValueChanged];
     baoyouSeg.selectedSegmentIndex = 1; //默认不包邮
-    baoyouSeg.tintColor = [UIColor colorWithRed:.0 green:.3 blue:.0 alpha:1.0];
-    baoyouSeg.selectedItemColor = [UIColor whiteColor];
-    baoyouSeg.unselectedItemColor = [UIColor darkGrayColor];
+    
+    baoyouSeg.segmentedControlStyle=UISegmentedControlStyleBar;//此类型实现点击后图片大小完全填充按钮
+    [baoyouSeg setBackgroundImage:[UIImage imageNamed:@"detail_tab_gray.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [baoyouSeg setBackgroundImage:[UIImage imageNamed:@"detail_tab.png"] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],UITextAttributeTextColor,  [UIFont systemFontOfSize:17],UITextAttributeFont ,nil];
+    [baoyouSeg setTitleTextAttributes:dic forState:UIControlStateNormal];
     baoyouSeg.frame = CGRectMake(230, 0, 80, 25);
 
     
-    self.sellTypeSeg = [[MCSegmentedControl alloc]initWithItems:[NSArray arrayWithObjects:@"物物",@"金银币",@"均可",nil]];
+    self.sellTypeSeg = [[UISegmentedControl alloc]initWithItems:[NSArray arrayWithObjects:@"物物",@"金银币",@"均可",nil]];
     [sellTypeSeg addTarget:self action:@selector(jiaohuanfangshi:) forControlEvents:UIControlEventValueChanged];
     sellTypeSeg.frame = CGRectMake(140, 0, 170, 25);
-    sellTypeSeg.tintColor = [UIColor colorWithRed:.0 green:.3 blue:.0 alpha:1.0];
-    sellTypeSeg.selectedItemColor = [UIColor whiteColor];
-    sellTypeSeg.unselectedItemColor = [UIColor darkGrayColor];
+    
+    sellTypeSeg.segmentedControlStyle=UISegmentedControlStyleBar;//此类型实现点击后图片大小完全填充按钮
+    [sellTypeSeg setBackgroundImage:[UIImage imageNamed:@"detail_tab_gray.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [sellTypeSeg setBackgroundImage:[UIImage imageNamed:@"detail_tab.png"] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+    NSDictionary *dic2 = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],UITextAttributeTextColor,  [UIFont systemFontOfSize:17],UITextAttributeFont ,nil];
+    [sellTypeSeg setTitleTextAttributes:dic2 forState:UIControlStateNormal];
     sellTypeSeg.selectedSegmentIndex = 2; //默认均可
     
     if (isEdit) {
@@ -1240,7 +1243,7 @@
     NSLog(@"我是UIPickView！选中了第%d行",row);
 }
 
--(void)baoyou:(MCSegmentedControl *)seg{
+-(void)baoyou:(UISegmentedControl *)seg{
     NSLog(@"%s",__FUNCTION__);
     switch (seg.selectedSegmentIndex) {
         case 0:
@@ -1262,7 +1265,7 @@
     
 }
 
--(void)jiaohuanfangshi:(MCSegmentedControl *)seg{
+-(void)jiaohuanfangshi:(UISegmentedControl *)seg{
     NSLog(@"%s",__FUNCTION__);
     switch (seg.selectedSegmentIndex) {
         case 0:

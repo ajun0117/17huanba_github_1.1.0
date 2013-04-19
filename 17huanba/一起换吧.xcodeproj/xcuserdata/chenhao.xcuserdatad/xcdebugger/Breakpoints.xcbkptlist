@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Fabu.m"
-         timestampString = "387785797.553244"
+         timestampString = "388054690.392543"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "572"
-         endingLineNumber = "572"
+         startingLineNumber = "575"
+         endingLineNumber = "575"
          landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
          landmarkType = "5">
       </FileBreakpoint>

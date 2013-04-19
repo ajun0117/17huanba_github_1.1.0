@@ -147,8 +147,17 @@
     NSDictionary *goodsDic = [str JSONValue];
     [str release];
     NSLog(@"goodsDic   is   %@",goodsDic);
-    self.dataDic = [goodsDic objectForKey:@"data"];
-    [myTableView reloadData];
+    id theData = [goodsDic objectForKey:@"data"];
+    if ([theData isKindOfClass:[NSDictionary class]]) {
+        self.dataDic = [goodsDic objectForKey:@"data"];
+        [myTableView reloadData];
+    }
+    else{
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"对不起" message:@"商品不存在" delegate:self cancelButtonTitle:@"好" otherButtonTitles: nil];
+        [alert show];
+        [alert release];
+    }
+    
     [SVProgressHUD dismiss];
     
     [self userMessage];
@@ -513,8 +522,6 @@
             AsyncImageView *head = [[AsyncImageView alloc]initWithFrame:CGRectMake(10, 2, 40, 40)];
             head.image = DEFAULTIMG;
             [head addTarget:self action:@selector(toBigHead:) forControlEvents:UIControlEventTouchUpInside];
-//            head.layer.cornerRadius = 20;
-//            head.clipsToBounds = YES;
                 NSString *headStr = [[dataDic objectForKey:@"uinfo"] objectForKey:@"headimg"];
                 if (![headStr isEqualToString:@" "]) {
                     head.urlString = THEURL(headStr);
