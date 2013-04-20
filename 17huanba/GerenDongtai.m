@@ -187,7 +187,6 @@
 -(void)getThefriendTimeLine:(int)p andType:(NSString *)type { //获取登录用户好友的动态列表
     [SVProgressHUD showWithStatus:@"加载中.."];
     NSString *uid = [userDic objectForKey:@"user_id"];
-    NSLog(@"----%@",uid);
     NSURL *newUrl = [NSURL URLWithString:THEURL(@"/phone/default/Feed.html")];
     ASIFormDataRequest *form_request = [ASIFormDataRequest requestWithURL:newUrl];
     [form_request setDelegate:self];
@@ -203,10 +202,10 @@
 -(void)finishGetFriendsMessage:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"Gouwuche str    is   %@",str);
+//    NSLog(@"Gouwuche str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"dic is %@",dic);
+//    NSLog(@"dic is %@",dic);
     NSArray *dataArray = [dic objectForKey:@"data"];
     if ([dataArray count] == 0) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"抱歉" message:@"暂时还没有哦！" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
@@ -215,14 +214,14 @@
     }
     [dongtaiArray addObjectsFromArray:dataArray];
     [friendTableView reloadData];
-    NSLog(@"dongtaiArray----%@",dongtaiArray);
+//    NSLog(@"dongtaiArray----%@",dongtaiArray);
     [friendTableView tableViewDidFinishedLoading];
     [SVProgressHUD dismiss];
 }
 
 #pragma mark - 请求失败代理
 -(void)loginFailed:(ASIHTTPRequest *)formRequest{
-    NSLog(@"formRequest.error-------------%@",formRequest.error);
+//    NSLog(@"formRequest.error-------------%@",formRequest.error);
     NSString *errorStr = [NSString stringWithFormat:@"%@",formRequest.error];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];
@@ -281,7 +280,7 @@
             titleSize.height = cell.titleL.frame.size.height;
             
             NSString *imageStr = [contentDic objectForKey:@"gdimg"];
-            NSLog(@"gdimg-----%@",imageStr);
+//            NSLog(@"gdimg-----%@",imageStr);
             if (![imageStr isKindOfClass:[NSNull class]]) {
                 cell.gImage.frame = CGRectMake(50, 70, 80, 80);
                 cell.gImage.urlString = THEURL(imageStr);
@@ -337,18 +336,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-//-(void)toDingwei{
-//    NSLog(@"定位！");
-//}
-
-//-(void)toWrite{
-//    NSLog(@"写说说。。。");
-//    WriteShuoshuo *writeVC = [[WriteShuoshuo alloc]init];
-//    [self.navigationController pushViewController:writeVC animated:YES];
-//    writeVC.navigationController.navigationBarHidden = YES;
-//    [writeVC release];
-//}
-
 -(void)toChangeKinds:(UIButton *)sender{
     NSLog(@"更换显示类别！");
     kindsBtn.highlighted = YES;
@@ -396,16 +383,12 @@
     page++;
     refreshing = NO;
     [self getThefriendTimeLine:page andType:nil];
-    
-    NSLog(@"loadData  loadData  loadData");
 }
 
 -(void)refreshPage{
     refreshing = NO;
     [dongtaiArray removeAllObjects];
     [self getThefriendTimeLine:0 andType:nil];
-    
-    NSLog(@"refresh  refresh  refresh");
 }
 
 -(void)changeToFriendDongtai:(UIButton *)sender{
@@ -434,18 +417,7 @@
     changeIV.hidden = YES;
     [dongtaiArray removeAllObjects];
     [self getThefriendTimeLine:0 andType:@"1"];
-    
 }
-
-//-(void)changeToMydongtai:(UIButton *)sender{
-//    NSString *title = [NSString stringWithFormat:@" %@",sender.titleLabel.text];
-//    [kindsBtn setTitle:title forState:UIControlStateNormal];
-//    kindsBtn.selected = NO;
-//    changeIV.hidden = YES;
-//    [dongtaiArray removeAllObjects];
-//    [self getThefriendTimeLine:0 andType:@"2"];
-//    
-//}
 
 - (void)didReceiveMemoryWarning
 {

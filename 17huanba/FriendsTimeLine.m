@@ -61,7 +61,6 @@
 	// Do any additional setup after loading the view.
     
     self.friendTableView = [[PullingRefreshTableView alloc]initWithFrame:CGRectMake(0, 44, kDeviceWidth, KDeviceHeight-44-20) pullingDelegate:self];
-//    friendTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"detail_bg.png"]];
     UIView *view = [[UIView alloc]init];
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"detail_bg.png"]];
     friendTableView.backgroundView = view;
@@ -168,7 +167,7 @@
         [alert release];
     }
     [dongtaiArray addObjectsFromArray:dataArray];
-    NSLog(@"dongtaiArray----%@",dongtaiArray);
+//    NSLog(@"dongtaiArray----%@",dongtaiArray);
     [friendTableView reloadData];
     
     [friendTableView tableViewDidFinishedLoading];
@@ -177,7 +176,7 @@
 
 #pragma mark - 请求失败代理
 -(void)loginFailed:(ASIHTTPRequest *)formRequest{
-    NSLog(@"formRequest.error-------------%@",formRequest.error);
+//    NSLog(@"formRequest.error-------------%@",formRequest.error);
     NSString *errorStr = [NSString stringWithFormat:@"%@",formRequest.error];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];
@@ -364,8 +363,6 @@
             [self getThefriendTimeLine:page andType:nil];
         }
     }
-    
-    NSLog(@"loadData  loadData  loadData");
 }
 
 -(void)refreshPage{
@@ -386,7 +383,6 @@
             [self getThefriendTimeLine:0 andType:nil];
         }
     }
-    NSLog(@"refresh  refresh  refresh");
 }
 
 -(void)changeToFriendDongtai:(UIButton *)sender{
@@ -436,7 +432,7 @@
 }
 
 -(void)getMyDongtai:(int)p type:(NSString *)type{
-//    [SVProgressHUD showWithStatus:@"加载我的动态中.."];
+    [SVProgressHUD showWithStatus:@"加载我的动态中.."];
     NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]; //登陆用户的ID
     NSLog(@"----%@",uid);
     NSURL *newUrl = [NSURL URLWithString:THEURL(@"/phone/default/Selffeed.html")]; //我的动态（单独接口）
@@ -453,17 +449,17 @@
 -(void)finishGetMyDongtai:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"FriendTimeLine str    is   %@",str);
+//    NSLog(@"FriendTimeLine str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"dic is %@",dic);
-    NSLog(@"%@",[dic objectForKey:@"info"]);
+//    NSLog(@"dic is %@",dic);
+//    NSLog(@"%@",[dic objectForKey:@"info"]);
     NSArray *dataArray = [dic objectForKey:@"data"];
     [dongtaiArray addObjectsFromArray:dataArray];
     [friendTableView reloadData];
-    NSLog(@"dongtaiArray----%@",dongtaiArray);
+//    NSLog(@"dongtaiArray----%@",dongtaiArray);
     [friendTableView tableViewDidFinishedLoading];
-//    [SVProgressHUD dismiss];
+    [SVProgressHUD dismiss];
 }
 
 - (void)didReceiveMemoryWarning

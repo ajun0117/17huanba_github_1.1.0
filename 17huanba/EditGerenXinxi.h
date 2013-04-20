@@ -30,13 +30,8 @@
 @property(retain,nonatomic)UITextField *trueNameF;
 @property(retain,nonatomic)UITextField *sexF;
 @property(retain,nonatomic)UITextField *addressF;
-//@property(retain,nonatomic)UIButton *manBtn;
-//@property(retain,nonatomic)UIButton *womenBtn;
-//@property(retain,nonatomic)UIButton *addressBtn;
 
 @property(nonatomic,retain)NSMutableArray *proviceArray,*cityArray,*regionArray;
 @property(nonatomic,retain)NSArray *sexArray;
-
-//@property(nonatomic,retain)NSDictionary *userInfoDic;
 
 @end

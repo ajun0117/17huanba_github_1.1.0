@@ -22,6 +22,7 @@
 @synthesize tanweiTableView,tanweiArray;
 @synthesize refreshing;
 @synthesize form_request;
+@synthesize theIndexPath,shareVC;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,16 +38,10 @@
 -(void)dealloc{
     [form_request clearDelegatesAndCancel];
     [form_request release];
+    [theIndexPath release];
+    [shareVC release];
     
-//    RELEASE_SAFELY(tanweiTableView);
-//    RELEASE_SAFELY(tanweiArray);
     [super dealloc];
-}
-
--(void)viewDidUnload{
-    RELEASE_SAFELY(tanweiTableView);
-    RELEASE_SAFELY(tanweiArray);
-    [super viewDidUnload];
 }
 
 
@@ -84,7 +79,10 @@
     
     
     [self getTanweiList:0];
-    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    self.navigationController.navigationBarHidden = YES;
 }
 
 -(void)getTanweiList:(int)p{
@@ -93,7 +91,6 @@
     NSURL *newUrl = [NSURL URLWithString:THEURL(@"/phone/logined/Shoplist.html")];
     self.form_request = [ASIFormDataRequest requestWithURL:newUrl];
     [form_request setDelegate:self];
-//    [form_request setPostValue:@"1" forKey:@"state"]; //成功加为好友的列表
     [form_request setPostValue:token forKey:@"token"];
     [form_request setPostValue:[NSString stringWithFormat:@"%d",p] forKey:@"p"];
     [form_request setDidFinishSelector:@selector(finishGetTheTanwei:)];
@@ -104,10 +101,10 @@
 -(void)finishGetTheTanwei:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"摊位 str    is   %@",str);
+//    NSLog(@"摊位 str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"dic is %@",dic);
+//    NSLog(@"dic is %@",dic);
     NSArray *array = [dic objectForKey:@"data"];
     [self.tanweiArray addObjectsFromArray:array];
     [tanweiTableView reloadData];
@@ -117,7 +114,7 @@
 
 #pragma mark - 请求失败代理
 -(void)loginFailed:(ASIHTTPRequest *)formRequest{
-    NSLog(@"formRequest.error-------------%@",formRequest.error);
+//    NSLog(@"formRequest.error-------------%@",formRequest.error);
     NSString *errorStr = [NSString stringWithFormat:@"%@",formRequest.error];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];
@@ -139,11 +136,9 @@
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
     NSDictionary *tanweiDic = [tanweiArray objectAtIndex:indexPath.row];
     NSString *urlStr = [tanweiDic objectForKey:@"gdimg"];
-//    if (![urlStr isEqualToString:@" "]) {
     if (![urlStr isKindOfClass:[NSNull class]]) {
         cell.head.urlString = THEURL(urlStr);
     }
-//    [cell.head addTarget:self action:@selector(toGerenDongtai:) forControlEvents:UIControlEventTouchUpInside];
     
     NSString *goodsName = [tanweiDic objectForKey:@"goods_name"];
     cell.nameL.text = goodsName;
@@ -177,12 +172,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    NSLog(@"didSelect--didSelect--didSelect");
+//    NSLog(@"didSelect--didSelect--didSelect");
     Xiangxi *xiangxiVC = [[Xiangxi alloc]init];
     
     NSDictionary *dic = [tanweiArray objectAtIndex:indexPath.row];
     NSString *gdidStr = [dic objectForKey:@"goods_id"];
-    NSLog(@"gdidStr   is     %@",gdidStr);
+//    NSLog(@"gdidStr   is     %@",gdidStr);
     xiangxiVC.gdid = gdidStr;
     
     [self.navigationController pushViewController:xiangxiVC animated:YES];
@@ -191,39 +186,83 @@
 }
 
 -(void)toShare:(UIButton *)sender{
-    NSLog(@"%s",__FUNCTION__);
+//    NSLog(@"%s",__FUNCTION__);
     
     UITableViewCell *cell = (UITableViewCell *)sender.superview;
-    NSIndexPath *indexPath = [tanweiTableView indexPathForCell:cell]; //获取相应的Cell的indexPath，之后从数组中取值得到该好友的ID
+    self.theIndexPath = [tanweiTableView indexPathForCell:cell]; //获取相应的Cell的indexPath，之后从数组中取值得到该好友的ID
     
-    NSDictionary *dic = [tanweiArray objectAtIndex:indexPath.row];
-    NSString *gid = [dic objectForKey:@"goods_id"];
+    NSDictionary *goodDic = [tanweiArray objectAtIndex:theIndexPath.row];
+    NSString *gidStr = [goodDic objectForKey:@"goods_id"];
+    NSString *goodsName = [goodDic objectForKey:@"goods_name"];
+    NSString *price = nil;
+    NSString *sell_type = [goodDic objectForKey:@"sell_type"];
+    NSString *gold = [goodDic objectForKey:@"gold"];
+    NSString *silver = [goodDic objectForKey:@"silver"];
+    NSString *memoStr = [goodDic objectForKey:@"memo"];
+    if ([sell_type isEqualToString:@"1"]) {
+        price = [NSString stringWithFormat:@"接受%@交换",memoStr];
+    }
+    else if ([sell_type isEqualToString:@"2"]) {
+        price = [NSString stringWithFormat:@"￥%@+%@换币",gold,silver];
+    }
+    else if ([sell_type isEqualToString:@"3"])
+    {
+        price = [NSString stringWithFormat:@"￥%@+%@换币或%@",gold,silver,memoStr];
+    }
+    NSString *urlStr = [NSString stringWithFormat:@"http://www.17huanba.com/view/%@.html",gidStr];
     
-    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
-    NSURL *newUrl = [NSURL URLWithString:THEURL(@"/phone/plogined/Share.html")]; //分享
-    self.form_request = [ASIFormDataRequest requestWithURL:newUrl];
-    [form_request setDelegate:self];
-    [form_request setPostValue:gid forKey:@"gid"]; //商品ID
-    [form_request setPostValue:token forKey:@"token"];
-    //    [form_request setPostValue:[NSString stringWithFormat:@"%d",p] forKey:@"p"];
-    [form_request setDidFinishSelector:@selector(finishFenxiangTheShoucang:)];
-    [form_request setDidFailSelector:@selector(loginFailed:)];
-    [form_request startAsynchronous];
+    self.shareVC = [[KYShareViewController alloc] init];
+    shareVC.shareText = [NSString stringWithFormat:@"偶有闲置%@一枚，以%@兜售，求置换哦，不知道亲们是否喜欢？%@",goodsName,price,urlStr];
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"分享到" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"新浪微博", @"腾讯微博", @"人人网",@"我的动态",nil];
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+    [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+    [actionSheet release];
+}
+
+#pragma mark - uiactionsheet delegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        shareVC.shareType = SinaWeibo;
+        shareVC.title = @"分享到新浪微博";
+        [self.navigationController pushViewController:shareVC animated:YES];
+    }
+    else if (buttonIndex == 1) {
+        shareVC.shareType = Tencent;
+        shareVC.title = @"分享到腾讯微博";
+        [self.navigationController pushViewController:shareVC animated:YES];
+    }
+    else if (buttonIndex == 2) {
+        shareVC.shareType = RenrenShare;
+        shareVC.title = @"分享到人人网";
+        [self.navigationController pushViewController:shareVC animated:YES];
+    }
+    else if (buttonIndex == 3) {
+        NSDictionary *dic = [tanweiArray objectAtIndex:theIndexPath.row];
+        NSString *gid = [dic objectForKey:@"goods_id"];
+        
+        NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
+        NSURL *newUrl = [NSURL URLWithString:THEURL(@"/phone/plogined/Share.html")]; //分享
+        self.form_request = [ASIFormDataRequest requestWithURL:newUrl];
+        [form_request setDelegate:self];
+        [form_request setPostValue:gid forKey:@"gid"]; //商品ID
+        [form_request setPostValue:token forKey:@"token"];
+        [form_request setDidFinishSelector:@selector(finishFenxiangTheShoucang:)];
+        [form_request setDidFailSelector:@selector(loginFailed:)];
+        [form_request startAsynchronous];
+    }
 }
 
 -(void)finishFenxiangTheShoucang:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"分享收藏 str    is   %@",str);
+//    NSLog(@"分享收藏 str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"dic is %@",dic);
+//    NSLog(@"dic is %@",dic);
     NSString *info = [dic objectForKey:@"info"];
-    NSLog(@"%@",info);
+//    NSLog(@"%@",info);
     
-    //        NSArray *array = [dic objectForKey:@"data"];
-    //        [self.shouArray addObjectsFromArray:array];
-    //        [shoucangTableView reloadData];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:info delegate:self cancelButtonTitle:nil otherButtonTitles:@"是",nil];
     [alert show];
     [alert release];
@@ -232,22 +271,6 @@
 -(void)fanhui{
     [self.navigationController popViewControllerAnimated:YES];
 }
-
-
-//-(void)toGerenDongtai:(AsyncImageView *)sender{
-//    UITableViewCell *cell = (UITableViewCell *)sender.superview;
-//    NSIndexPath *indexPath = [tanweiTableView indexPathForCell:cell]; //获取相应的Cell的indexPath，之后从数组中取值得到该好友的ID
-//    
-//    NSDictionary *gerenDic = [tanweiArray objectAtIndex:indexPath.row];
-//    
-//    NSLog(@"点击了卖家头像！");
-//    GerenDongtai *gerenVC = [[GerenDongtai alloc]init];
-//    gerenVC.userDic = gerenDic;
-//    [self.navigationController pushViewController:gerenVC animated:YES];
-//    gerenVC.navigationController.navigationBarHidden = YES;
-//    
-//    
-//}
 
 #pragma mark - Scroll
 //会在视图滚动时收到通知。包括一个指向被滚动视图的指针，从中可以读取contentOffset属性以确定其滚动到的位置。

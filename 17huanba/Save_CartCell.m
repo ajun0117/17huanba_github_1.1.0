@@ -29,22 +29,13 @@
         [self.contentView addSubview:nameL];
         [nameL release];
         
-        self.chengseL = [[UILabel alloc]initWithFrame:CGRectMake(60, 35, 70, 15)];
-        chengseL.font = [UIFont systemFontOfSize:13];
-        chengseL.backgroundColor = [UIColor clearColor];
-        [self.contentView addSubview:chengseL];
-        [chengseL release];
-        
-        self.fangshiL = [[UILabel alloc]initWithFrame:CGRectMake(130, 35, 120, 15)];
+        self.fangshiL = [[UILabel alloc]initWithFrame:CGRectMake(60, 35, 190, 15)];
+        fangshiL.textAlignment = UITextAlignmentRight;
         fangshiL.font = [UIFont systemFontOfSize:13];
         fangshiL.textColor = [UIColor redColor];
         fangshiL.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:fangshiL];
         [fangshiL release];
-        
-//        self.accessIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cartBtn.png"]];
-//        self.accessoryView = accessIV;
-//        [accessIV release];
         
         self.accessBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         accessBtn.frame = CGRectMake(0, 0, 45, 20);

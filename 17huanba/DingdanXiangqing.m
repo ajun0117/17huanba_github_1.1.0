@@ -92,7 +92,6 @@
 #pragma mark - 获取用户通知列表（收到和申请）
 -(void)getTheXiangqingWithType:(NSString *)shenfenType andPage:(int)p { //获取登录用户商品列表
     [SVProgressHUD showWithStatus:@"加载中.."];
-    //    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
     NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
     NSURL *newUrl = [NSURL URLWithString:THEURL(@"/phone/goods/orderinfo.html")];
     ASIFormDataRequest *form_request = [ASIFormDataRequest requestWithURL:newUrl];
@@ -109,14 +108,22 @@
 -(void)finishGetTheDingdan:(ASIFormDataRequest *)request{
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"已上架 str    is   %@",str);
+//    NSLog(@"已上架 str    is   %@",str);
     
-        NSDictionary *dic = [str JSONValue];
+    NSDictionary *dic = [str JSONValue];
+    [str release];
+//    NSLog(@"dic  is  %@",dic);
         if (type == 1) {
             self.xiangqingDic = [dic objectForKey:@"mymodel"];
+            NSDictionary *findimg1Dic = [dic objectForKey:@"findimg1"];
+            self.gdimgStr = [findimg1Dic objectForKey:@"smallimg"];
+            self.gnameStr = [findimg1Dic objectForKey:@"goods_name"];
         }
         else{
             self.xiangqingDic = [dic objectForKey:@"othermodel"];
+            NSDictionary *findimg2Dic = [dic objectForKey:@"findimg2"];
+            self.gdimgStr = [findimg2Dic objectForKey:@"smallimg"];
+            self.gnameStr = [findimg2Dic objectForKey:@"goods_name"];
         }
     if ([xiangqingDic isKindOfClass:[NSDictionary class]]) {
         [xiangqingTableView reloadData];
@@ -132,7 +139,7 @@
 
 #pragma mark - 请求失败代理
 -(void)loginFailed:(ASIHTTPRequest *)formRequest{
-    NSLog(@"formRequest.error-------------%@",formRequest.error);
+//    NSLog(@"formRequest.error-------------%@",formRequest.error);
     NSString *errorStr = [NSString stringWithFormat:@"%@",formRequest.error];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];

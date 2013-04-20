@@ -98,42 +98,6 @@
     [super dealloc];
 }
 
-/*
- @property(nonatomic,retain)NSMutableArray *proviceArray,*cityArray,*regionArray;
- 
- @property(retain,nonatomic)UITableView *fabuTableView;
- @property(retain,nonatomic)UIScrollView *picScrollView;
- @property(retain,nonatomic)CPTextViewPlaceholder *biaotiTV;
- @property(retain,nonatomic)CPTextViewPlaceholder *miaoshuTV;
- @property(retain,nonatomic)UITextField *RMBTF; //金币
- @property(retain,nonatomic)UITextField *huanbiTF; //换币
- @property(retain,nonatomic)UITextField *yuanjiaTF;
- @property(retain,nonatomic)UITextField *fangshiTF;
- @property(retain,nonatomic)UIPickerView *fangshiPV;
- @property(retain,nonatomic)UITextField *tongchengTF; //同城运费
- @property(retain,nonatomic)UITextField *yidiTF; //异地运费
- @property(retain,nonatomic)UITextField *fenleiTF;
- @property(retain,nonatomic)UIPickerView *fenleiPV;
- @property(retain,nonatomic)UITextField *chengseTF;
- @property(retain,nonatomic)UIPickerView *chengsePV;
- @property(retain,nonatomic)UITextField *weizhiTF;
- @property(retain,nonatomic)UIPickerView *weizhiPV;
- @property(retain,nonatomic)UITextField *wuwuTF;
- @property(nonatomic, retain) UIToolbar *keyboardToolbar;
- 
- @property(retain,nonatomic)UITextField *shouTF; //物品收获地址
- 
- @property(nonatomic,retain)NSArray *fangshiArray;
- @property(nonatomic,retain)NSArray *chengseArray;
- 
- @property(nonatomic,retain)NSDictionary *theFenleiDic;
- 
- @property(nonatomic,retain)NSString *addrID;
- 
- @property(nonatomic,retain)MCSegmentedControl *baoyouSeg;
- @property(nonatomic,retain)MCSegmentedControl *sellTypeSeg;
- */
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -167,7 +131,6 @@
     [navIV release];
     
     self.fabuTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 44, kDeviceWidth, KDeviceHeight-20-44) style:UITableViewStyleGrouped];
-//    fabuTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"detail_bg_0.png"]];
     UIView *view = [[UIView alloc]init];
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"detail_bg.png"]];
     fabuTableView.backgroundView = view;
@@ -412,9 +375,11 @@
         deleBtn.hidden = NO;
     }
     NSString *goodsName = [dataDic objectForKey:@"goods_name"];
+    biaotiTV.textColor = [UIColor blackColor];
     biaotiTV.text = goodsName;
     
     NSString *descStr = [dataDic objectForKey:@"goods_desc"];
+    miaoshuTV.textColor = [UIColor blackColor];
     miaoshuTV.text = descStr;
     
     NSString *fenleiStr = [dataDic objectForKey:@"catname"];
@@ -680,16 +645,13 @@
     else if (section == 4){
         UIView *headV = [[UIView alloc]init];
         headV.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"section_bar.png"]];
-        UILabel *noticeL = [[UILabel alloc]initWithFrame:CGRectMake(30, 5, 150, 20)];
+        UILabel *noticeL = [[UILabel alloc]initWithFrame:CGRectMake(30, 5, 150, 15)];
         noticeL.backgroundColor = [UIColor clearColor];
         noticeL.font = [UIFont boldSystemFontOfSize:15];
         noticeL.text = @"支付方式";
         [headV addSubview:noticeL];
         [noticeL release];
-        
-        
         [headV addSubview:sellTypeSeg];
-        
         return [headV autorelease];
     }
     return nil;

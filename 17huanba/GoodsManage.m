@@ -169,10 +169,10 @@
 -(void)finishGetTheGoods:(ASIFormDataRequest *)request{
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"已上架 str    is   %@",str);
+//    NSLog(@"已上架 str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"dic is %@",dic);
+//    NSLog(@"dic is %@",dic);
     id array = [dic objectForKey:@"state"];
     if ([array isKindOfClass:[NSArray class]]) {
         [goodsArray addObjectsFromArray:array];
@@ -189,7 +189,7 @@
 
 #pragma mark - 请求失败代理
 -(void)loginFailed:(ASIHTTPRequest *)formRequest{
-    NSLog(@"formRequest.error-------------%@",formRequest.error);
+//    NSLog(@"formRequest.error-------------%@",formRequest.error);
     NSString *errorStr = [NSString stringWithFormat:@"%@",formRequest.error];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];

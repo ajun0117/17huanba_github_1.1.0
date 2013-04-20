@@ -172,7 +172,6 @@
     sexF.clearButtonMode = UITextFieldViewModeWhileEditing;
     sexF.borderStyle = UITextBorderStyleRoundedRect;
     sexF.font = [UIFont systemFontOfSize:15];
-//    sexF.placeholder = @"性别";
     sexF.text = @"男";
     sexF.tag = 5;
     sexF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -181,17 +180,6 @@
     [keyboardToolbar release];
     [whiteIV addSubview:sexF];
     [sexF release];
-    
-//    self.phoneF = [[UITextField alloc]initWithFrame:CGRectMake(50, 205, 210, 30)];
-//    phoneF.delegate = self; 
-//    phoneF.clearButtonMode = UITextFieldViewModeWhileEditing;
-//    phoneF.keyboardType = UIKeyboardTypeNumberPad;
-//    phoneF.borderStyle = UITextBorderStyleRoundedRect;
-//    phoneF.font = [UIFont systemFontOfSize:15];
-//    phoneF.placeholder = @"手机号码";
-//    phoneF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-//    [whiteIV addSubview:phoneF];
-//    [phoneF release];
     
     self.tongyiBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     tongyiBtn.frame = CGRectMake(50, 205, 15, 15);
@@ -266,11 +254,11 @@
 {
     NSData *data = formRequest.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"str--------%@",str);
+//    NSLog(@"str--------%@",str);
     NSDictionary *stateDic = [str JSONValue];
     [str release];
     NSString *state = [stateDic objectForKey:@"state"];
-    NSLog(@"%@",state);
+//    NSLog(@"%@",state);
     if ([state isEqualToString:@"注册成功"]) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:state message:@"请到邮箱中激活您的账号！" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
         [alert show];
@@ -325,14 +313,6 @@
             [alert release];
         }
     }
-//    else if(textField == phoneF){
-//        BOOL isPhone = [self validatePhone:phoneF.text];
-//        if (! isPhone) {
-//            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"手机号码格式不正确！" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
-//            [alert show];
-//            [alert release];
-//        }
-//    }
 }
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
@@ -341,15 +321,7 @@
 
 #pragma mark - 键盘通知
 -(void)keyboardWasShown:(NSNotification *) notif{
-//
-//    //    [self._tableV setContentOffset:CGPointMake(0,textField.tag*30) animated:YES];
-//    
-//    NSDictionary *info = [notif userInfo];
-//    
-//    NSValue *value = [info objectForKey:@"UIKeyboardBoundsUserInfoKey"];
-//    CGSize keyboardSize = [value CGRectValue].size;
-//    NSLog(@"----%@",NSStringFromCGSize(keyboardSize));
-//    bgIV.frame = CGRectMake(0, 44, kDeviceWidth, KDeviceHeight-20-keyboardSize.height);
+    //
 }
 
 - (void) keyboardWasHidden:(NSNotification *) notif{
@@ -373,13 +345,13 @@
     return [emailTest evaluateWithObject:candidate];
 }
 
-#pragma mark - 电话号码正则验证
--(BOOL)validatePhone:(NSString *)phone {
-    NSString *phoneRegex = @"((\\d{11})|^((\\d{7,8})|(\\d{4}|\\d{3})-(\\d{7,8})|(\\d{4}|\\d{3})-(\\d{7,8})-(\\d{4}|\\d{3}|\\d{2}|\\d{1})|(\\d{7,8})-(\\d{4}|\\d{3}|\\d{2}|\\d{1}))$)";
-    
-    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
-    return [emailTest evaluateWithObject:phone];
-}
+//#pragma mark - 电话号码正则验证
+//-(BOOL)validatePhone:(NSString *)phone {
+//    NSString *phoneRegex = @"((\\d{11})|^((\\d{7,8})|(\\d{4}|\\d{3})-(\\d{7,8})|(\\d{4}|\\d{3})-(\\d{7,8})-(\\d{4}|\\d{3}|\\d{2}|\\d{1})|(\\d{7,8})-(\\d{4}|\\d{3}|\\d{2}|\\d{1}))$)";
+//    
+//    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
+//    return [emailTest evaluateWithObject:phone];
+//}
 
 
 -(void)fanhui{

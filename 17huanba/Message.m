@@ -157,10 +157,10 @@
 -(void)finishGetTheMessage:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"私信 str    is   %@",str);
+//    NSLog(@"私信 str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"array is %@",dic);
+//    NSLog(@"array is %@",dic);
     NSArray *array = [dic objectForKey:@"data"];
     if ([array count] == 0) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"抱歉" message:@"暂时还没有收到私信" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
@@ -177,7 +177,7 @@
 -(void)loginMessFailed:(ASIHTTPRequest *)request{
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"失败   %@",str);
+//    NSLog(@"失败   %@",str);
     [str release];
     [SVProgressHUD dismissWithError:@"请检查网络连接后重试！"];
 }
@@ -297,8 +297,6 @@
     page++;
     refreshing = NO;
     [self getTheMessageWithPage:page];
-       
-    NSLog(@"loadData  loadData  loadData");
 }
 
 -(void)refreshPage{
@@ -306,8 +304,6 @@
     page = 0;
     [messageArray removeAllObjects];
     [self getTheMessageWithPage:0];
-    
-    NSLog(@"refresh  refresh  refresh");
 }
 
 

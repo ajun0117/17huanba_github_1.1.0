@@ -150,7 +150,6 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-//    self.friendsTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 150+44, 320, 100) style:UITableViewStylePlain];
     self.friendsTableView = [[PullingRefreshTableView alloc]initWithFrame:CGRectMake(0, 150+44, kDeviceWidth, 100) pullingDelegate:self];
     friendsTableView.delegate = self;
     friendsTableView.dataSource = self;
@@ -182,12 +181,12 @@
 -(void)finishSendTheSixin:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"发送私信 str    is   %@",str);
+//    NSLog(@"发送私信 str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"dic is %@",dic);
+//    NSLog(@"dic is %@",dic);
     NSString *info = [dic objectForKey:@"info"];
-    NSLog(@"%@",info);
+//    NSLog(@"%@",info);
     BOOL isSuccess = [[dic objectForKey:@"state"] boolValue];
     if (isSuccess) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"恭喜" message:info delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
@@ -218,9 +217,7 @@
     [toF resignFirstResponder];
     [jiluArray removeAllObjects];
     [self getTheJiluWithPage:0];
-//    [self getThefriendsWithPage:0];
 }
-
 
 #pragma mark - 获取用户列表申请列表
 -(void)getThefriendsWithPage:(int)p{ //获取登录用户好友的动态列表
@@ -240,10 +237,10 @@
 -(void)finishGetThefriends:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"还有列表 str    is   %@",str);
+//    NSLog(@"还有列表 str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"dic is %@",dic);
+//    NSLog(@"dic is %@",dic);
     NSArray *array = [dic objectForKey:@"data"];
     [self.friendsArray addObjectsFromArray:array];
     [friendsTableView reloadData];
@@ -252,13 +249,11 @@
 
 #pragma mark - 获取用户聊天记录
 -(void)getTheJiluWithPage:(int)p{ //获取登录用户好友的动态列表
-//    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
     NSURL *newUrl = [NSURL URLWithString:THEURL(@"/phone/default/Letthis.html")];
     ASIFormDataRequest *form_request = [ASIFormDataRequest requestWithURL:newUrl];
     [form_request setDelegate:self];
     [form_request setPostValue:rmid forKey:@"mid"]; //成功加为好友的列表
-    NSLog(@"%@",rmid);
-//    [form_request setPostValue:token forKey:@"token"];
+//    NSLog(@"%@",rmid);
     [form_request setPostValue:[NSString stringWithFormat:@"%d",p] forKey:@"p"];
     [form_request setDidFinishSelector:@selector(finishGetTheJilu:)];
     [form_request setDidFailSelector:@selector(loginFailed:)];
@@ -268,10 +263,10 @@
 -(void)finishGetTheJilu:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"私信记录 str    is   %@",str);
+//    NSLog(@"私信记录 str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"dic is %@",dic);
+//    NSLog(@"dic is %@",dic);
     NSString *info = [dic objectForKey:@"state"];
     NSLog(@"info is %@",info);
     NSArray *array = [dic objectForKey:@"data"];
@@ -314,7 +309,6 @@
         [self getThefriendsWithPage:page];
         [friendsTableView tableViewDidFinishedLoading];
     }
-    NSLog(@"loadData  loadData  loadData");
 }
 
 -(void)refreshPage{
@@ -329,7 +323,6 @@
         [self getThefriendsWithPage:0];
         [friendsTableView tableViewDidFinishedLoading];
     }
-    NSLog(@"refresh  refresh  refresh");
 }
 
 
@@ -339,7 +332,7 @@
     
     NSValue *value = [info objectForKey:@"UIKeyboardBoundsUserInfoKey"];
     CGSize keyboardSize = [value CGRectValue].size;
-    NSLog(@"----%@",NSStringFromCGSize(keyboardSize));
+//    NSLog(@"----%@",NSStringFromCGSize(keyboardSize));
     toolView.frame = CGRectMake(0, KDeviceHeight-20-44-keyboardSize.height, kDeviceWidth, 44);
     toolView.hidden = NO;
     toF.text = uname;
@@ -440,7 +433,6 @@
         cell.frame = rect;
         
     return cell;
-
     }
 }
 

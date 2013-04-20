@@ -30,8 +30,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardDidShowNotification object:nil];
-//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasHidden:) name:UIKeyboardWillHideNotification object:nil];
     }
     return self;
 }
@@ -150,14 +148,6 @@
     [whiteIV addSubview:rememberL];
     [rememberL release];
     
-//    UIButton *forgetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    forgetBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-//    [forgetBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//    [forgetBtn setTitle:@"忘记密码?" forState:UIControlStateNormal];
-//    [forgetBtn addTarget:self action:@selector(toFindYourSecure) forControlEvents:UIControlEventTouchUpInside];
-//    forgetBtn.frame = CGRectMake(185, 95, 60, 13);
-//    [whiteIV addSubview:forgetBtn];
-    
     self.autoLoginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     autoLoginBtn.frame = CGRectMake(175, 105, 15, 15);
     [autoLoginBtn setImage:[UIImage imageNamed:@"checkbox.png"] forState:UIControlStateNormal];
@@ -192,26 +182,7 @@
     [zhuBtn addTarget:self action:@selector(toZhuceVc) forControlEvents:UIControlEventTouchUpInside];
     zhuBtn.frame = CGRectMake(90, 160, 130, 13);
     [whiteIV addSubview:zhuBtn];
-    
 }
-
-#pragma mark - NSNotification
-//-(void)keyboardWasShown:(NSNotification *) notif{
-//    NSDictionary *info = [notif userInfo];
-//    
-//    NSValue *value = [info objectForKey:@"UIKeyboardBoundsUserInfoKey"];
-//    CGSize keyboardSize = [value CGRectValue].size;
-//    NSLog(@"----%@",NSStringFromCGSize(keyboardSize));
-//    UIImageView *whiteIV = (UIImageView *)[self.view viewWithTag:100];
-//    
-//    whiteIV.frame = CGRectMake(5, 10-20, 310, 215);
-//}
-//
-//- (void) keyboardWasHidden:(NSNotification *) notif{
-//    UIImageView *whiteIV = (UIImageView *)[self.view viewWithTag:100];
-//    whiteIV.frame = CGRectMake(5, 10, 310 ,215);
-//}
-
 
 #pragma mark - 邮箱正则验证
 - (BOOL) validateEmail: (NSString *) candidate {
@@ -298,24 +269,19 @@
     
     NSData *data = formRequest.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"str--------%@",str);
+//    NSLog(@"str--------%@",str);
     
     NSDictionary *stateDic = [str JSONValue];
     [str release];
     NSLog(@"%@",stateDic);
     BOOL isExist = [[stateDic objectForKey:@"data"] boolValue];
     NSString *token = [stateDic objectForKey:@"token"];
-    NSLog(@"token----000-------%@",token);
+//    NSLog(@"token----000-------%@",token);
     NSString *uid = [stateDic objectForKey:@"uid"];
-    NSLog(@"------%@",uid);
+//    NSLog(@"------%@",uid);
     NSString *uName = [stateDic objectForKey:@"uname"];
     BOOL state = [[stateDic objectForKey:@"state"] boolValue];
     if (isExist) { //登陆成功
-        
-//        NSString *appendStr = [NSString stringWithFormat:@"%@%@17h",email.text,password.text];
-//        NSLog(@"00000%@",appendStr);
-//        NSString *userStr = [MD5 md5Digest:appendStr];
-//        NSLog(@"userStr----%@",userStr);
         
             if (rememberBtn.selected) { //如果点击记住密码，那么。。。
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"remember"]; //保存是否记住密码状态

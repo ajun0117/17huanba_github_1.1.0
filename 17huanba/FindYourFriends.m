@@ -50,14 +50,6 @@
     [backBtn addTarget:self action:@selector(fanhui) forControlEvents:UIControlEventTouchUpInside];
     [navIV addSubview:backBtn];
     
-//    UILabel *nameL=[[UILabel alloc]initWithFrame:CGRectMake(90, 10, 140, 24)];
-//    nameL.font=[UIFont systemFontOfSize:17];
-//    nameL.backgroundColor = [UIColor clearColor];
-//    nameL.textAlignment = UITextAlignmentCenter;
-//    nameL.textColor = [UIColor whiteColor];
-//    nameL.text = @"我的好友";
-//    [navIV addSubview:nameL];
-//    [nameL release];
     [self.view addSubview:navIV];
     [navIV release];
     
@@ -189,10 +181,10 @@
 -(void)finishGetThefriends:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"Gouwuche str    is   %@",str);
+//    NSLog(@"Gouwuche str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"dic is %@",dic);
+//    NSLog(@"dic is %@",dic);
     NSArray *array = [dic objectForKey:@"data"];
     if ([array count] == 0) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"抱歉" message:@"您暂时还没有好友哦！" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
@@ -227,14 +219,8 @@
 -(void)finishGetThetongzhi:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"Gouwuche str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"dic is %@",dic);
-    NSString *info = [dic objectForKey:@"info"];
-    NSLog(@"%@",info);
-    NSString *name = [dic objectForKey:@"uname"];
-    NSLog(@"%@",name);
     
     NSArray *array = [dic objectForKey:@"data"];
     
@@ -257,7 +243,7 @@
  
 #pragma mark - 请求失败代理
 -(void)loginFailed:(ASIHTTPRequest *)formRequest{
-    NSLog(@"formRequest.error-------------%@",formRequest.error);
+//    NSLog(@"formRequest.error-------------%@",formRequest.error);
     NSString *errorStr = [NSString stringWithFormat:@"%@",formRequest.error];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];
@@ -328,10 +314,6 @@
         
         cell.fa_bgIV.frame = CGRectMake(240, 20, 60, 26);
         cell.fa_bgIV.image = [UIImage imageNamed:@"friendListBtnBg4.png"]; // 等待
-        
-//        UIButton *waitBtn = (UIButton *)[cell viewWithTag:11];
-//        [waitBtn addTarget:self action:@selector(dengdai:) forControlEvents:UIControlEventTouchUpInside];
-        
     }
     else if(type == 0){ //好友列表
         NSString *headStr = [friendDic objectForKey:@"headimg"];
@@ -372,12 +354,11 @@
     
     NSDictionary *friendDic = [friendsArray objectAtIndex:indexPath.row];
     NSString *tuidStr = [friendDic objectForKey:@"uid"];
-    
-//    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
+
     NSURL *newUrl = [NSURL URLWithString:THEURL(DELETE)];
     
     NSString *fuid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]; //登陆用户的ID
-    NSLog(@"----%@",fuid);
+//    NSLog(@"----%@",fuid);
     
     [SVProgressHUD showWithStatus:@"删除中.."];
     ASIFormDataRequest *form_request = [ASIFormDataRequest requestWithURL:newUrl];
@@ -396,15 +377,9 @@
 -(void)finishDeleteTheFriend:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"删除情况 str    is   %@",str);
+//    NSLog(@"删除情况 str    is   %@",str);
     [str release];
     [SVProgressHUD dismiss];
-//    NSDictionary *dic = [str JSONValue];
-//    NSLog(@"dic is %@",dic);
-//    NSArray *dataArray = [dic objectForKey:@"data"];
-//    [dongtaiArray addObjectsFromArray:dataArray];
-//    [friendTableView reloadData];
-//    NSLog(@"dongtaiArray----%@",dongtaiArray);
 }
 
 -(void)toDelete:(UIButton *)sender{
@@ -456,8 +431,6 @@
     else{
         [self getTheTongzhiWithStye:@"2" andPage:page];
     }
-
-    NSLog(@"loadData  loadData  loadData");
 }
 
 -(void)refreshPage{
@@ -473,7 +446,6 @@
     else{
         [self getTheTongzhiWithStye:@"2" andPage:0];
     }
-    NSLog(@"refresh  refresh  refresh");
 }
 
 -(void)jieshou:(UIButton *)sender{ //接受申请
@@ -492,11 +464,8 @@
     
     NSDictionary *friendDic = [friendsArray objectAtIndex:indexPath.row];
     NSString *tuidStr = [friendDic objectForKey:@"uid"];
-    
     NSURL *newUrl = [NSURL URLWithString:THEURL(DELETE)];
-    
     NSString *fuid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]; //登陆用户的ID
-    NSLog(@"----%@",fuid);
     
     ASIFormDataRequest *form_request = [ASIFormDataRequest requestWithURL:newUrl];
     [form_request setDelegate:self];
@@ -508,22 +477,12 @@
     
     [friendsArray removeObject:friendDic];
     [myFriendsTableView reloadData];
-    
-    
-//    NSDictionary *userDic = [friendsArray objectAtIndex:indexPath.row];
-//    NSString *uidStr = [userDic objectForKey:@"uid"];
-//    [self actionWithUid:uidStr andAction:@"2"];
-    
-    
 }
 
 -(void)hulue:(UIButton *)sender{ //忽略申请（删除申请）
     NSLog(@"%s",__FUNCTION__);
     UITableViewCell *cell = (UITableViewCell *)sender.superview;
     NSIndexPath *indexPath = [myFriendsTableView indexPathForCell:cell]; //获取相应的Cell的indexPath，之后从数组中取值得到该好友的ID
-//    NSDictionary *userDic = [friendsArray objectAtIndex:indexPath.row];
-//    NSString *uidStr = [userDic objectForKey:@"uid"];
-//    [self actionWithUid:uidStr andAction:@"3"];
     
     NSDictionary *friendDic = [friendsArray objectAtIndex:indexPath.row];
     NSString *tuidStr = [friendDic objectForKey:@"uid"];
@@ -531,7 +490,6 @@
     NSURL *newUrl = [NSURL URLWithString:THEURL(DELETE)];
     
     NSString *fuid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]; //登陆用户的ID
-    NSLog(@"----%@",fuid);
     
     ASIFormDataRequest *form_request = [ASIFormDataRequest requestWithURL:newUrl];
     [form_request setDelegate:self];
@@ -544,12 +502,6 @@
     [friendsArray removeObject:friendDic];
     [myFriendsTableView reloadData];
 }
-
-//-(void)dengdai:(UIButton *)sender{ //等待申请
-//    NSLog(@"%s",__FUNCTION__);
-//    UITableViewCell *cell = (UITableViewCell *)sender.superview;
-//    NSIndexPath *indexPath = [myFriendsTableView indexPathForCell:cell]; //获取相应的Cell的indexPath，之后从数组中取值得到该好友的ID
-//}
 
 -(void)sixin:(UIButton *)sender{ //发私信
     NSLog(@"%s",__FUNCTION__);
@@ -587,12 +539,10 @@
 -(void)finishTheAction:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"Gouwuche str    is   %@",str);
-    //    NSArray *array = [str JSONValue];
-    //    NSLog(@"array is %@",array);
+//    NSLog(@"Gouwuche str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"array is %@",dic);
+//    NSLog(@"array is %@",dic);
     NSString *info = [dic objectForKey:@"info"];
     NSLog(@"info-----%@",info);
 }

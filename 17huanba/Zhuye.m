@@ -12,9 +12,7 @@
 #import "FriendsTimeLine.h" //好友动态
 #import "FindYourFriends.h"
 #import "MyTanwei.h"
-#import "Caogaoxiang.h"
 #import "Shoucang.h"
-#import "Contacted.h"
 #import "Viewed.h"
 #import "Message.h"
 #import "Sets.h"
@@ -93,7 +91,6 @@
         NSURL *newUrl = [NSURL URLWithString:THEURL(@"/phone/logined/Countmsg.html")];
         ASIFormDataRequest *form_request = [ASIFormDataRequest requestWithURL:newUrl];
         [form_request setDelegate:self];
-        //    [form_request setPostValue:gdid forKey:@"id"];
         [form_request setPostValue:token forKey:@"token"];
         [form_request setDidFinishSelector:@selector(finishGetMessageCount:)];
         [form_request setDidFailSelector:@selector(loginMessageCountFailed:)];
@@ -104,7 +101,7 @@
 -(void)finishGetMessageCount:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"MessageCount str    is   %@",str);
+//    NSLog(@"MessageCount str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
     NSString *messageCount = [dic objectForKey:@"count"];
@@ -131,7 +128,6 @@
         NSURL *newUrl = [NSURL URLWithString:THEURL(@"/phone/logined/Countfd.html")];
         ASIFormDataRequest *form_request = [ASIFormDataRequest requestWithURL:newUrl];
         [form_request setDelegate:self];
-        //    [form_request setPostValue:gdid forKey:@"id"];
         [form_request setPostValue:token forKey:@"token"];
         [form_request setDidFinishSelector:@selector(finishGetFriendCount:)];
         [form_request setDidFailSelector:@selector(loginFailed:)];
@@ -142,8 +138,7 @@
 -(void)finishGetFriendCount:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"FriendCount str    is   %@",str);
-
+//    NSLog(@"FriendCount str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
     NSString *friendCount = [dic objectForKey:@"count"];
@@ -175,8 +170,6 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.navigationController.navigationBarHidden = YES;
-    
-//    BOOL isLogin = [[[NSUserDefaults standardUserDefaults] objectForKey:@"logined"] boolValue]; //检测是否为已登录
     
     UIImageView *navIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"top_nav.png"]];
     navIV.userInteractionEnabled=YES;
@@ -291,10 +284,10 @@
 -(void)finishGetUserMessage:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"userInformation  str   is   %@",str);
+//    NSLog(@"userInformation  str   is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"dic is %@",dic);
+//    NSLog(@"dic is %@",dic);
     NSString *headStr = [dic objectForKey:@"headimg"];
     if (![headStr isEqualToString:@" "]){
         head.urlString = THEURL(headStr);
@@ -323,7 +316,7 @@
 
 #pragma mark - 请求失败代理
 -(void)loginFailed:(ASIHTTPRequest *)formRequest{
-    NSLog(@"formRequest.error-------------%@",formRequest.error);
+//    NSLog(@"formRequest.error-------------%@",formRequest.error);
     NSString *errorStr = [NSString stringWithFormat:@"%@",formRequest.error];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];
@@ -339,13 +332,7 @@
         [self.navigationController pushViewController:gerenXinxiVC animated:YES];
         [gerenXinxiVC release];
         
-    //    PresonXinxi *gerenXinxiVC = [[PresonXinxi alloc]init];
-    //    gerenXinxiVC.hidesBottomBarWhenPushed = YES;
-    //    [self.navigationController pushViewController:gerenXinxiVC animated:YES];
-    //    [gerenXinxiVC release];
-        
         UIView *button = [self.tabBarController.view viewWithTag:100];//找出tabar中间的相机Button
-        //    button.hidden = YES;
         [UIView animateWithDuration:0.2 animations:^{
             button.alpha = 0;
         }];
@@ -414,30 +401,14 @@
             cell.imageView.image = [UIImage imageNamed:@"page_list_4_0.png"];
             cell.textLabel.text = @"我的摊位";
         }
-//        else if(indexPath.row == 1) {
-//            cell.imageView.image = [UIImage imageNamed:@"page_list_5_0.png"];
-//            cell.textLabel.text = @"草稿箱";
-//        }
         else if(indexPath.row == 1) {
             cell.imageView.image = [UIImage imageNamed:@"page_list_6_0.png"];
             cell.textLabel.text = @"我的收藏";
         }
-//        else if(indexPath.row == 3) {
-//            cell.imageView.image = [UIImage imageNamed:@"page_list_7_0.png"];
-//            cell.textLabel.text = @"联系过的宝贝";
-//        }
         else if(indexPath.row == 2) {
             cell.imageView.image = [UIImage imageNamed:@"page_list_8_0.png"];
             cell.textLabel.text = @"浏览过的宝贝";
         }
-//        else if(indexPath.row == 5) {
-//            cell.imageView.image = [UIImage imageNamed:@"page_list_9_0.png"];
-//            cell.textLabel.text = @"我的仓库";
-//        }
-//        else if(indexPath.row == 6) {
-//            cell.imageView.image = [UIImage imageNamed:@"page_list_10_0.png"];
-//            cell.textLabel.text = @"钱包管理";
-//        }
         else if(indexPath.row == 3) {
             cell.imageView.image = [UIImage imageNamed:@"page_list_11_0.png"];
             cell.textLabel.text = @"我的购物车";
@@ -466,14 +437,6 @@
             cell.imageView.image = [UIImage imageNamed:@"page_list_14_0.png"];
             cell.textLabel.text = @"收货地址";
         }
-//        else if(indexPath.row == 3) {
-//            cell.imageView.image = [UIImage imageNamed:@"page_list_15_0.png"];
-//            cell.textLabel.text = @"手机绑定";
-//        }
-//        else if(indexPath.row == 4) {
-//            cell.imageView.image = [UIImage imageNamed:@"page_list_16_0.png"];
-//            cell.textLabel.text = @"身份认证";
-//        }
     }
     return cell;
 }
@@ -515,13 +478,6 @@
                 tanweiVC.navigationController.navigationBarHidden = YES;
                 [tanweiVC release];
             }
-//            else if(indexPath.row == 1) {
-//                Caogaoxiang *caogaoxiangVC = [[Caogaoxiang alloc]init];
-//                caogaoxiangVC.hidesBottomBarWhenPushed = YES;
-//                [self.navigationController pushViewController:caogaoxiangVC animated:YES];
-//                caogaoxiangVC.navigationController.navigationBarHidden = YES;
-//                [caogaoxiangVC release];
-//            }
             else if(indexPath.row == 1) {
                 Shoucang *shoucangVC = [[Shoucang alloc]init];
                 shoucangVC.hidesBottomBarWhenPushed = YES;
@@ -529,13 +485,6 @@
                 shoucangVC.navigationController.navigationBarHidden = YES;
                 [shoucangVC release];
             }
-//            else if(indexPath.row == 3) {
-//                Contacted *contactedVC = [[Contacted alloc]init];
-//                contactedVC.hidesBottomBarWhenPushed = YES;
-//                [self.navigationController pushViewController:contactedVC animated:YES];
-//                contactedVC.navigationController.navigationBarHidden = YES;
-//                [contactedVC release];
-//            }
             else if(indexPath.row == 2) {
                 Viewed *viewedVC = [[Viewed alloc]init];
                 viewedVC.hidesBottomBarWhenPushed = YES;
@@ -543,20 +492,6 @@
                 viewedVC.navigationController.navigationBarHidden = YES;
                 [viewedVC release];
             }
-//            else if(indexPath.row == 5) {
-//                Viewed *viewedVC = [[Viewed alloc]init];
-//                viewedVC.hidesBottomBarWhenPushed = YES;
-//                [self.navigationController pushViewController:viewedVC animated:YES];
-//                viewedVC.navigationController.navigationBarHidden = YES;
-//                [viewedVC release];
-//            }
-//            else if(indexPath.row == 6) {
-//                Viewed *viewedVC = [[Viewed alloc]init];
-//                viewedVC.hidesBottomBarWhenPushed = YES;
-//                [self.navigationController pushViewController:viewedVC animated:YES];
-//                viewedVC.navigationController.navigationBarHidden = YES;
-//                [viewedVC release];
-//            }
             else if(indexPath.row == 3) {
                 Gouwuche *cartdVC = [[Gouwuche alloc]init];
                 cartdVC.hidesBottomBarWhenPushed = YES;
@@ -634,10 +569,6 @@
     }];
 }
 
-//-(void)toFensiVC:(UIButton *)sender{
-//    NSLog(@"推出粉丝列表页面！");
-//}
-
 -(void)toSetsVC{
     NSLog(@"Push the setsVC！");
     Sets *setVC = [[Sets alloc]init];
@@ -655,7 +586,6 @@
 -(void)toLoginOrExit:(UIButton *)sender{
     if (sender.selected) {
     NSLog(@"Exit the user！");
-//        sender.highlighted = YES;
         self.exitAlert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"真的要注销登陆么？" delegate:self cancelButtonTitle:@"不" otherButtonTitles:@"是",nil];
         [exitAlert show];
         [exitAlert release];
@@ -694,9 +624,6 @@
         }
     }
 }
-
-
-
 
 - (void)didReceiveMemoryWarning
 {

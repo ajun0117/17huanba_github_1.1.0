@@ -85,7 +85,6 @@
     NSURL *newUrl = [NSURL URLWithString:THEURL(@"/phone/plogined/Mycart.html")];
     ASIFormDataRequest *form_request = [ASIFormDataRequest requestWithURL:newUrl];
     [form_request setDelegate:self];
-    //    [form_request setPostValue:@"1" forKey:@"state"]; //成功加为好友的列表
     [form_request setPostValue:token forKey:@"token"];
     [form_request setPostValue:[NSString stringWithFormat:@"%d",p] forKey:@"p"];
     [form_request setDidFinishSelector:@selector(finishGetTheCarts:)];
@@ -96,10 +95,10 @@
 -(void)finishGetTheCarts:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"购物车 str    is   %@",str);
+//    NSLog(@"购物车 str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"dic is %@",dic);
+//    NSLog(@"dic is %@",dic);
     NSArray *array = [dic objectForKey:@"data"];
     [self.cartArray addObjectsFromArray:array];
     [cartTableView reloadData];
@@ -110,7 +109,7 @@
 
 #pragma mark - 请求失败代理
 -(void)loginFailed:(ASIHTTPRequest *)formRequest{
-    NSLog(@"formRequest.error-------------%@",formRequest.error);
+//    NSLog(@"formRequest.error-------------%@",formRequest.error);
     NSString *errorStr = [NSString stringWithFormat:@"%@",formRequest.error];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];
@@ -130,12 +129,6 @@
         cell = [[[Save_CartCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indef] autorelease];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
-//    cell.head.urlString = @"http://www.sucai.com/pic/2012331/20123311608131.jpg";
-//    cell.nameL.text = @"商品列表。。。";
-//    cell.chengseL.text = @"8成新以下";
-//    cell.fangshiL.text = @"900换币+100RMB";
-//    [cell.accessBtn setTitle:@"申请交易" forState:UIControlStateNormal];
-//    [cell.accessBtn addTarget:self action:@selector(toBuy:) forControlEvents:UIControlEventTouchUpInside];
     
     NSDictionary *cartDic = [cartArray objectAtIndex:indexPath.row];
     id gdinfo = [cartDic objectForKey:@"gdinfo"];
@@ -165,21 +158,16 @@
         cell.head.frame = CGRectZero;
         cell.accessBtn.frame = CGRectZero;
     }
-    
-    
-    
-    
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    NSLog(@"didSelect--didSelect--didSelect");
     NSDictionary *dic = [cartArray objectAtIndex:indexPath.row];
     id gdinfo = [dic objectForKey:@"gdinfo"];
     if ([gdinfo isKindOfClass:[NSDictionary class]]) {
         NSString *gdidStr = [dic objectForKey:@"good_id"];
-        NSLog(@"gdidStr   is     %@",gdidStr);
+//        NSLog(@"gdidStr   is     %@",gdidStr);
         Xiangxi *xiangxiVC = [[Xiangxi alloc]init];
         xiangxiVC.gdid = gdidStr;
         [self.navigationController pushViewController:xiangxiVC animated:YES];
@@ -215,10 +203,10 @@
 -(void)finishDeleteTheFriend:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"删除情况 str    is   %@",str);
+//    NSLog(@"删除情况 str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"dic is %@",dic);
+//    NSLog(@"dic is %@",dic);
     
     NSString *info = [dic objectForKey:@"info"];
     NSLog(@"%@",info);
@@ -289,8 +277,6 @@
     refreshing = NO;
     page++;
     [self getCartArrayWithpage:page];
-
-    NSLog(@"loadData  loadData  loadData");
 }
 
 -(void)refreshPage{
@@ -298,8 +284,6 @@
     page = 0;
     [cartArray removeAllObjects];
     [self getCartArrayWithpage:0];
-    
-    NSLog(@"refresh  refresh  refresh");
 }
 
 - (void)didReceiveMemoryWarning

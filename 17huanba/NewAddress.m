@@ -199,7 +199,6 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     if (section == 0) {
         UIView *headV = [[UIView alloc]init];
-    //    headV.backgroundColor = [UIColor colorWithRed:0.2 green:0.5 blue:0.1 alpha:1];
         headV.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"section_bar.png"]];
         
         UILabel *noticeL = [[UILabel alloc]initWithFrame:CGRectMake(50, 5, 150, 20)];
@@ -272,7 +271,7 @@
     
     NSValue *value = [info objectForKey:@"UIKeyboardBoundsUserInfoKey"];
     CGSize keyboardSize = [value CGRectValue].size;
-    NSLog(@"----%@",NSStringFromCGSize(keyboardSize));
+//    NSLog(@"----%@",NSStringFromCGSize(keyboardSize));
     addressTableView.frame = CGRectMake(0, 44, kDeviceWidth, KDeviceHeight-20-keyboardSize.height);
 }
 
@@ -347,18 +346,15 @@
 -(void)finishSubmitTheNewAddress:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"修改后提交str     is     %@",str);
+//    NSLog(@"修改后提交str     is     %@",str);
     [str release];
-//    NSArray *array = [str JSONValue];
-//    NSLog(@"array is %@",array);
-//    [timeLineArray addObjectsFromArray:array];
-//    [timeLineTable reloadData];
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - 请求失败代理
 -(void)loginFailed:(ASIHTTPRequest *)formRequest{
-    NSLog(@"formRequest.error-------------%@",formRequest.error);
+//    NSLog(@"formRequest.error-------------%@",formRequest.error);
     NSString *errorStr = [NSString stringWithFormat:@"%@",formRequest.error];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];

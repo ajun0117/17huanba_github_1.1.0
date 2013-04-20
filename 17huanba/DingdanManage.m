@@ -196,16 +196,9 @@
     UITableViewCell *cell = (UITableViewCell *)sender.superview;
     NSIndexPath *indexPath = [dingdanTableView indexPathForCell:cell];
     NSDictionary *dic = [dingdanArray objectAtIndex:indexPath.row];
-    NSString *imgStr = [dic objectForKey:@"smallimg"];
-//    if (![imgStr isEqualToString:@" "]) {
-//        cell.gdimg.urlString = THEURL(imgStr);
-//    }
-    NSString *gname = [dic objectForKey:@"goods_name"];
     NSString *oidStr = [dic objectForKey:@"oid"];
     
     DingdanXiangqing *xiangVC = [[DingdanXiangqing alloc]init];
-    xiangVC.gdimgStr = imgStr;
-    xiangVC.gnameStr = gname;
     xiangVC.oidStr = oidStr;
     xiangVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:xiangVC animated:YES];
@@ -216,12 +209,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    NSLog(@"didSelect--didSelect--didSelect");
     Xiangxi *xiangxiVC = [[Xiangxi alloc]init];
     
     NSDictionary *dic = [dingdanArray objectAtIndex:indexPath.row];
     NSString *gdidStr = [dic objectForKey:@"goods_id"];
-    NSLog(@"gdidStr   is     %@",gdidStr);
     xiangxiVC.gdid = gdidStr;
     [self.navigationController pushViewController:xiangxiVC animated:YES];
     xiangxiVC.navigationController.navigationBarHidden = YES;
@@ -229,7 +220,6 @@
 }
 
 -(void)toChangeKinds:(UIButton *)sender{
-    NSLog(@"更换显示类别！");
     kindsBtn.highlighted = YES;
     if (sender.selected) {
         sender.selected = NO;
@@ -244,14 +234,11 @@
 #pragma mark - 获取用户通知列表（收到和申请）
 -(void)getTheDingdanWithType:(NSString *)shenfenType andPage:(int)p { //获取登录用户商品列表
     [SVProgressHUD showWithStatus:@"加载中.."];
-//    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
     NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
     NSURL *newUrl = [NSURL URLWithString:THEURL(@"/phone/goods/Orderlist.html")];
-//    NSURL *newUrl = [NSURL URLWithString:THEURL(@"/phone/goods/orderinfo.html")];
     ASIFormDataRequest *form_request = [ASIFormDataRequest requestWithURL:newUrl];
     [form_request setDelegate:self];
     [form_request setPostValue:uid forKey:@"uid"]; //用户ID
-//    [form_request setPostValue:@"2" forKey:@"oid"];
     [form_request setPostValue:shenfenType forKey:@"type"];
 
     [form_request setDidFinishSelector:@selector(finishGetTheDingdan:)];
@@ -262,9 +249,10 @@
 -(void)finishGetTheDingdan:(ASIFormDataRequest *)request{
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"已上架 str    is   %@",str);
+//    NSLog(@"已上架 str    is   %@",str);
 
     NSArray *Array = [str JSONValue];
+    [str release];
     [dingdanArray addObjectsFromArray:Array];
     [dingdanTableView reloadData];
 
@@ -273,7 +261,7 @@
 
 #pragma mark - 请求失败代理
 -(void)loginFailed:(ASIHTTPRequest *)formRequest{
-    NSLog(@"formRequest.error-------------%@",formRequest.error);
+//    NSLog(@"formRequest.error-------------%@",formRequest.error);
     NSString *errorStr = [NSString stringWithFormat:@"%@",formRequest.error];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];
@@ -312,50 +300,6 @@
     kindsBtn.selected = NO;
     changeIV.hidden = YES;
 }
-
-////当用户抬起拖动的手指时得到通知。还会得到一个布尔值，知名报告滚动视图最后位置之前，是否需要减速。
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-//    [self.dingdanTableView tableViewDidEndDragging:scrollView];
-//}
-//#pragma mark - PullingRefreshTableViewDelegate
-//- (void)pullingTableViewDidStartRefreshing:(PullingRefreshTableView *)tableView
-//{
-//    self.refreshing = YES;
-//    [self performSelector:@selector(refreshPage) withObject:nil afterDelay:1.f];
-//}
-//- (void)pullingTableViewDidStartLoading:(PullingRefreshTableView *)tableView
-//{
-//    
-//    [self performSelector:@selector(loadData) withObject:nil afterDelay:1.f];
-//}
-//
-//-(void)loadData
-//{
-//    page++;
-//    refreshing = NO;
-//    NSLog(@"%d",page);
-//    if ([kindsBtn.currentTitle isEqualToString:@" 作为买家"]) {
-//        [self getTheDingdanWithType:@"1" andPage:page];
-//    }
-//    else if ([kindsBtn.currentTitle isEqualToString:@" 作为卖家"]){
-//        [self getTheDingdanWithType:@"1" andPage:page];
-//    }
-//    NSLog(@"loadData  loadData  loadData");
-//}
-//
-//-(void)refreshPage{
-//    refreshing = NO;
-//    page = 0;
-//    [dingdanArray removeAllObjects];
-//    if ([kindsBtn.currentTitle isEqualToString:@" 作为买家"]) {
-//        [self getTheDingdanWithType:@"1" andPage:0];
-//    }
-//    else if ([kindsBtn.currentTitle isEqualToString:@" 作为卖家"]){
-//        [self getTheDingdanWithType:@"1" andPage:0];
-//    }
-//
-//    NSLog(@"refresh  refresh  refresh");
-//}
 
 - (void)didReceiveMemoryWarning
 {

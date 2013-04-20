@@ -131,7 +131,7 @@
 -(void)finishGetTheSearch:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"搜索结果  str    is   %@",str);
+//    NSLog(@"搜索结果  str    is   %@",str);
     NSDictionary *searchDic = [str JSONValue];
     [str release];
     NSArray *array = [searchDic objectForKey:@"data"];
@@ -145,7 +145,7 @@
 
 #pragma mark - 请求失败代理
 -(void)loginFailed:(ASIHTTPRequest *)formRequest{
-    NSLog(@"formRequest.error-------------%@",formRequest.error);
+//    NSLog(@"formRequest.error-------------%@",formRequest.error);
     NSString *errorStr = [NSString stringWithFormat:@"%@",formRequest.error];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];
@@ -221,7 +221,7 @@
     
     NSDictionary *dic = [listArray objectAtIndex:indexPath.row];
     NSString *gdidStr = [dic objectForKey:@"goods_id"];
-    NSLog(@"gdidStr   is     %@",gdidStr);
+//    NSLog(@"gdidStr   is     %@",gdidStr);
     xiangxiVC.gdid = gdidStr;
     
     [self.navigationController pushViewController:xiangxiVC animated:YES];
@@ -268,7 +268,7 @@
     refreshing = NO;
     [self getTheListWithPage:page andKeyword:keyword];
 
-    NSLog(@"loadData loadData loadData");
+//    NSLog(@"loadData loadData loadData");
 }
 
 -(void)refreshPage{
@@ -277,7 +277,7 @@
     [listArray removeAllObjects];
     [self getTheListWithPage:0 andKeyword:keyword];
 
-    NSLog(@"refresh  refresh  refresh");
+//    NSLog(@"refresh  refresh  refresh");
 }
 
 #pragma mark - ToggleViewDelegate

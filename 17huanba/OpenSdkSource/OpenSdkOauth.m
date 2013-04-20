@@ -165,6 +165,10 @@ static NSString *authPrefix = @"authorize";
     [OpenSdkBase showMessageBox:@"绑定成功！"];
 }
 
+-(void)logOut{
+    
+}
+
 //检查是否登录
 + (BOOL)isLoggedIn {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];

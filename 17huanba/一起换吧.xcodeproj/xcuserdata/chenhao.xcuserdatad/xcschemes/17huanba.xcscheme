@@ -91,6 +91,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Distribution"
+      customArchiveName = "&#19968;&#36215;&#25442;&#21543;"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

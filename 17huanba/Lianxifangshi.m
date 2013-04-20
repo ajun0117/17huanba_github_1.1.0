@@ -20,7 +20,6 @@
 @implementation Lianxifangshi
 @synthesize LianxiTableView,phoneF,emailF;
 @synthesize phoneL,emailL;
-//@synthesize QQL,weixinL,QQF,weixinF;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,12 +38,8 @@
     [super dealloc];
     RELEASE_SAFELY(phoneL);
     RELEASE_SAFELY(emailL);
-//    RELEASE_SAFELY(QQL);
-//    RELEASE_SAFELY(weixinL);
     RELEASE_SAFELY(phoneF);
     RELEASE_SAFELY(emailF);
-//    RELEASE_SAFELY(QQF);
-//    RELEASE_SAFELY(weixinF);
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil]; //移除监听
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
@@ -53,12 +48,8 @@
     [super viewDidUnload];
     RELEASE_SAFELY(phoneL);
     RELEASE_SAFELY(emailL);
-//    RELEASE_SAFELY(QQL);
-//    RELEASE_SAFELY(weixinL);
     RELEASE_SAFELY(phoneF);
     RELEASE_SAFELY(emailF);
-//    RELEASE_SAFELY(QQF);
-//    RELEASE_SAFELY(weixinF);
 }
 
 - (void)viewDidLoad
@@ -87,20 +78,12 @@
     [self.view addSubview:navIV];
     [navIV release];
     
-//    UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    saveBtn.frame = CGRectMake(258, 10, 57, 27);
-//    saveBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15];
-//    [saveBtn setBackgroundImage:[UIImage imageNamed:@"tab_bg.png"] forState:UIControlStateNormal];
-//    [saveBtn setTitle:@"保存" forState:UIControlStateNormal];
-//    [saveBtn addTarget:self action:@selector(toSaveTheEdit) forControlEvents:UIControlEventTouchUpInside];
-//    [navIV addSubview:saveBtn];
-    
     self.LianxiTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 44, kDeviceWidth, KDeviceHeight-20-44) style:UITableViewStyleGrouped];
     LianxiTableView.delegate = self;
     LianxiTableView.dataSource = self;
     [self.view addSubview:LianxiTableView];
     [LianxiTableView release];
-//    LianxiTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"detail_bg.png"]];
+    
     UIView *view = [[UIView alloc]init];
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"detail_bg.png"]];
     LianxiTableView.backgroundView = view;
@@ -140,23 +123,6 @@
     [keyboardToolbar release];
     emailF.enabled = NO;
     
-//    self.QQL = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 80, 40)];
-//    QQL.textAlignment = UITextAlignmentCenter;
-//    QQL.backgroundColor = [UIColor clearColor];
-//    QQL.text = @"*QQ号";
-//    
-//    self.QQF = [[UITextField alloc]initWithFrame:CGRectMake(90, 10, 220, 40)];
-//    QQF.inputAccessoryView = keyboardToolbar;
-//    [keyboardToolbar release];
-//    
-//    self.weixinL = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 80, 40)];
-//    weixinL.textAlignment = UITextAlignmentCenter;
-//    weixinL.backgroundColor = [UIColor clearColor];
-//    weixinL.text = @"微信ID";
-//    
-//    self.weixinF = [[UITextField alloc]initWithFrame:CGRectMake(90, 10, 220, 40)];
-//    weixinF.inputAccessoryView = keyboardToolbar;
-//    [keyboardToolbar release];
     [self getMyLianxi];
 }
 
@@ -177,7 +143,7 @@
 -(void)finishGetMyXinxi:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"联系方式  str    is   %@",str);
+//    NSLog(@"联系方式  str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
     NSDictionary *dataDic = [dic objectForKey:@"data"];
@@ -188,26 +154,11 @@
     emailF.text = [userInfoDic objectForKey:@"email"];
     
     [SVProgressHUD dismiss];
-    
-//    NSString *urlStr = [userInfoDic objectForKey:@"headimg"];
-//    if (![urlStr isEqualToString:@" "]) {
-//        head.urlString = THEURL(urlStr);
-//    }
-//    nichengF.text = [userInfoDic objectForKey:@"uname"];
-//    trueNameF.text = [userInfoDic objectForKey:@"realname"];
-//    NSString *sexStr = [userInfoDic objectForKey:@"sex"];
-//    if ([sexStr isEqualToString:@"1"]) {
-//        sexF.text = @"男";
-//    }
-//    else{
-//        sexF.text = @"女";
-//    }
-//    addressF.text = SHENG_SHI_XIAN([userInfoDic objectForKey:@"sheng"], [userInfoDic objectForKey:@"shi"], [userInfoDic objectForKey:@"xian"]);
 }
 
 #pragma mark - 请求失败代理
 -(void)loginFailed:(ASIHTTPRequest *)formRequest{
-    NSLog(@"formRequest.error-------------%@",formRequest.error);
+//    NSLog(@"formRequest.error-------------%@",formRequest.error);
     NSString *errorStr = [NSString stringWithFormat:@"%@",formRequest.error];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];
@@ -226,7 +177,6 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headV = [[UIView alloc]init];
-//    headV.backgroundColor = [UIColor colorWithRed:0.2 green:0.5 blue:0.1 alpha:1];
     headV.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"section_bar.png"]];
     
     UILabel *noticeL = [[UILabel alloc]initWithFrame:CGRectMake(50, 5, 150, 20)];
@@ -260,23 +210,6 @@
         [cell.contentView addSubview:emailL];
         [cell.contentView addSubview:emailF];
     }
-//    else if (indexPath.row == 2) {
-//        UIImageView *cellIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"release_list_mid.png"]];
-//        cell.backgroundView = cellIV;
-//        [cellIV release];
-//        
-//        [cell.contentView addSubview:QQL];
-//        [cell.contentView addSubview:QQF];
-//    }
-//    else if (indexPath.row == 3) {
-//        UIImageView *cellIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"release_list_bottom1_.png"]];
-//        cell.backgroundView = cellIV;
-//        [cellIV release];
-//        
-//        [cell.contentView addSubview:weixinL];
-//        [cell.contentView addSubview:weixinF];
-//    }
-    
     return cell;
 }
 
@@ -284,8 +217,6 @@
 -(void)resignKeyboard{
     [phoneF resignFirstResponder];
     [emailF resignFirstResponder];
-//    [QQF resignFirstResponder];
-//    [weixinF resignFirstResponder];
 }
 
 #pragma mark - 键盘通知
@@ -294,7 +225,7 @@
     
     NSValue *value = [info objectForKey:@"UIKeyboardBoundsUserInfoKey"];
     CGSize keyboardSize = [value CGRectValue].size;
-    NSLog(@"----%@",NSStringFromCGSize(keyboardSize));
+//    NSLog(@"----%@",NSStringFromCGSize(keyboardSize));
     LianxiTableView.frame = CGRectMake(0, 44, kDeviceWidth, KDeviceHeight-20-44-keyboardSize.height);
 }
 
@@ -307,27 +238,6 @@
 -(void)fanhui{
     [self.navigationController popViewControllerAnimated:YES];
 }
-
-//-(void)toSaveTheEdit{
-//    NSLog(@"保存提交更改过的联系方式");
-//    NSURL *newUrl = [NSURL URLWithString:THEURL(@"/phone/default/index.html")];
-//    ASIFormDataRequest *form_request = [ASIFormDataRequest requestWithURL:newUrl];
-//    [form_request setDelegate:self];
-//    //    [form_request setPostValue:[NSNumber numberWithInt:newsPage] forKey:@"p"];
-//    [form_request setDidFinishSelector:@selector(finishTheNewGoods:)];
-//    [form_request setDidFailSelector:@selector(loginFailed:)];
-//    [form_request startAsynchronous];
-//}
-//
-//-(void)finishTheNewGoods:(ASIHTTPRequest *)request{ //请求成功后的方法
-//    NSData *data = request.responseData;
-//    NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//    NSLog(@"str     is     %@",str);
-//    NSArray *array = [str JSONValue];
-//    NSLog(@"array is %@",array);
-//    //    [timeLineArray addObjectsFromArray:array];
-//    //    [timeLineTable reloadData];
-//}
 
 - (void)didReceiveMemoryWarning
 {

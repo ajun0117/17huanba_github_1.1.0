@@ -222,11 +222,11 @@
     addressL.textColor = [UIColor blackColor];
     addressL.text = @"点击选择您的收获地址";
     
-    self.beizhuL = [[UILabel alloc]initWithFrame:CGRectMake(5, 5, 40, 30)];
+    self.beizhuL = [[UILabel alloc]initWithFrame:CGRectMake(5, 5, 70, 30)];
     beizhuL.backgroundColor = [UIColor clearColor];
-    beizhuL.text = @"备注:";
+    beizhuL.text = @"备   注:";
     
-    self.beizhuF = [[UITextField alloc]initWithFrame:CGRectMake(50, 5, 245, 30)];
+    self.beizhuF = [[UITextField alloc]initWithFrame:CGRectMake(70, 5, 225, 30)];
     beizhuF.borderStyle = UITextBorderStyleRoundedRect;
     beizhuF.inputAccessoryView = keyboardToolbar;
     beizhuF.delegate = self;
@@ -293,10 +293,10 @@
 -(void)finishTheDetailGoods:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"str    is   %@",str);
+//    NSLog(@"str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"goodsDic   is   %@",dic);
+//    NSLog(@"goodsDic   is   %@",dic);
     self.goodsDic = [dic objectForKey:@"data"];
     [dingdanTableView reloadData];
     
@@ -356,10 +356,10 @@
 -(void)finishGetTheTanwei:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"摊位 str    is   %@",str);
+//    NSLog(@"摊位 str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"dic is %@",dic);
+//    NSLog(@"dic is %@",dic);
     NSArray *array = [dic objectForKey:@"data"];
     NSMutableArray *nameArray = [NSMutableArray array];
     for (NSDictionary *dic in array) {
@@ -384,7 +384,7 @@
     
     NSValue *value = [info objectForKey:@"UIKeyboardBoundsUserInfoKey"];
     CGSize keyboardSize = [value CGRectValue].size;
-    NSLog(@"----%@",NSStringFromCGSize(keyboardSize));
+//    NSLog(@"----%@",NSStringFromCGSize(keyboardSize));
     dingdanTableView.frame = CGRectMake(0, 44, kDeviceWidth, KDeviceHeight-20-keyboardSize.height);
 }
 
@@ -421,11 +421,11 @@
 -(void)finishGetTheJiao:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"交易码    is   %@",str);
+//    NSLog(@"交易码    is   %@",str);
     
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"dic is %@",dic);
+//    NSLog(@"dic is %@",dic);
     
     self.jiaoyimaStr = [dic objectForKey:@"data"]; //获取交易码  在确认订单时与输入的验证码比对
 }
@@ -495,7 +495,7 @@
 -(void)finishShenqing:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"申请结果    is   %@",str);
+//    NSLog(@"申请结果    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
     BOOL state = [[dic objectForKey:@"state"] boolValue];

@@ -81,7 +81,6 @@
     saveBtn.frame = CGRectMake(258, 10, 57, 27);
     saveBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15];
     [saveBtn setBackgroundImage:[UIImage imageNamed:@"tab_bg.png"] forState:UIControlStateNormal];
-    //    [deleBtn setTitle:@"删除" forState:UIControlStateNormal];
     [saveBtn setTitle:@"添加" forState:UIControlStateNormal];
     [saveBtn addTarget:self action:@selector(toAddNewAddress) forControlEvents:UIControlEventTouchUpInside];
     [navIV addSubview:saveBtn];
@@ -91,7 +90,6 @@
     addrTableView.dataSource = self;
     [self.view addSubview:addrTableView];
     [addrTableView release];
-//    addrTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"detail_bg.png"]];
     UIView *view = [[UIView alloc]init];
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"detail_bg.png"]];
     addrTableView.backgroundView = view;
@@ -121,7 +119,7 @@
 -(void)finishGetMyAddress:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"收获地址  str    is   %@",str);
+//    NSLog(@"收获地址  str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
     NSArray *dataArray = [dic objectForKey:@"data"];
@@ -132,7 +130,7 @@
 
 #pragma mark - 请求失败代理
 -(void)loginFailed:(ASIHTTPRequest *)formRequest{
-    NSLog(@"formRequest.error-------------%@",formRequest.error);
+//    NSLog(@"formRequest.error-------------%@",formRequest.error);
     NSString *errorStr = [NSString stringWithFormat:@"%@",formRequest.error];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];
@@ -226,7 +224,7 @@
 
 
 -(void)selectIt:(UIButton *)sender{
-    NSLog(@"选择该地址！");
+//    NSLog(@"选择该地址！");
     NSInteger theSection = sender.tag - 10;
     NSDictionary *addrDic = [addrArray objectAtIndex:theSection];
     
@@ -235,7 +233,7 @@
 }
 
 -(void)delete:(UIButton *)sender{
-    NSLog(@"删除地址！");
+//    NSLog(@"删除地址！");
     NSInteger theSection = sender.tag - 30;
     NSDictionary *addrDic = [addrArray objectAtIndex:theSection];
     NSString *aidStr = [addrDic objectForKey:@"mid"];
@@ -260,12 +258,8 @@
 -(void)finishDeletedTheAddress:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"修改后提交str     is     %@",str);
+//    NSLog(@"修改后提交str     is     %@",str);
     [str release];
-    //    NSArray *array = [str JSONValue];
-    //    NSLog(@"array is %@",array);
-    //    [timeLineArray addObjectsFromArray:array];
-    //    [timeLineTable reloadData];
 }
 
 -(void)edit:(UIButton *)sender{

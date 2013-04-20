@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "PullingRefreshTableView.h"
 #import "ASIFormDataRequest.h"
+#import "KYShareViewController.h"
 
-@interface MyTanwei : UIViewController<UITableViewDelegate,UITableViewDataSource,PullingRefreshTableViewDelegate>
+@interface MyTanwei : UIViewController<UITableViewDelegate,UITableViewDataSource,PullingRefreshTableViewDelegate,UIActionSheetDelegate>
 {
     int page;
 }
@@ -20,5 +21,7 @@
 @property(retain,nonatomic)NSMutableArray *tanweiArray;
 
 @property(retain,nonatomic)ASIFormDataRequest *form_request;
+@property(retain,nonatomic)NSIndexPath *theIndexPath;
+@property (nonatomic, retain)KYShareViewController *shareVC;
 
 @end

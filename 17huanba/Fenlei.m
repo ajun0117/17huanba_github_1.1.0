@@ -13,8 +13,6 @@
 #import "JSON.h"
 #import "SVProgressHUD.h"
 
-//#define FRISTFENLEI @"二手电脑",@"二手手机/数码产品",@"家具家装",@"二手家用电器",@"母婴/玩具乐器",@"个户化妆",@"服装/鞋帽/礼品/箱包",@"图书/影像/软件",@"食品饮料/保健品",@"办公用品/通讯设备",@"运动/户外",@"二手车/汽车配件"
-
 @interface Fenlei ()
 
 @end
@@ -28,7 +26,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-//        fenleiArray = [[NSArray alloc]initWithObjects:FRISTFENLEI, nil];
         self.fenleiArray = [NSMutableArray array];
     }
     return self;
@@ -92,7 +89,7 @@
 -(void)finishGetFristfenlei:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"一级分类  str    is   %@",str);
+//    NSLog(@"一级分类  str    is   %@",str);
     id fristFenlei = [str JSONValue];
     [str release];
     if ([fristFenlei isKindOfClass:[NSArray class]]) {
@@ -110,13 +107,13 @@
 -(void)loginFenleiFailed:(ASIHTTPRequest *)request{
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"失败   %@",str);
+//    NSLog(@"失败   %@",str);
     [str release];
     [SVProgressHUD dismissWithError:@"请检查网络连接后重试！"];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    NSLog(@"%s",__FUNCTION__);
+//    NSLog(@"%s",__FUNCTION__);
     
     NSString *keyword = searchBar.text;
     List *listVC = [[List alloc]init];
@@ -139,7 +136,7 @@
 
 #pragma mark - UItableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSLog(@"-----%d",[fenleiArray count]);
+//    NSLog(@"-----%d",[fenleiArray count]);
     return [fenleiArray count];
 }
 

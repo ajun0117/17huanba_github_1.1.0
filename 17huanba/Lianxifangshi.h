@@ -12,11 +12,7 @@
 @property(retain,nonatomic)UITableView *LianxiTableView;
 @property(retain,nonatomic)UITextField *phoneF;
 @property(retain,nonatomic)UITextField *emailF;
-//@property(retain,nonatomic)UITextField *QQF;
-//@property(retain,nonatomic)UITextField *weixinF;
 
 @property(retain,nonatomic)UILabel *phoneL;
 @property(retain,nonatomic)UILabel *emailL;
-//@property(retain,nonatomic)UILabel *QQL;
-//@property(retain,nonatomic)UILabel *weixinL;
 @end

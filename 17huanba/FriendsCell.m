@@ -113,14 +113,10 @@
 
 - (void)prepareForReuse //重用表单元格前调用的方法
 {
-//    self.head.frame = CGRectZero;
-//    self.nameL.frame = CGRectZero;
-//    self.genderL.frame = CGRectZero;
     self.list_bgIV.frame = CGRectZero;
     self.fa_bgIV.frame = CGRectZero;
     self.shou1_bgIV.frame = CGRectZero;
     self.shou2_bgIV.frame = CGRectZero;
-//    self.weizhiL.frame = CGRectZero;
     [super prepareForReuse];
 }
 

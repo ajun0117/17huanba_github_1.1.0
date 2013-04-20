@@ -121,7 +121,6 @@
     xinxiTableView.dataSource = self;
     [self.view addSubview:xinxiTableView];
     [xinxiTableView release];
-//    xinxiTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"detail_bg.png"]];
     UIView *view = [[UIView alloc]init];
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"detail_bg.png"]];
     xinxiTableView.backgroundView = view;
@@ -129,7 +128,6 @@
     
     UIImageView *bgIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"edit_top_bg.png"]];
     bgIV.frame = CGRectMake(0, 0, 320, 100);
-//    bgIV.backgroundColor = [UIColor grayColor];
     bgIV.userInteractionEnabled = YES;
     
     self.head = [[AsyncImageView alloc]initWithFrame:CGRectMake(10, 10, 80, 80)];
@@ -148,7 +146,6 @@
     cityPicker.delegate = self;
     cityPicker.showsSelectionIndicator = YES;      // 这个弄成YES, picker中间就会有个条, 被选中的样子
     cityPicker.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-//    [self.view addSubview:cityPicker];
     service = [[sqlService alloc]init];
     self.proviceArray = [service getCityListByProvinceCode:@"0"];
     self.cityArray = [service getCityListByProvinceCode:[[proviceArray objectAtIndex:0] objectForKey:@"sCode"]];
@@ -244,7 +241,7 @@
 -(void)finishGetMyXinxi:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"个人信息  str    is   %@",str);
+//    NSLog(@"个人信息  str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
     NSDictionary *dataDic = [dic objectForKey:@"data"];
@@ -264,14 +261,12 @@
         sexF.text = @"女";
     }
     addressF.text = SHENG_SHI_XIAN([userInfoDic objectForKey:@"sheng"], [userInfoDic objectForKey:@"shi"], [userInfoDic objectForKey:@"xian"]);
-    
-    NSLog(@"00000111110000%@",[userInfoDic objectForKey:@"localaddress"]);
     [SVProgressHUD dismiss];
 }
 
 #pragma mark - 请求失败代理
 -(void)loginFailed:(ASIHTTPRequest *)formRequest{
-    NSLog(@"formRequest.error-------------%@",formRequest.error);
+//    NSLog(@"formRequest.error-------------%@",formRequest.error);
     NSString *errorStr = [NSString stringWithFormat:@"%@",formRequest.error];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];
@@ -287,8 +282,6 @@
 
 #pragma mark - 键盘通知
 -(void)keyboardWasShown:(NSNotification *) notif{
-    
-//    [self._tableV setContentOffset:CGPointMake(0,textField.tag*30) animated:YES];
     
     NSDictionary *info = [notif userInfo];
     
@@ -461,13 +454,10 @@
     return theImage; //返回压缩后的图片
 }
 
-
-
 #pragma mark - 编辑个人信息页面导航栏
 -(void)fanhui{
     [self.navigationController popViewControllerAnimated:YES];
 }
-
 
 -(void)toSaveTheEdit{
     [SVProgressHUD showWithStatus:@"正在保存修改到服务器.."];
@@ -488,7 +478,6 @@
         actual_size = size/current_size;
         data = UIImageJPEGRepresentation(head.image, actual_size);
     }
-//    [form_request addData:data forKey:@"headimg"];
     [form_request addData:data withFileName:@"headimg.jpg" andContentType:@"image/jpeg" forKey:@"headimg"];
 
     
@@ -525,10 +514,6 @@
     NSLog(@"array is %@",dic);
     NSString *info = [dic objectForKey:@"info"];
     NSLog(@"info-----%@",info);
-//    NSArray *array = [str JSONValue];
-//    NSLog(@"array is %@",array);
-//    [timeLineArray addObjectsFromArray:array];
-//    [timeLineTable reloadData];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:info delegate:self cancelButtonTitle:nil otherButtonTitles:@"是",nil];
     [alert show];
     [alert release];

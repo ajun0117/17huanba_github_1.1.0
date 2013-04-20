@@ -22,6 +22,7 @@
 @implementation Shoucang
 @synthesize shoucangTableView;
 @synthesize shouArray,refreshing;
+@synthesize theIndexPath,shareVC;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,6 +33,13 @@
         page = 0;
     }
     return self;
+}
+
+-(void)dealloc{
+    [theIndexPath release];
+    [shareVC release];
+    
+    [super dealloc];
 }
 
 - (void)viewDidLoad
@@ -68,7 +76,6 @@
     [deleBtn addTarget:self action:@selector(toDelete:) forControlEvents:UIControlEventTouchUpInside];
     [navIV addSubview:deleBtn];
     
-//    self.shoucangTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 44, 320, 460-44) style:UITableViewStylePlain];
      self.shoucangTableView = [[PullingRefreshTableView alloc]initWithFrame:CGRectMake(0, 44, kDeviceWidth, KDeviceHeight-44-20) pullingDelegate:self];
     shoucangTableView.delegate = self;
     shoucangTableView.dataSource = self;
@@ -78,13 +85,16 @@
     [self getShoucangList:0];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    self.navigationController.navigationBarHidden = YES;
+}
+
 -(void)getShoucangList:(int)p{
     [SVProgressHUD showWithStatus:@"加载中.."];
     NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
     NSURL *newUrl = [NSURL URLWithString:THEURL(@"/phone/logined/Colect.html")];
     ASIFormDataRequest *form_request = [ASIFormDataRequest requestWithURL:newUrl];
     [form_request setDelegate:self];
-    //    [form_request setPostValue:@"1" forKey:@"state"]; //成功加为好友的列表
     [form_request setPostValue:token forKey:@"token"];
     [form_request setPostValue:[NSString stringWithFormat:@"%d",p] forKey:@"p"];
     [form_request setDidFinishSelector:@selector(finishGetTheShoucang:)];
@@ -95,10 +105,10 @@
 -(void)finishGetTheShoucang:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"收藏 str    is   %@",str);
+//    NSLog(@"收藏 str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"dic is %@",dic);
+//    NSLog(@"dic is %@",dic);
     NSArray *array = [dic objectForKey:@"data"];
     [self.shouArray addObjectsFromArray:array];
     [shoucangTableView reloadData];
@@ -109,7 +119,7 @@
 
 #pragma mark - 请求失败代理
 -(void)loginFailed:(ASIHTTPRequest *)formRequest{
-    NSLog(@"formRequest.error-------------%@",formRequest.error);
+//    NSLog(@"formRequest.error-------------%@",formRequest.error);
     NSString *errorStr = [NSString stringWithFormat:@"%@",formRequest.error];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];
@@ -161,12 +171,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    NSLog(@"didSelect--didSelect--didSelect");
+//    NSLog(@"didSelect--didSelect--didSelect");
     Xiangxi *xiangxiVC = [[Xiangxi alloc]init];
     
     NSDictionary *dic = [shouArray objectAtIndex:indexPath.row];
     NSString *gdidStr = [dic objectForKey:@"goods_id"];
-    NSLog(@"gdidStr   is     %@",gdidStr);
+//    NSLog(@"gdidStr   is     %@",gdidStr);
     xiangxiVC.gdid = gdidStr;
     
     [self.navigationController pushViewController:xiangxiVC animated:YES];
@@ -198,13 +208,13 @@
 -(void)finishDeleteTheFriend:(ASIHTTPRequest *)request{ //请求成功后的方法
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"删除情况 str    is   %@",str);
+//    NSLog(@"删除情况 str    is   %@",str);
     NSDictionary *dic = [str JSONValue];
     [str release];
-    NSLog(@"dic is %@",dic);
+//    NSLog(@"dic is %@",dic);
     
     NSString *info = [dic objectForKey:@"info"];
-    NSLog(@"%@",info);
+//    NSLog(@"%@",info);
     
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:info delegate:self cancelButtonTitle:nil otherButtonTitles:@"是",nil];
     [alert show];
@@ -232,21 +242,53 @@
     NSLog(@"%s",__FUNCTION__);
     
     UITableViewCell *cell = (UITableViewCell *)sender.superview;
-    NSIndexPath *indexPath = [shoucangTableView indexPathForCell:cell]; //获取相应的Cell的indexPath，之后从数组中取值得到该好友的ID
+    self.theIndexPath = [shoucangTableView indexPathForCell:cell]; //获取相应的Cell的indexPath，之后从数组中取值得到该好友的ID
     
-    NSDictionary *dic = [shouArray objectAtIndex:indexPath.row];
-    NSString *gid = [dic objectForKey:@"goods_id"];
+    NSDictionary *goodDic = [shouArray objectAtIndex:theIndexPath.row];
+    NSString *gidStr = [goodDic objectForKey:@"goods_id"];
+    NSString *goodsName = [goodDic objectForKey:@"goods_name"];
+    NSString *urlStr = [NSString stringWithFormat:@"http://www.17huanba.com/view/%@.html",gidStr];
     
-    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
-    NSURL *newUrl = [NSURL URLWithString:THEURL(@"/phone/plogined/Share.html")]; //分享
-    ASIFormDataRequest *form_request = [ASIFormDataRequest requestWithURL:newUrl];
-    [form_request setDelegate:self];
-    [form_request setPostValue:gid forKey:@"gid"]; //商品ID
-    [form_request setPostValue:token forKey:@"token"];
-//    [form_request setPostValue:[NSString stringWithFormat:@"%d",p] forKey:@"p"];
-    [form_request setDidFinishSelector:@selector(finishFenxiangTheShoucang:)];
-    [form_request setDidFailSelector:@selector(loginFailed:)];
-    [form_request startAsynchronous];
+    self.shareVC = [[KYShareViewController alloc] init];
+    shareVC.shareText = [NSString stringWithFormat:@"偶有闲置%@一枚，求置换哦，不知道亲们是否喜欢？%@",goodsName,urlStr];
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"分享到" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"新浪微博", @"腾讯微博", @"人人网",@"我的动态",nil];
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+    [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+    [actionSheet release];
+}
+
+#pragma mark - uiactionsheet delegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        shareVC.shareType = SinaWeibo;
+        shareVC.title = @"分享到新浪微博";
+        [self.navigationController pushViewController:shareVC animated:YES];
+    }
+    else if (buttonIndex == 1) {
+        shareVC.shareType = Tencent;
+        shareVC.title = @"分享到腾讯微博";
+        [self.navigationController pushViewController:shareVC animated:YES];
+    }
+    else if (buttonIndex == 2) {
+        shareVC.shareType = RenrenShare;
+        shareVC.title = @"分享到人人网";
+        [self.navigationController pushViewController:shareVC animated:YES];
+    }
+    else if (buttonIndex == 3) {
+        NSDictionary *dic = [shouArray objectAtIndex:theIndexPath.row];
+        NSString *gid = [dic objectForKey:@"goods_id"];
+        
+        NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
+        NSURL *newUrl = [NSURL URLWithString:THEURL(@"/phone/plogined/Share.html")]; //分享
+        ASIFormDataRequest *form_request = [ASIFormDataRequest requestWithURL:newUrl];
+        [form_request setDelegate:self];
+        [form_request setPostValue:gid forKey:@"gid"]; //商品ID
+        [form_request setPostValue:token forKey:@"token"];
+        [form_request setDidFinishSelector:@selector(finishFenxiangTheShoucang:)];
+        [form_request setDidFailSelector:@selector(loginFailed:)];
+        [form_request startAsynchronous];
+    }
 }
 
 -(void)finishFenxiangTheShoucang:(ASIHTTPRequest *)request{ //请求成功后的方法
@@ -292,8 +334,6 @@
     refreshing = NO;
     page++;
     [self getShoucangList:page];
-   
-    NSLog(@"loadData  loadData  loadData");
 }
 
 -(void)refreshPage{
@@ -301,8 +341,6 @@
     page = 0;
     [shouArray removeAllObjects];
     [self getShoucangList:0];
-    
-    NSLog(@"refresh  refresh  refresh");
 }
 
 

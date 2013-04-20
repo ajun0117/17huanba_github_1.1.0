@@ -51,8 +51,7 @@
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
+    [super didReceiveMemoryWarning]; 
     // Release any cached data, images, etc that aren't in use.
 }
 
@@ -101,35 +100,6 @@
     self.navigationItem.rightBarButtonItem = shareBtnItem;
     [shareBtnItem release];
     
-//    UIImageView *navIV=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"top_nav.png"]];
-//    navIV.userInteractionEnabled=YES;
-//    navIV.frame = CGRectMake(0, 0, 320, 44);
-//    
-//    UIButton *backBtn=[UIButton buttonWithType:UIButtonTypeCustom];
-//    backBtn.frame=CGRectMake(5, 10, 57, 27);
-//    [backBtn setBackgroundImage:[UIImage imageNamed:@"back_gray_btn.png"] forState:UIControlStateNormal];
-//    [backBtn addTarget:self action:@selector(fanhui) forControlEvents:UIControlEventTouchUpInside];
-//    [navIV addSubview:backBtn];
-//    
-//    self.nameL=[[UILabel alloc]initWithFrame:CGRectMake(100, 10, 120, 24)];
-//    nameL.font=[UIFont systemFontOfSize:17];
-//    nameL.backgroundColor = [UIColor clearColor];
-//    nameL.textAlignment = UITextAlignmentCenter;
-//    nameL.textColor = [UIColor whiteColor];
-//    nameL.text = @"分享";
-//    [navIV addSubview:nameL];
-//    [nameL release];
-//    [self.view addSubview:navIV];
-//    [navIV release];
-//    
-//    UIButton *deleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    deleBtn.frame = CGRectMake(258, 10, 57, 27);
-//    deleBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15];
-//    [deleBtn setBackgroundImage:[UIImage imageNamed:@"tab_bg.png"] forState:UIControlStateNormal];
-//    [deleBtn setTitle:@"分享" forState:UIControlStateNormal];
-//    [deleBtn addTarget:self action:@selector(shareBtnItemClicked) forControlEvents:UIControlEventTouchUpInside];
-//    [navIV addSubview:deleBtn];
-    
     CGRect rect = self.view.bounds;
     CGRect tvRect;
     tvRect.origin.x = kBorderWidth;
@@ -164,10 +134,6 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(oauthDidSuccess) name:@"TencentOauthDidSuccess" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popShareView) name:@"TencentSendWeiboSuccessed" object:nil];
-}
-
--(void)fanhui{
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)refreshView {
