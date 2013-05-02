@@ -210,36 +210,27 @@
     miaoshuTV.inputAccessoryView = keyboardToolbar;
     [keyboardToolbar release];
     
-    self.RMBTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
-    RMBTF.backgroundColor = [UIColor clearColor];
-    RMBTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    RMBTF.font = [UIFont systemFontOfSize:13];
-    RMBTF.placeholder = @"请输入金币数量";
-    RMBTF.delegate = self;
-    RMBTF.tag = 10;
-    RMBTF.inputAccessoryView = keyboardToolbar;
-    [keyboardToolbar release];
+    self.fenleiTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
+    fenleiTF.backgroundColor = [UIColor clearColor];
+    fenleiTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    fenleiTF.font = [UIFont systemFontOfSize:13];
+    fenleiTF.placeholder = @"点击选择分类";
+    fenleiTF.delegate = self;
+    fenleiTF.tag = 3;
     
-    self.huanbiTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
-    huanbiTF.backgroundColor = [UIColor clearColor];
-    huanbiTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    huanbiTF.font = [UIFont systemFontOfSize:13];
-    huanbiTF.placeholder = @"请输入换币数量";
-    huanbiTF.delegate = self;
-    huanbiTF.tag = 11;
-    huanbiTF.inputAccessoryView = keyboardToolbar;
+    self.weizhiTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
+    weizhiTF.backgroundColor = [UIColor clearColor];
+    weizhiTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    weizhiTF.font = [UIFont systemFontOfSize:13];
+    weizhiTF.placeholder = @"点击选择您的位置";
+    weizhiTF.delegate = self;
+    weizhiTF.tag = 4;
+    weizhiTF.inputAccessoryView = keyboardToolbar;
+    weizhiTF.inputView = cityPicker;
     [keyboardToolbar release];
+    [cityPicker release];
     
     
-    self.yuanjiaTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
-    yuanjiaTF.backgroundColor = [UIColor clearColor];
-    yuanjiaTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    yuanjiaTF.font = [UIFont systemFontOfSize:13];
-    yuanjiaTF.placeholder = @"宝贝原价（元）";
-    yuanjiaTF.delegate = self;
-    yuanjiaTF.tag = 7;
-    yuanjiaTF.inputAccessoryView = keyboardToolbar;
-    [keyboardToolbar release];
     
     self.tongchengTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
     tongchengTF.backgroundColor = [UIColor clearColor];
@@ -261,14 +252,15 @@
     yidiTF.inputAccessoryView = keyboardToolbar;
     [keyboardToolbar release];
     
-    
-    self.fenleiTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
-    fenleiTF.backgroundColor = [UIColor clearColor];
-    fenleiTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    fenleiTF.font = [UIFont systemFontOfSize:13];
-    fenleiTF.placeholder = @"点击选择分类";
-    fenleiTF.delegate = self;
-    fenleiTF.tag = 3;
+    self.yuanjiaTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
+    yuanjiaTF.backgroundColor = [UIColor clearColor];
+    yuanjiaTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    yuanjiaTF.font = [UIFont systemFontOfSize:13];
+    yuanjiaTF.placeholder = @"宝贝原价（元）";
+    yuanjiaTF.delegate = self;
+    yuanjiaTF.tag = 7;
+    yuanjiaTF.inputAccessoryView = keyboardToolbar;
+    [keyboardToolbar release];
     
     self.chengseTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
     chengseTF.backgroundColor = [UIColor clearColor];
@@ -282,21 +274,29 @@
     [keyboardToolbar release];
     [chengsePV release];
     
-    self.weizhiTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
-    weizhiTF.backgroundColor = [UIColor clearColor];
-    weizhiTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    weizhiTF.font = [UIFont systemFontOfSize:13];
-    weizhiTF.placeholder = @"点击选择您的位置";
-    weizhiTF.delegate = self;
-    weizhiTF.tag = 4;
-    weizhiTF.inputAccessoryView = keyboardToolbar;
-    weizhiTF.inputView = cityPicker;
+    self.RMBTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
+    RMBTF.backgroundColor = [UIColor clearColor];
+    RMBTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    RMBTF.font = [UIFont systemFontOfSize:13];
+    RMBTF.placeholder = @"请输入人民币数量";
+    RMBTF.delegate = self;
+    RMBTF.tag = 9;
+    RMBTF.inputAccessoryView = keyboardToolbar;
     [keyboardToolbar release];
-    [cityPicker release];
+    
+    self.huanbiTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
+    huanbiTF.backgroundColor = [UIColor clearColor];
+    huanbiTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    huanbiTF.font = [UIFont systemFontOfSize:13];
+    huanbiTF.placeholder = @"请输入换币数量";
+    huanbiTF.delegate = self;
+    huanbiTF.tag = 10;
+    huanbiTF.inputAccessoryView = keyboardToolbar;
+    [keyboardToolbar release];
     
     self.wuwuTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
     wuwuTF.delegate = self;
-    wuwuTF.tag = 9;
+    wuwuTF.tag = 11;
     wuwuTF.backgroundColor = [UIColor clearColor];
     wuwuTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     wuwuTF.font = [UIFont systemFontOfSize:13];
@@ -314,29 +314,29 @@
     shouTF.enabled = NO;
     
     
-//    self.baoyouSeg = [[MCSegmentedControl alloc]initWithItems:[NSArray arrayWithObjects:@"是",@"否",nil]];
-    self.baoyouSeg = [[UISegmentedControl alloc]initWithItems:[NSArray arrayWithObjects:@"是",@"否",nil]];
-    [baoyouSeg addTarget:self action:@selector(baoyou:) forControlEvents:UIControlEventValueChanged];
-    baoyouSeg.selectedSegmentIndex = 1; //默认不包邮
-    
-    baoyouSeg.segmentedControlStyle=UISegmentedControlStyleBar;//此类型实现点击后图片大小完全填充按钮
-    [baoyouSeg setBackgroundImage:[UIImage imageNamed:@"detail_tab_gray.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    [baoyouSeg setBackgroundImage:[UIImage imageNamed:@"detail_tab.png"] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],UITextAttributeTextColor,  [UIFont systemFontOfSize:17],UITextAttributeFont ,nil];
-    [baoyouSeg setTitleTextAttributes:dic forState:UIControlStateNormal];
-    baoyouSeg.frame = CGRectMake(230, 0, 80, 25);
-
-    
-    self.sellTypeSeg = [[UISegmentedControl alloc]initWithItems:[NSArray arrayWithObjects:@"物物",@"金银币",@"均可",nil]];
-    [sellTypeSeg addTarget:self action:@selector(jiaohuanfangshi:) forControlEvents:UIControlEventValueChanged];
-    sellTypeSeg.frame = CGRectMake(140, 0, 170, 25);
-    
-    sellTypeSeg.segmentedControlStyle=UISegmentedControlStyleBar;//此类型实现点击后图片大小完全填充按钮
-    [sellTypeSeg setBackgroundImage:[UIImage imageNamed:@"detail_tab_gray.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    [sellTypeSeg setBackgroundImage:[UIImage imageNamed:@"detail_tab.png"] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
-    NSDictionary *dic2 = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],UITextAttributeTextColor,  [UIFont systemFontOfSize:17],UITextAttributeFont ,nil];
-    [sellTypeSeg setTitleTextAttributes:dic2 forState:UIControlStateNormal];
-    sellTypeSeg.selectedSegmentIndex = 2; //默认均可
+////    self.baoyouSeg = [[MCSegmentedControl alloc]initWithItems:[NSArray arrayWithObjects:@"是",@"否",nil]];
+//    self.baoyouSeg = [[UISegmentedControl alloc]initWithItems:[NSArray arrayWithObjects:@"是",@"否",nil]];
+//    [baoyouSeg addTarget:self action:@selector(baoyou:) forControlEvents:UIControlEventValueChanged];
+//    baoyouSeg.selectedSegmentIndex = 1; //默认不包邮
+//    
+//    baoyouSeg.segmentedControlStyle=UISegmentedControlStyleBar;//此类型实现点击后图片大小完全填充按钮
+//    [baoyouSeg setBackgroundImage:[UIImage imageNamed:@"detail_tab_gray.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+//    [baoyouSeg setBackgroundImage:[UIImage imageNamed:@"detail_tab.png"] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+//    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],UITextAttributeTextColor,  [UIFont systemFontOfSize:17],UITextAttributeFont ,nil];
+//    [baoyouSeg setTitleTextAttributes:dic forState:UIControlStateNormal];
+//    baoyouSeg.frame = CGRectMake(230, 0, 80, 25);
+//
+//    
+//    self.sellTypeSeg = [[UISegmentedControl alloc]initWithItems:[NSArray arrayWithObjects:@"17支付",@"物物",@"均可",nil]];
+//    [sellTypeSeg addTarget:self action:@selector(jiaohuanfangshi:) forControlEvents:UIControlEventValueChanged];
+//    sellTypeSeg.frame = CGRectMake(140, 0, 170, 25);
+//    
+//    sellTypeSeg.segmentedControlStyle=UISegmentedControlStyleBar;//此类型实现点击后图片大小完全填充按钮
+//    [sellTypeSeg setBackgroundImage:[UIImage imageNamed:@"detail_tab_gray.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+//    [sellTypeSeg setBackgroundImage:[UIImage imageNamed:@"detail_tab.png"] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+//    NSDictionary *dic2 = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],UITextAttributeTextColor,  [UIFont systemFontOfSize:17],UITextAttributeFont ,nil];
+//    [sellTypeSeg setTitleTextAttributes:dic2 forState:UIControlStateNormal];
+//    sellTypeSeg.selectedSegmentIndex = 2; //默认均可
     
     if (isEdit) {
         [self requestWithDetailGoods];
@@ -592,13 +592,13 @@
 
 #pragma mark - UITableViewDelegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 6;
+    return 8;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-//    if (section == 4) {
-//        return 4;
-//    }
+    if (section == 2 || section == 5) {
+        return 1;
+    }
     return 2;
 }
 
@@ -615,47 +615,53 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 2 | section == 4) {
-        return 25;
-    }
-    else if(section == 0){
+//    if (section == 3 || section == 6) {
+//        return 0;
+//    }
+//    else if(section == 0){
+//        return 20;
+//    }
+//    else{
+//        return 10;
+//    }
+    if (section == 0) {
         return 20;
     }
-    else{
-        return 2;
+    else if (section == 3 | section == 4 | section == 6 | section == 7){
+        return 1;
     }
-    
+    return 10;
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    if (section == 2) {
-        UIView *headV = [[UIView alloc]init];
-        headV.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"section_bar.png"]];
-        UILabel *noticeL = [[UILabel alloc]initWithFrame:CGRectMake(30, 5, 150, 15)];
-        noticeL.backgroundColor = [UIColor clearColor];
-        noticeL.font = [UIFont boldSystemFontOfSize:15];
-        noticeL.text = @"是否包邮？";
-        [headV addSubview:noticeL];
-        [noticeL release];
-        
-        [headV addSubview:baoyouSeg];
-        
-        return [headV autorelease];
-    }
-    else if (section == 4){
-        UIView *headV = [[UIView alloc]init];
-        headV.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"section_bar.png"]];
-        UILabel *noticeL = [[UILabel alloc]initWithFrame:CGRectMake(30, 5, 150, 15)];
-        noticeL.backgroundColor = [UIColor clearColor];
-        noticeL.font = [UIFont boldSystemFontOfSize:15];
-        noticeL.text = @"支付方式";
-        [headV addSubview:noticeL];
-        [noticeL release];
-        [headV addSubview:sellTypeSeg];
-        return [headV autorelease];
-    }
-    return nil;
-}
+//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+//    if (section == 2) {
+//        UIView *headV = [[UIView alloc]init];
+//        headV.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"section_bar.png"]];
+//        UILabel *noticeL = [[UILabel alloc]initWithFrame:CGRectMake(30, 5, 150, 15)];
+//        noticeL.backgroundColor = [UIColor clearColor];
+//        noticeL.font = [UIFont boldSystemFontOfSize:15];
+//        noticeL.text = @"是否包邮";
+//        [headV addSubview:noticeL];
+//        [noticeL release];
+//        
+//        [headV addSubview:baoyouSeg];
+//        
+//        return [headV autorelease];
+//    }
+//    else if (section == 4){
+//        UIView *headV = [[UIView alloc]init];
+//        headV.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"section_bar.png"]];
+//        UILabel *noticeL = [[UILabel alloc]initWithFrame:CGRectMake(30, 5, 150, 15)];
+//        noticeL.backgroundColor = [UIColor clearColor];
+//        noticeL.font = [UIFont boldSystemFontOfSize:15];
+//        noticeL.text = @"支付方式";
+//        [headV addSubview:noticeL];
+//        [noticeL release];
+//        [headV addSubview:sellTypeSeg];
+//        return [headV autorelease];
+//    }
+//    return nil;
+//}
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -714,8 +720,19 @@
             [cell.contentView addSubview:weizhiTF];
         }
     }
-
+    
     else if (indexPath.section == 2){
+        UIImageView *cellIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"release_list_top.png"]];
+        cell.backgroundView = cellIV;
+        [cellIV release];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.textLabel.backgroundColor = [UIColor clearColor];
+        cell.textLabel.text = @"包邮";
+        
+//        [cell.contentView addSubview:tongchengTF];
+    }
+    
+    else if (indexPath.section == 3){
         if(indexPath.row ==0){
             UIImageView *cellIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"release_list_top.png"]];
             cell.backgroundView = cellIV;
@@ -738,7 +755,7 @@
             [cell.contentView addSubview:yidiTF];
         }
     }
-    else if(indexPath.section == 3){
+    else if(indexPath.section == 4){
         if (indexPath.row == 0) {
             
             UIImageView *cellIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"release_list_top.png"]];
@@ -762,34 +779,30 @@
             [cell.contentView addSubview:chengseTF];
         }
     }
-    else if(indexPath.section == 4){
+    else if(indexPath.section == 5){
+        UIImageView *cellIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"release_list_top.png"]];
+        cell.backgroundView = cellIV;
+        [cellIV release];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.textLabel.backgroundColor = [UIColor clearColor];
+        cell.textLabel.text = @"方式";
+        
+//        [cell.contentView addSubview:RMBTF];
+    }
+    
+    else if(indexPath.section == 6){
         if (indexPath.row == 0) {
-            
             UIImageView *cellIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"release_list_top.png"]];
             cell.backgroundView = cellIV;
             [cellIV release];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.backgroundColor = [UIColor clearColor];
-            cell.textLabel.text = @"物物";
-            
-            [cell.contentView addSubview:wuwuTF];
-            
-        }
-        else if(indexPath.row == 1){
-            
-            UIImageView *cellIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"release_list_bottom1.png"]];
-            cell.backgroundView = cellIV;
-            [cellIV release];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.textLabel.backgroundColor = [UIColor clearColor];
-            cell.textLabel.text = @"金币";
+            cell.textLabel.text = @"RMB";
             
             [cell.contentView addSubview:RMBTF];
         }
-    }
-    else if(indexPath.section == 5){
-        if(indexPath.row == 0){
-            UIImageView *cellIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"release_list_top.png"]];
+        else if(indexPath.row == 1){
+            UIImageView *cellIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"release_list_bottom1.png"]];
             cell.backgroundView = cellIV;
             [cellIV release];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -797,16 +810,27 @@
             cell.textLabel.text = @"换币";
             
             [cell.contentView addSubview:huanbiTF];
+            
+        }
+    }
+    else if(indexPath.section == 7){
+        if(indexPath.row == 0){
+            UIImageView *cellIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"release_list_top.png"]];
+            cell.backgroundView = cellIV;
+            [cellIV release];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.backgroundColor = [UIColor clearColor];
+            cell.textLabel.text = @"物品";
+            
+            [cell.contentView addSubview:wuwuTF];
         }
         else if(indexPath.row == 1){
             UIImageView *cellIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"release_list_bottom1.png"]];
             cell.backgroundView = cellIV;
             [cellIV release];
-            
             UIImageView *moreIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"list_more_0.png"]];
             cell.accessoryView = moreIV;
             [moreIV release];
-            
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.backgroundColor = [UIColor clearColor];
             cell.textLabel.text = @"收货";
@@ -835,7 +859,7 @@
         [weizhiVC release];
     }
     else if(indexPath.section == 5 && indexPath.row == 1){
-        if (sellTypeSeg.selectedSegmentIndex == 0 || sellTypeSeg.selectedSegmentIndex == 2) {
+        if (sellTypeSeg.selectedSegmentIndex == 1 || sellTypeSeg.selectedSegmentIndex == 2) {
             Address *addrVC = [[Address alloc]init];
             addrVC.isSelecte = YES;
             [self.navigationController pushViewController:addrVC animated:YES];
@@ -948,11 +972,11 @@
     }
     
     NSString *sellType = nil;
-    if (sellTypeSeg.selectedSegmentIndex == 0) {
+    if (sellTypeSeg.selectedSegmentIndex == 1) {
         sellType = @"1"; //物物
     }
-    else if (sellTypeSeg.selectedSegmentIndex == 1){
-        sellType = @"2"; //金银币
+    else if (sellTypeSeg.selectedSegmentIndex == 0){
+        sellType = @"2"; //17支付
     }
     else{
         sellType = @"3"; //均可
@@ -1096,11 +1120,11 @@
 
 #pragma mark - UITextFieldDelegate
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
-    [fabuTableView setContentOffset:CGPointMake(0,textField.tag*55) animated:YES];
+    [fabuTableView setContentOffset:CGPointMake(0,textField.tag*60) animated:YES];
 }
 
 -(void)textViewDidBeginEditing:(UITextView *)textView{
-     [fabuTableView setContentOffset:CGPointMake(0,textView.tag*55) animated:YES];
+     [fabuTableView setContentOffset:CGPointMake(0,textView.tag*60) animated:YES];
 }
 
 #pragma mark - UIPickerViewDataSource
@@ -1224,13 +1248,12 @@
         default:
             break;
     }
-    
 }
 
 -(void)jiaohuanfangshi:(UISegmentedControl *)seg{
     NSLog(@"%s",__FUNCTION__);
     switch (seg.selectedSegmentIndex) {
-        case 0:
+        case 1:
         {
             wuwuTF.enabled = YES;
             RMBTF.enabled = NO;
@@ -1238,7 +1261,7 @@
             break;
         }
             
-        case 1:{
+        case 0:{
             wuwuTF.enabled = NO;
             RMBTF.enabled = YES;
             huanbiTF.enabled = YES;
@@ -1262,23 +1285,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-//    self.fabuTableView = nil;
-//    self.picScrollView = nil;
-//    self.biaotiTV = nil;
-//    self.miaoshuTV = nil;
-//    self.yuanjiaTF = nil;
-//    self.tongchengTF = nil;
-//    self.yidiTF = nil;
-//    self.wuwuTF = nil;
-//    self.RMBTF = nil;
-//    self.huanbiTF = nil;
-//    self.fangshiTF = nil;
-//    self.fenleiTF = nil;
-//    self.chengseTF = nil;
-//    self.weizhiTF = nil;
-//    self.keyboardToolbar = nil;
-//    self.shouTF = nil;
-//    self.baoyouSeg = nil;
 }
 
 @end

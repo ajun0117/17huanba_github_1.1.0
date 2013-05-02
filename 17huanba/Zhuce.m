@@ -29,7 +29,6 @@
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasHidden:) name:UIKeyboardWillHideNotification object:nil];
         self.sexArray = [NSArray arrayWithObjects:@"男",@"女", nil];
-        
     }
     return self;
 }

@@ -617,7 +617,37 @@
     }
 }
 
-
+#pragma mark - 更改相机底部的文字
+//-(UIView *)findView:(UIView *)aView withName:(NSString *)name{
+//    Class cl = [aView class];
+//    NSString *desc = [cl description];
+//    
+//    if ([name isEqualToString:desc])
+//        return aView;
+//    
+//    for (NSUInteger i = 0; i < [aView.subviews count]; i++)
+//    {
+//        UIView *subView = [aView.subviews objectAtIndex:i];
+//        subView = [self findView:subView withName:name];
+//        if (subView)
+//            return subView;
+//    }
+//    return nil;
+//}
+//-(void)addSomeElements:(UIViewController *)viewController{
+//    
+//    UIView *PLCameraView=[self findView:viewController.view withName:@"PLCameraView"];
+//    UIView *bottomBar=[self findView:PLCameraView withName:@"PLCropOverlayBottomBar"];
+//    UIImageView *bottomBarImageForSave = [bottomBar.subviews objectAtIndex:0];
+//    UIButton *retakeButton=[bottomBarImageForSave.subviews objectAtIndex:0];
+//    [retakeButton setTitle:@"重拍" forState:UIControlStateNormal];  //左下角按钮
+//    UIButton *useButton=[bottomBarImageForSave.subviews objectAtIndex:1];
+//    [useButton setTitle:@"选" forState:UIControlStateNormal];  //右下角按钮
+//}
+//- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
+//    
+//    [self addSomeElements:viewController];
+//}
 
 - (void)didReceiveMemoryWarning
 {

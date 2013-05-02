@@ -154,12 +154,22 @@
     [SVProgressHUD dismiss];
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@" ___   %@",str);
+//    NSLog(@" ___   %@",str);
     NSArray *array = [str JSONValue];
     [str release];
-    NSLog(@"array is %@",array);
+//    NSLog(@"array is %@",array);
     [timeLineArray addObjectsFromArray:array];
     [timeLineTable reloadData];
+    
+/* //利用insertRowsAtIndexPaths:实现加载更多内容时只更新新内容所在的cell,但是无法和下拉刷新的方法共用，pass掉！
+    NSMutableArray *mutableArray = [NSMutableArray array];
+    for (int ind = 0; ind < [array count]; ++ind) {
+        NSIndexPath *theNewPath = [NSIndexPath indexPathForRow:[timeLineArray indexOfObject:[array objectAtIndex:ind]] inSection:0];
+        [mutableArray addObject:theNewPath];
+    }
+    [timeLineTable insertRowsAtIndexPaths:mutableArray withRowAnimation:UITableViewRowAnimationBottom];
+ */
+    
     [timeLineTable tableViewDidFinishedLoading];
 }
 

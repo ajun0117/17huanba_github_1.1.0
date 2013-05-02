@@ -506,8 +506,6 @@
 */
         [self popShareView];
 	}
-    
-    
 }
 
 - (void)renren:(Renren *)renren requestFailWithError:(ROError*)error{
