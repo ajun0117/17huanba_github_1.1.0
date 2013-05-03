@@ -62,6 +62,9 @@
 @property(nonatomic,retain)ASIFormDataRequest *detailGoodsRequest;
 @property(nonatomic,retain)NSDictionary *dataDic;
 
+
+@property(nonatomic,retain)NSArray *baoyouArray;
+@property(nonatomic,retain)NSArray *sell_styleArray;
 @property(retain,nonatomic)UITextField *baoyouTF;
 @property(retain,nonatomic)UIPickerView *baoyouPV;
 @property(retain,nonatomic)UITextField *sell_styleTF;

@@ -92,7 +92,7 @@
     [form_request setPostValue:idStr forKey:@"id"];
     [form_request setDidFinishSelector:@selector(finishGetSecondfenlei:)];
     [form_request setDidFailSelector:@selector(loginFailed:)];
-    [form_request startSynchronous];
+    [form_request startAsynchronous];
 }
 
 -(void)finishGetSecondfenlei:(ASIHTTPRequest *)request{ //请求成功后的方法
@@ -104,9 +104,8 @@
         [secondDic removeObjectForKey:@"0"];
         NSArray *tempArray = [[secondDic allKeys] sortedArrayUsingSelector:@selector(compare:)];
         [self.secondArray addObjectsFromArray:tempArray];
+    [fenleiTableView reloadData];
 }
-
-
 
 #pragma mark - UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

@@ -85,7 +85,7 @@
     [form_request setPostValue:@"00" forKey:@"id"];
     [form_request setDidFinishSelector:@selector(finishGetFristfenlei:)];
     [form_request setDidFailSelector:@selector(loginFailed:)];
-    [form_request startSynchronous];
+    [form_request startAsynchronous];
 }
 
 -(void)finishGetFristfenlei:(ASIHTTPRequest *)request{ //请求成功后的方法
@@ -102,6 +102,7 @@
         [fristFenlei removeObjectForKey:@"0"];
         [self.fristArray addObjectsFromArray:[fristFenlei allValues]];
     }
+    [fenleiTableView reloadData];
 }
 
 

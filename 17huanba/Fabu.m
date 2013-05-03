@@ -20,6 +20,8 @@
 #define FIELDS_COUNT 13
 #define JIAOYIFANGSHI @"以物易物",@"人民币 + 换币",@"两种方式均可"
 #define CHENGSE @"全新",@"二手"
+#define BAOYOU @"是",@"否"
+#define FANGSHI @"17支付",@"物物交换",@"17支付+物物交换"
 #define UPGOODS @"/phone/plogined/Upgoods.html"
 
 @interface Fabu ()
@@ -42,6 +44,8 @@
 @synthesize baoyouSeg,sellTypeSeg;
 @synthesize goodsID,isEdit;
 @synthesize detailGoodsRequest,dataDic;
+@synthesize baoyouTF,baoyouPV,sell_styleTF,sell_stylePV;
+@synthesize baoyouArray,sell_styleArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -55,6 +59,9 @@
         
         self.fangshiArray = [NSArray arrayWithObjects:JIAOYIFANGSHI, nil];
         self.chengseArray =[NSArray arrayWithObjects:CHENGSE, nil];
+        self.baoyouArray = [NSArray arrayWithObjects:BAOYOU, nil];
+        self.sell_styleArray =[NSArray arrayWithObjects:FANGSHI, nil];
+        
 //        sectionNumber = 5;
 //        imgCount = 0;
         self.isEdit = NO;
@@ -101,7 +108,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     UIImageView *navIV=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"top_nav.png"]];
     navIV.userInteractionEnabled=YES;
     navIV.frame=CGRectMake(0, 0, 320, 44);
@@ -168,6 +174,16 @@
     chengsePV.dataSource = self;
     chengsePV.showsSelectionIndicator = YES;
     
+    self.baoyouPV = [[UIPickerView alloc]initWithFrame:CGRectMake(0,155+44*2+1 , kDeviceWidth, KDeviceHeight-20-150-44)];
+    baoyouPV.delegate = self;
+    baoyouPV.dataSource = self;
+    baoyouPV.showsSelectionIndicator = YES;
+    
+    self.sell_stylePV = [[UIPickerView alloc]initWithFrame:CGRectMake(0,155+44*2+1 , kDeviceWidth, KDeviceHeight-20-150-44)];
+    sell_stylePV.delegate = self;
+    sell_stylePV.dataSource = self;
+    sell_stylePV.showsSelectionIndicator = YES;
+    
     cityPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, KDeviceHeight-20-216, kDeviceWidth, 216)];
     cityPicker.dataSource = self;
     cityPicker.delegate = self;
@@ -230,6 +246,17 @@
     [keyboardToolbar release];
     [cityPicker release];
     
+    self.baoyouTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
+    baoyouTF.backgroundColor = [UIColor clearColor];
+    baoyouTF.font = [UIFont systemFontOfSize:13];
+    baoyouTF.contentVerticalAlignment = 0; //垂直居中显示
+    baoyouTF.placeholder = @"请选择是否包邮";
+    baoyouTF.delegate = self;
+    baoyouTF.tag = 5;
+    baoyouTF.inputAccessoryView = keyboardToolbar;
+    baoyouTF.inputView = baoyouPV;
+    [keyboardToolbar release];
+    [baoyouPV release];
     
     
     self.tongchengTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
@@ -238,7 +265,8 @@
     tongchengTF.font = [UIFont systemFontOfSize:13];
     tongchengTF.placeholder = @"请填写同城邮费（元）";
     tongchengTF.delegate = self;
-    tongchengTF.tag = 5;
+    tongchengTF.tag = 6;
+    tongchengTF.keyboardType = UIKeyboardTypeNumberPad;
     tongchengTF.inputAccessoryView = keyboardToolbar;
     [keyboardToolbar release];
     
@@ -248,7 +276,8 @@
     yidiTF.font = [UIFont systemFontOfSize:13];
     yidiTF.placeholder = @"请填写异地邮费（元）";
     yidiTF.delegate = self;
-    yidiTF.tag = 6;
+    yidiTF.tag = 7;
+    yidiTF.keyboardType = UIKeyboardTypeNumberPad;
     yidiTF.inputAccessoryView = keyboardToolbar;
     [keyboardToolbar release];
     
@@ -258,7 +287,8 @@
     yuanjiaTF.font = [UIFont systemFontOfSize:13];
     yuanjiaTF.placeholder = @"宝贝原价（元）";
     yuanjiaTF.delegate = self;
-    yuanjiaTF.tag = 7;
+    yuanjiaTF.tag = 8;
+    yuanjiaTF.keyboardType = UIKeyboardTypeNumberPad;
     yuanjiaTF.inputAccessoryView = keyboardToolbar;
     [keyboardToolbar release];
     
@@ -268,11 +298,24 @@
     chengseTF.contentVerticalAlignment = 0; //垂直居中显示
     chengseTF.placeholder = @"请选择成色";
     chengseTF.delegate = self;
-    chengseTF.tag = 8;
+    chengseTF.tag = 9;
     chengseTF.inputAccessoryView = keyboardToolbar;
     chengseTF.inputView = chengsePV;
     [keyboardToolbar release];
     [chengsePV release];
+    
+    self.sell_styleTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
+    sell_styleTF.backgroundColor = [UIColor clearColor];
+    sell_styleTF.font = [UIFont systemFontOfSize:13];
+    sell_styleTF.contentVerticalAlignment = 0; //垂直居中显示
+    sell_styleTF.placeholder = @"请选择支付方式";
+    sell_styleTF.delegate = self;
+    sell_styleTF.tag = 10;
+    sell_styleTF.inputAccessoryView = keyboardToolbar;
+    sell_styleTF.inputView = sell_stylePV;
+    [keyboardToolbar release];
+    [sell_stylePV release];
+    
     
     self.RMBTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
     RMBTF.backgroundColor = [UIColor clearColor];
@@ -280,7 +323,8 @@
     RMBTF.font = [UIFont systemFontOfSize:13];
     RMBTF.placeholder = @"请输入人民币数量";
     RMBTF.delegate = self;
-    RMBTF.tag = 9;
+    RMBTF.tag = 11;
+    RMBTF.keyboardType = UIKeyboardTypeNumberPad;
     RMBTF.inputAccessoryView = keyboardToolbar;
     [keyboardToolbar release];
     
@@ -290,13 +334,15 @@
     huanbiTF.font = [UIFont systemFontOfSize:13];
     huanbiTF.placeholder = @"请输入换币数量";
     huanbiTF.delegate = self;
-    huanbiTF.tag = 10;
+    huanbiTF.tag = 12;
+    huanbiTF.keyboardType = UIKeyboardTypeNumberPad;
     huanbiTF.inputAccessoryView = keyboardToolbar;
     [keyboardToolbar release];
     
+    
     self.wuwuTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
     wuwuTF.delegate = self;
-    wuwuTF.tag = 11;
+    wuwuTF.tag = 13;
     wuwuTF.backgroundColor = [UIColor clearColor];
     wuwuTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     wuwuTF.font = [UIFont systemFontOfSize:13];
@@ -310,9 +356,8 @@
     shouTF.font = [UIFont systemFontOfSize:13];
     shouTF.placeholder = @"请选择交换物品的收货地址";
     shouTF.delegate = self;
-    shouTF.tag = 12;
+    shouTF.tag = 14;
     shouTF.enabled = NO;
-    
     
 ////    self.baoyouSeg = [[MCSegmentedControl alloc]initWithItems:[NSArray arrayWithObjects:@"是",@"否",nil]];
 //    self.baoyouSeg = [[UISegmentedControl alloc]initWithItems:[NSArray arrayWithObjects:@"是",@"否",nil]];
@@ -392,10 +437,12 @@
     
     NSString *isfree = [dataDic objectForKey:@"free_delivery"];
     if ([isfree isEqualToString:@"0"]) {
-        baoyouSeg.selectedSegmentIndex = 1;
+        baoyouTF.text = @"否";
     }
     else{
-        baoyouSeg.selectedSegmentIndex = 0;
+        baoyouTF.text = @"是";
+        tongchengTF.enabled = NO;
+        yidiTF.enabled = NO;
     }
     
     NSString *townsmanStr = [dataDic objectForKey:@"freight_townsman"];
@@ -423,8 +470,10 @@
     NSString *memoStr = [dataDic objectForKey:@"memo"];
 
     if ([sell_type isEqualToString:@"1"]) {
-        sellTypeSeg.selectedSegmentIndex = 1;
+        sell_styleTF.text = @"物物交换";
         wuwuTF.text = memoStr;
+        RMBTF.enabled = NO;
+        huanbiTF.enabled = NO;
         
         NSDictionary *myAddressDic = [dataDic objectForKey:@"myaddress"];
         NSString *realNameStr = [myAddressDic objectForKey:@"realname"];
@@ -435,13 +484,14 @@
         self.addrID = [myAddressDic objectForKey:@"mid"];
     }
     else if ([sell_type isEqualToString:@"2"]) {
-        sellTypeSeg.selectedSegmentIndex = 0;
+        sell_styleTF.text = @"17支付";
         RMBTF.text = gold;
         huanbiTF.text = silver;
+        wuwuTF.enabled = NO;
     }
     else if ([sell_type isEqualToString:@"3"])
     {
-        sellTypeSeg.selectedSegmentIndex = 2;
+        sell_styleTF.text = @"17支付+物物交换";
         RMBTF.text = gold;
         huanbiTF.text = silver;
         wuwuTF.text = memoStr;
@@ -729,7 +779,7 @@
         cell.textLabel.backgroundColor = [UIColor clearColor];
         cell.textLabel.text = @"包邮";
         
-//        [cell.contentView addSubview:tongchengTF];
+        [cell.contentView addSubview:baoyouTF];
     }
     
     else if (indexPath.section == 3){
@@ -787,7 +837,7 @@
         cell.textLabel.backgroundColor = [UIColor clearColor];
         cell.textLabel.text = @"方式";
         
-//        [cell.contentView addSubview:RMBTF];
+        [cell.contentView addSubview:sell_styleTF];
     }
     
     else if(indexPath.section == 6){
@@ -852,14 +902,15 @@
         [firstFenleiVC release];
         firstFenleiVC.backFabuDelegate = self;
     }
-    else if(indexPath.section == 1 && indexPath.row == 1){
-        WeizhiSelect *weizhiVC = [[WeizhiSelect alloc]init];
-        weizhiVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:weizhiVC animated:YES];
-        [weizhiVC release];
-    }
-    else if(indexPath.section == 5 && indexPath.row == 1){
-        if (sellTypeSeg.selectedSegmentIndex == 1 || sellTypeSeg.selectedSegmentIndex == 2) {
+//    else if(indexPath.section == 1 && indexPath.row == 1){
+//        WeizhiSelect *weizhiVC = [[WeizhiSelect alloc]init];
+//        weizhiVC.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:weizhiVC animated:YES];
+//        [weizhiVC release];
+//    }
+    else if(indexPath.section == 7 && indexPath.row == 1){
+        if ([sell_styleTF.text isEqualToString:@"物物交换"] || [sell_styleTF.text isEqualToString:@"17支付+物物交换"]) {
+//        if (sellTypeSeg.selectedSegmentIndex == 1 || sellTypeSeg.selectedSegmentIndex == 2) {
             Address *addrVC = [[Address alloc]init];
             addrVC.isSelecte = YES;
             [self.navigationController pushViewController:addrVC animated:YES];
@@ -910,14 +961,14 @@
 //    [fenleiPV release];
 //}
 
--(void)toChengse{
-    self.chengsePV = [[UIPickerView alloc]initWithFrame:CGRectMake(0,150+44*2+1 , kDeviceWidth, KDeviceHeight-20-150-44)];
-    chengsePV.delegate = self;
-    chengsePV.dataSource = self;
-    chengsePV.showsSelectionIndicator = YES;
-    [self.view addSubview:chengsePV];
-    [chengsePV release];
-}
+//-(void)toChengse{
+//    self.chengsePV = [[UIPickerView alloc]initWithFrame:CGRectMake(0,150+44*2+1 , kDeviceWidth, KDeviceHeight-20-150-44)];
+//    chengsePV.delegate = self;
+//    chengsePV.dataSource = self;
+//    chengsePV.showsSelectionIndicator = YES;
+//    [self.view addSubview:chengsePV];
+//    [chengsePV release];
+//}
 
 //-(void)toWeizhi{
 //    self.weizhiPV = [[UIPickerView alloc]initWithFrame:CGRectMake(0,150+44*2+1 , 320, KDeviceHeight-20-150-44)];
@@ -1120,11 +1171,11 @@
 
 #pragma mark - UITextFieldDelegate
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
-    [fabuTableView setContentOffset:CGPointMake(0,textField.tag*60) animated:YES];
+    [fabuTableView setContentOffset:CGPointMake(0,textField.tag * 55) animated:YES];
 }
 
 -(void)textViewDidBeginEditing:(UITextView *)textView{
-     [fabuTableView setContentOffset:CGPointMake(0,textView.tag*60) animated:YES];
+     [fabuTableView setContentOffset:CGPointMake(0,textView.tag * 55) animated:YES];
 }
 
 #pragma mark - UIPickerViewDataSource
@@ -1140,6 +1191,12 @@
 //        return [fangshiArray count];
     if (pickerView == chengsePV)
         return [chengseArray count];
+    else if (pickerView == baoyouPV){
+        return [baoyouArray count];
+    }
+    else if (pickerView == sell_stylePV){
+        return [sell_styleArray count];
+    }
     else{
         if (component == 0) {
             return [proviceArray count];
@@ -1160,6 +1217,12 @@
 //    }
     if (pickerView == chengsePV)
         return [chengseArray objectAtIndex:row];
+    else if (pickerView == baoyouPV){
+        return [baoyouArray objectAtIndex:row];
+    }
+    else if (pickerView == sell_stylePV){
+        return [sell_styleArray objectAtIndex:row];
+    }
     else{ //城市选择
         NSString *str = @"";
         if (component == 0) {
@@ -1186,6 +1249,37 @@
 //    }
     if(pickerView == chengsePV)
         chengseTF.text = [chengseArray objectAtIndex:row];
+    else if (pickerView == baoyouPV){
+        baoyouTF.text = [baoyouArray objectAtIndex:row];
+        if (row == 0) {
+            tongchengTF.enabled = NO;
+            yidiTF.enabled = NO;
+        }
+        else{
+            tongchengTF.enabled = YES;
+            yidiTF.enabled = YES;
+        }
+    }
+    else if (pickerView == sell_stylePV){
+        sell_styleTF.text = [sell_styleArray objectAtIndex:row];
+        if (row == 0) {
+            wuwuTF.enabled = NO;
+            RMBTF.enabled = YES;
+            huanbiTF.enabled = YES;
+            shouTF.text = @"";
+        }
+        else if (row == 1) {
+            wuwuTF.enabled = YES;
+            RMBTF.enabled = NO;
+            huanbiTF.enabled = NO;
+        }
+        else if (row == 2) {
+            wuwuTF.enabled = YES;
+            RMBTF.enabled = YES;
+            huanbiTF.enabled = YES;
+        }
+        
+    }
     else{
         if (component == 0) {
             self.cityArray = [service getCityListByProvinceCode:[[proviceArray objectAtIndex:row] objectForKey:@"sCode"]];
@@ -1229,56 +1323,56 @@
     NSLog(@"我是UIPickView！选中了第%d行",row);
 }
 
--(void)baoyou:(UISegmentedControl *)seg{
-    NSLog(@"%s",__FUNCTION__);
-    switch (seg.selectedSegmentIndex) {
-        case 0:
-        {
-            tongchengTF.enabled = NO;
-            yidiTF.enabled = NO;
-            break;
-        }
-            
-        case 1:{
-            tongchengTF.enabled = YES;
-            yidiTF.enabled = YES;
-            break;
-        }
-            
-        default:
-            break;
-    }
-}
-
--(void)jiaohuanfangshi:(UISegmentedControl *)seg{
-    NSLog(@"%s",__FUNCTION__);
-    switch (seg.selectedSegmentIndex) {
-        case 1:
-        {
-            wuwuTF.enabled = YES;
-            RMBTF.enabled = NO;
-            huanbiTF.enabled = NO;
-            break;
-        }
-            
-        case 0:{
-            wuwuTF.enabled = NO;
-            RMBTF.enabled = YES;
-            huanbiTF.enabled = YES;
-            shouTF.text = @"";
-            break;
-        }
-        case 2:{
-            wuwuTF.enabled = YES;
-            RMBTF.enabled = YES;
-            huanbiTF.enabled = YES;
-            break;
-        }
-            
-        default:
-            break;
-    }
-}
+//-(void)baoyou:(UISegmentedControl *)seg{
+//    NSLog(@"%s",__FUNCTION__);
+//    switch (seg.selectedSegmentIndex) {
+//        case 0:
+//        {
+//            tongchengTF.enabled = NO;
+//            yidiTF.enabled = NO;
+//            break;
+//        }
+//            
+//        case 1:{
+//            tongchengTF.enabled = YES;
+//            yidiTF.enabled = YES;
+//            break;
+//        }
+//            
+//        default:
+//            break;
+//    }
+//}
+//
+//-(void)jiaohuanfangshi:(UISegmentedControl *)seg{
+//    NSLog(@"%s",__FUNCTION__);
+//    switch (seg.selectedSegmentIndex) {
+//        case 1:
+//        {
+//            wuwuTF.enabled = YES;
+//            RMBTF.enabled = NO;
+//            huanbiTF.enabled = NO;
+//            break;
+//        }
+//            
+//        case 0:{
+//            wuwuTF.enabled = NO;
+//            RMBTF.enabled = YES;
+//            huanbiTF.enabled = YES;
+//            shouTF.text = @"";
+//            break;
+//        }
+//        case 2:{
+//            wuwuTF.enabled = YES;
+//            RMBTF.enabled = YES;
+//            huanbiTF.enabled = YES;
+//            break;
+//        }
+//            
+//        default:
+//            break;
+//    }
+//}
 
 
 - (void)didReceiveMemoryWarning
