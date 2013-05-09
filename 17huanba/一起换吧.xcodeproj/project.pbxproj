@@ -93,7 +93,6 @@
 		870A215516A8F9960079863A /* d.png in Resources */ = {isa = PBXBuildFile; fileRef = 870A215316A8F9960079863A /* d.png */; };
 		870AAF8C16F9A55D00E7288E /* ThirdFenlei.m in Sources */ = {isa = PBXBuildFile; fileRef = 870AAF8B16F9A55D00E7288E /* ThirdFenlei.m */; };
 		870E565D16DD9C42003F3DC4 /* CPTextViewPlaceholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 870E565C16DD9C42003F3DC4 /* CPTextViewPlaceholder.m */; };
-		870E566016DDB5CE003F3DC4 /* NewGoodesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 870E565F16DDB5CE003F3DC4 /* NewGoodesCell.m */; };
 		8711AD8616D5F723006CDC75 /* FenleiSelect.m in Sources */ = {isa = PBXBuildFile; fileRef = 8711AD8516D5F723006CDC75 /* FenleiSelect.m */; };
 		8711AD8916D6006A006CDC75 /* secondFenlei.m in Sources */ = {isa = PBXBuildFile; fileRef = 8711AD8816D6006A006CDC75 /* secondFenlei.m */; };
 		8711AD9316D62767006CDC75 /* speak_bar_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 8711AD9116D62767006CDC75 /* speak_bar_bg.png */; };
@@ -708,8 +707,6 @@
 		870AAF8B16F9A55D00E7288E /* ThirdFenlei.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdFenlei.m; sourceTree = "<group>"; };
 		870E565B16DD9C42003F3DC4 /* CPTextViewPlaceholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPTextViewPlaceholder.h; sourceTree = "<group>"; };
 		870E565C16DD9C42003F3DC4 /* CPTextViewPlaceholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPTextViewPlaceholder.m; sourceTree = "<group>"; };
-		870E565E16DDB5CE003F3DC4 /* NewGoodesCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGoodesCell.h; sourceTree = "<group>"; };
-		870E565F16DDB5CE003F3DC4 /* NewGoodesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGoodesCell.m; sourceTree = "<group>"; };
 		8711AD8416D5F723006CDC75 /* FenleiSelect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FenleiSelect.h; sourceTree = "<group>"; };
 		8711AD8516D5F723006CDC75 /* FenleiSelect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FenleiSelect.m; sourceTree = "<group>"; };
 		8711AD8716D6006A006CDC75 /* secondFenlei.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = secondFenlei.h; sourceTree = "<group>"; };
@@ -1688,6 +1685,8 @@
 		872B529016D1C045003BAD16 /* 写说说 */ = {
 			isa = PBXGroup;
 			children = (
+				877757651706AFF300138A20 /* WriteShuoshuo.h */,
+				877757661706AFFC00138A20 /* WriteShuoshuo.m */,
 				872F9E0C16DCB67500CB2ADB /* 表情 */,
 			);
 			name = "写说说";
@@ -1785,8 +1784,6 @@
 				872F9E1116DCBD7300CB2ADB /* images */,
 				872F9E0D16DCB68300CB2ADB /* emotion.plist */,
 				872F9E0E16DCB68300CB2ADB /* emotionImage.plist */,
-				877757651706AFF300138A20 /* WriteShuoshuo.h */,
-				877757661706AFFC00138A20 /* WriteShuoshuo.m */,
 			);
 			name = "表情";
 			sourceTree = "<group>";
@@ -1905,8 +1902,6 @@
 			isa = PBXGroup;
 			children = (
 				871EEB0216E481FD00AB3055 /* StrikeThroughLabel */,
-				870E565E16DDB5CE003F3DC4 /* NewGoodesCell.h */,
-				870E565F16DDB5CE003F3DC4 /* NewGoodesCell.m */,
 				87303B4C16B1186C00211F9D /* ShouYe.h */,
 				87303B4D16B1186C00211F9D /* ShouYe.m */,
 			);
@@ -3442,7 +3437,6 @@
 				8720B8BD16D757DC0024304F /* MyTanwei.m in Sources */,
 				872E705016DB5EA3009F331B /* DataBase.m in Sources */,
 				870E565D16DD9C42003F3DC4 /* CPTextViewPlaceholder.m in Sources */,
-				870E566016DDB5CE003F3DC4 /* NewGoodesCell.m in Sources */,
 				870058B816DF2D3A006ADA03 /* Denglu.m in Sources */,
 				8700590416DF5816006ADA03 /* Zhuce.m in Sources */,
 				87F21D2416E0541400BAFA5D /* FriendsCell.m in Sources */,

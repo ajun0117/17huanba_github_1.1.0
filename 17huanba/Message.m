@@ -210,7 +210,7 @@
         nameL.tag = 20;
         [cell.contentView addSubview:nameL];
         [nameL release];
-        
+         
         UILabel *timeL = [[UILabel alloc]initWithFrame:CGRectMake(200, 30, 100, 20)];
         timeL.backgroundColor = [UIColor clearColor];
         timeL.font = [UIFont systemFontOfSize:12];

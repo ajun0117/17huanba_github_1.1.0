@@ -18,7 +18,7 @@
 #import "AsyncImageView.h"
 
 #define FIELDS_COUNT 13
-#define JIAOYIFANGSHI @"以物易物",@"人民币 + 换币",@"两种方式均可"
+//#define JIAOYIFANGSHI @"以物易物",@"人民币 + 换币",@"两种方式均可"
 #define CHENGSE @"全新",@"二手"
 #define BAOYOU @"是",@"否"
 #define FANGSHI @"17支付",@"物物交换",@"17支付+物物交换"
@@ -41,7 +41,7 @@
 @synthesize proviceArray,cityArray,regionArray;
 @synthesize theFenleiDic;
 @synthesize shouTF,addrID;
-@synthesize baoyouSeg,sellTypeSeg;
+//@synthesize baoyouSeg,sellTypeSeg;
 @synthesize goodsID,isEdit;
 @synthesize detailGoodsRequest,dataDic;
 @synthesize baoyouTF,baoyouPV,sell_styleTF,sell_stylePV;
@@ -57,11 +57,11 @@
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasHidden:) name:UIKeyboardWillHideNotification object:nil];
         
-        self.fangshiArray = [NSArray arrayWithObjects:JIAOYIFANGSHI, nil];
+//        self.fangshiArray = [NSArray arrayWithObjects:JIAOYIFANGSHI, nil];
         self.chengseArray =[NSArray arrayWithObjects:CHENGSE, nil];
         self.baoyouArray = [NSArray arrayWithObjects:BAOYOU, nil];
         self.sell_styleArray =[NSArray arrayWithObjects:FANGSHI, nil];
-        
+        imgArray = [[NSMutableArray alloc]init];
 //        sectionNumber = 5;
 //        imgCount = 0;
         self.isEdit = NO;
@@ -212,7 +212,7 @@
     self.biaotiTV = [[CPTextViewPlaceholder alloc]initWithFrame:CGRectMake(63, 1, 220, 39)];
     biaotiTV.backgroundColor = [UIColor clearColor];
     biaotiTV.font = [UIFont systemFontOfSize:13];
-    biaotiTV.placeholder = @"1-30个字符";
+    biaotiTV.placeholder = @"宝贝名称";
     biaotiTV.delegate = self;
     biaotiTV.tag = 1;
     biaotiTV.inputAccessoryView = keyboardToolbar;
@@ -269,6 +269,8 @@
     tongchengTF.keyboardType = UIKeyboardTypeNumberPad;
     tongchengTF.inputAccessoryView = keyboardToolbar;
     [keyboardToolbar release];
+    tongchengTF.enabled = NO;
+    
     
     self.yidiTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
     yidiTF.backgroundColor = [UIColor clearColor];
@@ -280,6 +282,7 @@
     yidiTF.keyboardType = UIKeyboardTypeNumberPad;
     yidiTF.inputAccessoryView = keyboardToolbar;
     [keyboardToolbar release];
+    yidiTF.enabled = NO;
     
     self.yuanjiaTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
     yuanjiaTF.backgroundColor = [UIColor clearColor];
@@ -327,6 +330,7 @@
     RMBTF.keyboardType = UIKeyboardTypeNumberPad;
     RMBTF.inputAccessoryView = keyboardToolbar;
     [keyboardToolbar release];
+    RMBTF.enabled = NO;
     
     self.huanbiTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
     huanbiTF.backgroundColor = [UIColor clearColor];
@@ -338,7 +342,7 @@
     huanbiTF.keyboardType = UIKeyboardTypeNumberPad;
     huanbiTF.inputAccessoryView = keyboardToolbar;
     [keyboardToolbar release];
-    
+    huanbiTF.enabled = NO;
     
     self.wuwuTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
     wuwuTF.delegate = self;
@@ -349,6 +353,7 @@
     wuwuTF.placeholder = @"请输入可交换的物品名称";
     wuwuTF.inputAccessoryView = keyboardToolbar;
     [keyboardToolbar release];
+    wuwuTF.enabled = NO;
     
     self.shouTF = [[UITextField alloc]initWithFrame:CGRectMake(70, 1, 220, 39)];
     shouTF.backgroundColor = [UIColor clearColor];
@@ -358,30 +363,6 @@
     shouTF.delegate = self;
     shouTF.tag = 14;
     shouTF.enabled = NO;
-    
-////    self.baoyouSeg = [[MCSegmentedControl alloc]initWithItems:[NSArray arrayWithObjects:@"是",@"否",nil]];
-//    self.baoyouSeg = [[UISegmentedControl alloc]initWithItems:[NSArray arrayWithObjects:@"是",@"否",nil]];
-//    [baoyouSeg addTarget:self action:@selector(baoyou:) forControlEvents:UIControlEventValueChanged];
-//    baoyouSeg.selectedSegmentIndex = 1; //默认不包邮
-//    
-//    baoyouSeg.segmentedControlStyle=UISegmentedControlStyleBar;//此类型实现点击后图片大小完全填充按钮
-//    [baoyouSeg setBackgroundImage:[UIImage imageNamed:@"detail_tab_gray.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-//    [baoyouSeg setBackgroundImage:[UIImage imageNamed:@"detail_tab.png"] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
-//    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],UITextAttributeTextColor,  [UIFont systemFontOfSize:17],UITextAttributeFont ,nil];
-//    [baoyouSeg setTitleTextAttributes:dic forState:UIControlStateNormal];
-//    baoyouSeg.frame = CGRectMake(230, 0, 80, 25);
-//
-//    
-//    self.sellTypeSeg = [[UISegmentedControl alloc]initWithItems:[NSArray arrayWithObjects:@"17支付",@"物物",@"均可",nil]];
-//    [sellTypeSeg addTarget:self action:@selector(jiaohuanfangshi:) forControlEvents:UIControlEventValueChanged];
-//    sellTypeSeg.frame = CGRectMake(140, 0, 170, 25);
-//    
-//    sellTypeSeg.segmentedControlStyle=UISegmentedControlStyleBar;//此类型实现点击后图片大小完全填充按钮
-//    [sellTypeSeg setBackgroundImage:[UIImage imageNamed:@"detail_tab_gray.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-//    [sellTypeSeg setBackgroundImage:[UIImage imageNamed:@"detail_tab.png"] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
-//    NSDictionary *dic2 = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],UITextAttributeTextColor,  [UIFont systemFontOfSize:17],UITextAttributeFont ,nil];
-//    [sellTypeSeg setTitleTextAttributes:dic2 forState:UIControlStateNormal];
-//    sellTypeSeg.selectedSegmentIndex = 2; //默认均可
     
     if (isEdit) {
         [self requestWithDetailGoods];
@@ -570,31 +551,55 @@
     {
         UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
         UIImage *myImage = [self yasuoCameraImage:image];
-        for (int i = 0; i<5; ++i) {
+        [imgArray addObject:myImage];
+//        for (int i = 0; i<5; ++i) {
+//            AsyncImageView *picAsy = (AsyncImageView *)[picScrollView viewWithTag:i+20];
+//            if (!picAsy.image) {
+//                NSLog(@"i  is  %d",i);
+//                picAsy.image = myImage;
+//                UIButton *deleBtn = (UIButton *)[picAsy viewWithTag:10];
+//                deleBtn.hidden = NO;
+//                break;//跳出整个循环
+//            } 
+//        }
+        for (AsyncImageView *picAsy in picScrollView.subviews) {
+            picAsy.image = nil;
+            UIButton *deleBtn = (UIButton *)[picAsy viewWithTag:10];
+            deleBtn.hidden = YES;
+        }
+        for (int i = 0; i<[imgArray count]; ++i) {
             AsyncImageView *picAsy = (AsyncImageView *)[picScrollView viewWithTag:i+20];
-            if (!picAsy.image) {
-                NSLog(@"i  is  %d",i);
-                picAsy.image = myImage;
-                UIButton *deleBtn = (UIButton *)[picAsy viewWithTag:10];
-                deleBtn.hidden = NO;
-                break;//跳出整个循环
-            } 
+            picAsy.image = [imgArray objectAtIndex:i];
+            UIButton *deleBtn = (UIButton *)[picAsy viewWithTag:10];
+            deleBtn.hidden = NO;
         }
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);//将拍到的图片保存到相册
     }
     else{
         UIImage *image = [info objectForKey:@"UIImagePickerControllerEditedImage"];
         UIImage *myImage = [self yasuoCameraImage:image];
-        for (int i = 0; i<5; ++i) {
-            AsyncImageView *picAsy = (AsyncImageView *)[picScrollView viewWithTag:i+20];
-            if (!picAsy.image) {
-                NSLog(@"i  is  %d",i);
-                picAsy.image = myImage;
-                UIButton *deleBtn = (UIButton *)[picAsy viewWithTag:10];
-                deleBtn.hidden = NO;
-                break;//跳出整个循环
-            }
+//        for (int i = 0; i<5; ++i) {
+//            AsyncImageView *picAsy = (AsyncImageView *)[picScrollView viewWithTag:i+20];
+//            if (!picAsy.image) {
+//                NSLog(@"i  is  %d",i);
+//                picAsy.image = myImage;
+//                UIButton *deleBtn = (UIButton *)[picAsy viewWithTag:10];
+//                deleBtn.hidden = NO;
+//                break;//跳出整个循环
+//            }
+//        }
+            [imgArray addObject:myImage];
+        for (AsyncImageView *picAsy in picScrollView.subviews) {
+            picAsy.image = nil;
+            UIButton *deleBtn = (UIButton *)[picAsy viewWithTag:10];
+            deleBtn.hidden = YES;
         }
+        for (int i = 0; i<[imgArray count]; ++i) {
+            AsyncImageView *picAsy = (AsyncImageView *)[picScrollView viewWithTag:i+20];
+            picAsy.image = [imgArray objectAtIndex:i];
+            UIButton *deleBtn = (UIButton *)[picAsy viewWithTag:10];
+            deleBtn.hidden = NO;
+    }
     }
 }
 
@@ -636,8 +641,20 @@
 
 -(void)deleteTheImage:(UIButton *)sender{
     AsyncImageView *picBtn = (AsyncImageView *)sender.superview;
-    picBtn.image = nil;
-    sender.hidden = YES;
+//    picBtn.image = nil;
+    [imgArray removeObject:picBtn.image];
+    for (AsyncImageView *picAsy in picScrollView.subviews) {
+        picAsy.image = nil;
+        UIButton *deleBtn = (UIButton *)[picAsy viewWithTag:10];
+        deleBtn.hidden = YES;
+    }
+    for (int i = 0; i<[imgArray count]; ++i) {
+        AsyncImageView *picAsy = (AsyncImageView *)[picScrollView viewWithTag:i+20];
+        picAsy.image = [imgArray objectAtIndex:i];
+        UIButton *deleBtn = (UIButton *)[picAsy viewWithTag:10];
+        deleBtn.hidden = NO;
+    }
+//    sender.hidden = YES;
 }
 
 #pragma mark - UITableViewDelegate
@@ -665,53 +682,14 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-//    if (section == 3 || section == 6) {
-//        return 0;
-//    }
-//    else if(section == 0){
-//        return 20;
-//    }
-//    else{
-//        return 10;
-//    }
     if (section == 0) {
         return 20;
     }
-    else if (section == 3 | section == 4 | section == 6 | section == 7){
+    else if (section == 3 || section == 4 || section == 6 || section == 7){
         return 1;
     }
     return 10;
 }
-
-//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-//    if (section == 2) {
-//        UIView *headV = [[UIView alloc]init];
-//        headV.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"section_bar.png"]];
-//        UILabel *noticeL = [[UILabel alloc]initWithFrame:CGRectMake(30, 5, 150, 15)];
-//        noticeL.backgroundColor = [UIColor clearColor];
-//        noticeL.font = [UIFont boldSystemFontOfSize:15];
-//        noticeL.text = @"是否包邮";
-//        [headV addSubview:noticeL];
-//        [noticeL release];
-//        
-//        [headV addSubview:baoyouSeg];
-//        
-//        return [headV autorelease];
-//    }
-//    else if (section == 4){
-//        UIView *headV = [[UIView alloc]init];
-//        headV.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"section_bar.png"]];
-//        UILabel *noticeL = [[UILabel alloc]initWithFrame:CGRectMake(30, 5, 150, 15)];
-//        noticeL.backgroundColor = [UIColor clearColor];
-//        noticeL.font = [UIFont boldSystemFontOfSize:15];
-//        noticeL.text = @"支付方式";
-//        [headV addSubview:noticeL];
-//        [noticeL release];
-//        [headV addSubview:sellTypeSeg];
-//        return [headV autorelease];
-//    }
-//    return nil;
-//}
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -902,15 +880,8 @@
         [firstFenleiVC release];
         firstFenleiVC.backFabuDelegate = self;
     }
-//    else if(indexPath.section == 1 && indexPath.row == 1){
-//        WeizhiSelect *weizhiVC = [[WeizhiSelect alloc]init];
-//        weizhiVC.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:weizhiVC animated:YES];
-//        [weizhiVC release];
-//    }
     else if(indexPath.section == 7 && indexPath.row == 1){
         if ([sell_styleTF.text isEqualToString:@"物物交换"] || [sell_styleTF.text isEqualToString:@"17支付+物物交换"]) {
-//        if (sellTypeSeg.selectedSegmentIndex == 1 || sellTypeSeg.selectedSegmentIndex == 2) {
             Address *addrVC = [[Address alloc]init];
             addrVC.isSelecte = YES;
             [self.navigationController pushViewController:addrVC animated:YES];
@@ -947,37 +918,6 @@
     }
     return NO;
 }
-
-//-(void)toFangshi{
-//    fangshiPV.hidden = NO;
-//}
-
-//-(void)toFenlei{
-//    self.fenleiPV = [[UIPickerView alloc]initWithFrame:CGRectMake(0,150+44*2+1 , kDeviceWidth, KDeviceHeight-20-150-44)];
-//    fenleiPV.delegate = self;
-//    fenleiPV.dataSource = self;
-//    fenleiPV.showsSelectionIndicator = YES;
-//    [self.view addSubview:fenleiPV];
-//    [fenleiPV release];
-//}
-
-//-(void)toChengse{
-//    self.chengsePV = [[UIPickerView alloc]initWithFrame:CGRectMake(0,150+44*2+1 , kDeviceWidth, KDeviceHeight-20-150-44)];
-//    chengsePV.delegate = self;
-//    chengsePV.dataSource = self;
-//    chengsePV.showsSelectionIndicator = YES;
-//    [self.view addSubview:chengsePV];
-//    [chengsePV release];
-//}
-
-//-(void)toWeizhi{
-//    self.weizhiPV = [[UIPickerView alloc]initWithFrame:CGRectMake(0,150+44*2+1 , 320, KDeviceHeight-20-150-44)];
-//    weizhiPV.delegate = self;
-//    weizhiPV.dataSource = self;
-//    weizhiPV.showsSelectionIndicator = YES;
-//    [self.view addSubview:weizhiPV];
-//    [weizhiPV release];
-//}
 
 
 -(void)backToFabu:(NSDictionary *)fenleiDic{
@@ -1023,10 +963,10 @@
     }
     
     NSString *sellType = nil;
-    if (sellTypeSeg.selectedSegmentIndex == 1) {
+    if ([sell_styleTF.text isEqualToString:@"物物交换"]) {
         sellType = @"1"; //物物
     }
-    else if (sellTypeSeg.selectedSegmentIndex == 0){
+    else if ([sell_styleTF.text isEqualToString:@"17支付"]){
         sellType = @"2"; //17支付
     }
     else{
@@ -1044,7 +984,7 @@
     NSString *memoStr = wuwuTF.text;
     
     NSString *freeDelivery = nil;
-    if (baoyouSeg.selectedSegmentIndex == 0) {
+    if ([baoyouTF.text isEqualToString:@"是"]) {
         freeDelivery = @"1";
     }
     else{
@@ -1187,8 +1127,6 @@
 }
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-//    if (pickerView == fangshiPV) 
-//        return [fangshiArray count];
     if (pickerView == chengsePV)
         return [chengseArray count];
     else if (pickerView == baoyouPV){
@@ -1212,9 +1150,6 @@
 }
 
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-//    if (pickerView == fangshiPV) {
-//        return [fangshiArray objectAtIndex:row];
-//    }
     if (pickerView == chengsePV)
         return [chengseArray objectAtIndex:row];
     else if (pickerView == baoyouPV){
@@ -1244,9 +1179,6 @@
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-//    if (pickerView == fangshiPV) {
-//        fangshiTF.text = [fangshiArray objectAtIndex:row];
-//    }
     if(pickerView == chengsePV)
         chengseTF.text = [chengseArray objectAtIndex:row];
     else if (pickerView == baoyouPV){
@@ -1322,57 +1254,6 @@
     }
     NSLog(@"我是UIPickView！选中了第%d行",row);
 }
-
-//-(void)baoyou:(UISegmentedControl *)seg{
-//    NSLog(@"%s",__FUNCTION__);
-//    switch (seg.selectedSegmentIndex) {
-//        case 0:
-//        {
-//            tongchengTF.enabled = NO;
-//            yidiTF.enabled = NO;
-//            break;
-//        }
-//            
-//        case 1:{
-//            tongchengTF.enabled = YES;
-//            yidiTF.enabled = YES;
-//            break;
-//        }
-//            
-//        default:
-//            break;
-//    }
-//}
-//
-//-(void)jiaohuanfangshi:(UISegmentedControl *)seg{
-//    NSLog(@"%s",__FUNCTION__);
-//    switch (seg.selectedSegmentIndex) {
-//        case 1:
-//        {
-//            wuwuTF.enabled = YES;
-//            RMBTF.enabled = NO;
-//            huanbiTF.enabled = NO;
-//            break;
-//        }
-//            
-//        case 0:{
-//            wuwuTF.enabled = NO;
-//            RMBTF.enabled = YES;
-//            huanbiTF.enabled = YES;
-//            shouTF.text = @"";
-//            break;
-//        }
-//        case 2:{
-//            wuwuTF.enabled = YES;
-//            RMBTF.enabled = YES;
-//            huanbiTF.enabled = YES;
-//            break;
-//        }
-//            
-//        default:
-//            break;
-//    }
-//}
 
 
 - (void)didReceiveMemoryWarning

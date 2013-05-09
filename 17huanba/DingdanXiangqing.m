@@ -116,24 +116,27 @@
         if (type == 1) {
             self.xiangqingDic = [dic objectForKey:@"mymodel"];
             NSDictionary *findimg1Dic = [dic objectForKey:@"findimg1"];
-            self.gdimgStr = [findimg1Dic objectForKey:@"smallimg"];
-            self.gnameStr = [findimg1Dic objectForKey:@"goods_name"];
+            if ([findimg1Dic isKindOfClass:[NSDictionary class]]) {
+                self.gdimgStr = [findimg1Dic objectForKey:@"smallimg"];
+                self.gnameStr = [findimg1Dic objectForKey:@"goods_name"];
+            }
         }
         else{
             self.xiangqingDic = [dic objectForKey:@"othermodel"];
             NSDictionary *findimg2Dic = [dic objectForKey:@"findimg2"];
-            self.gdimgStr = [findimg2Dic objectForKey:@"smallimg"];
-            self.gnameStr = [findimg2Dic objectForKey:@"goods_name"];
+            if ([findimg2Dic isKindOfClass:[NSDictionary class]]) {
+                self.gdimgStr = [findimg2Dic objectForKey:@"smallimg"];
+                self.gnameStr = [findimg2Dic objectForKey:@"goods_name"];
+            }
         }
     if ([xiangqingDic isKindOfClass:[NSDictionary class]]) {
         [xiangqingTableView reloadData];
     }
     else{
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"抱歉！" message:@"改商品已下架！" delegate:nil cancelButtonTitle:@"好" otherButtonTitles: nil];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"抱歉！" message:@"该商品已下架！" delegate:nil cancelButtonTitle:@"好" otherButtonTitles: nil];
         [alert show];
         [alert release];
     }
-
     [SVProgressHUD dismiss];
 }
 
@@ -197,8 +200,6 @@
     
     return cell;
 }
-
-
 
 -(void)toChangeKinds:(UIButton *)sender{
     NSLog(@"更换显示类别！");

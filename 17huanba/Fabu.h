@@ -21,7 +21,7 @@
     NSMutableArray *proviceArray,*cityArray,*regionArray;
     sqlService *service;
     NSString *proviceStr,*cityStr,*regionStr;
- 
+    NSMutableArray *imgArray; //获取的图片组成的数组
 }
 @property(nonatomic,retain)NSMutableArray *proviceArray,*cityArray,*regionArray;
 
@@ -54,8 +54,8 @@
 
 @property(nonatomic,retain)NSString *addrID;
 
-@property(nonatomic,retain)UISegmentedControl *baoyouSeg;
-@property(nonatomic,retain)UISegmentedControl *sellTypeSeg;
+//@property(nonatomic,retain)UISegmentedControl *baoyouSeg;
+//@property(nonatomic,retain)UISegmentedControl *sellTypeSeg;
 
 @property(nonatomic,assign)BOOL isEdit;
 @property(nonatomic,retain)NSString *goodsID;

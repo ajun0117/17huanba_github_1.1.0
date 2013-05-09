@@ -112,6 +112,7 @@
     
     self.toF = [[UITextField alloc]initWithFrame:CGRectMake(40, 7, 120, 30)];
     toF.borderStyle = UITextBorderStyleRoundedRect;
+    toF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [toolView addSubview:toF];
     [toF release];
     
