@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ASIFormDataRequest.h"
 
-@interface DingdanXiangqing : UIViewController<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
+@interface DingdanXiangqing : UIViewController<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UIAlertViewDelegate>
 {
     int type; //身份类型 1是我的商品 2是对方商品
 }

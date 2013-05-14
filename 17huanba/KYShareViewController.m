@@ -293,8 +293,11 @@
     else if (shareType == RenrenShare) {
         if ([self.renren isSessionValid]) {
             NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:10];
-            [params setObject:@"status.set" forKey:@"method"];
-            [params setObject:_textView.text forKey:@"status"];
+            [params setObject:@"feed.publishFeed" forKey:@"method"]; //新鲜事接口
+            [params setObject:@"text" forKey:@"name"];
+            [params setObject:_textView.text forKey:@"description"];
+            [params setObject:@"text" forKey:@"url"];
+            [params setObject:@"text" forKey:@"message"];
             [self.renren requestWithParams:params andDelegate:self];
         }
         else {
@@ -331,7 +334,8 @@
 - (void)engineDidLogIn:(WBEngine *)engine
 {
     [_textView becomeFirstResponder];
-    NSString *msg = nil;//[NSString stringWithFormat:@"userID:%@, accessToken:%@", engine.userID, engine.accessToken];
+    NSString *msg = nil;
+    //[NSString stringWithFormat:@"userID:%@, accessToken:%@", engine.userID, engine.accessToken];
     /*
     NSDictionary *wbDict = [NSDictionary dictionaryWithObjectsAndKeys:engine.userID, kSinaUserIDKey, engine.accessToken, kSinaAccessTokenKey, nil];
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
@@ -347,7 +351,6 @@
         [newShareDict setObject:wbDict forKey:kSinaLoginKey];
         [ud setObject:newShareDict forKey:loginUserID];
         [ud synchronize];
-        
     }
     */
     UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"绑定成功！" 

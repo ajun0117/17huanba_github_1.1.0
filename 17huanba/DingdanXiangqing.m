@@ -86,7 +86,6 @@
     [changeIV addSubview:hisBtn];
     
     [self getTheXiangqingWithType:@"1" andPage:0];
-    
 }
 
 #pragma mark - 获取用户通知列表（收到和申请）
@@ -108,11 +107,9 @@
 -(void)finishGetTheDingdan:(ASIFormDataRequest *)request{
     NSData *data = request.responseData;
     NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//    NSLog(@"已上架 str    is   %@",str);
-    
+
     NSDictionary *dic = [str JSONValue];
     [str release];
-//    NSLog(@"dic  is  %@",dic);
         if (type == 1) {
             self.xiangqingDic = [dic objectForKey:@"mymodel"];
             NSDictionary *findimg1Dic = [dic objectForKey:@"findimg1"];
@@ -140,15 +137,17 @@
     [SVProgressHUD dismiss];
 }
 
+-(void)alertView{
+    [self fanhui];
+}
+
 #pragma mark - 请求失败代理
 -(void)loginFailed:(ASIHTTPRequest *)formRequest{
-//    NSLog(@"formRequest.error-------------%@",formRequest.error);
     NSString *errorStr = [NSString stringWithFormat:@"%@",formRequest.error];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:errorStr delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];
     [alert release];
 }
-
 
 #pragma mark = UITableViewDelegate methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

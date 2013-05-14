@@ -770,7 +770,6 @@
             cell.textLabel.text = @"同城";
             
             [cell.contentView addSubview:tongchengTF];
-            
         }
         else{
             UIImageView *cellIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"release_list_bottom1.png"]];
@@ -794,7 +793,6 @@
             cell.textLabel.text = @"原价";
             
             [cell.contentView addSubview:yuanjiaTF];
-
         }
         else{
             UIImageView *cellIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"release_list_bottom1.png"]];
@@ -838,7 +836,6 @@
             cell.textLabel.text = @"换币";
             
             [cell.contentView addSubview:huanbiTF];
-            
         }
     }
     else if(indexPath.section == 7){
@@ -898,7 +895,6 @@
     NSString *postcodeStr = [addrDic objectForKey:@"postcode"];
     shouTF.text = [NSString stringWithFormat:@"%@,%@,%@,%@",realNameStr,telStr,detail_infoStr,postcodeStr];
     self.addrID = [addrDic objectForKey:@"mid"];
-    
 }
 
 -(void)resignKeyboard{ //回收键盘
@@ -1009,7 +1005,6 @@
     [form_request setPostValue:token forKey:@"token"];
     [form_request setPostValue:uidStr forKey:@"uid"];
 
-    
     AsyncImageView *picAsy1 = (AsyncImageView *)[picScrollView viewWithTag:20];
     AsyncImageView *picAsy2 = (AsyncImageView *)[picScrollView viewWithTag:21];
     AsyncImageView *picAsy3 = (AsyncImageView *)[picScrollView viewWithTag:22];

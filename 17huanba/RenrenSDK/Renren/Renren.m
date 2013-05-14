@@ -557,7 +557,6 @@ static Renren *sharedRenren = nil;
         UIAlertView *alertView =[[[UIAlertView alloc] initWithTitle:title message:description delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil] autorelease];
         [alertView show];
     }
-    
     return;
 }
 
